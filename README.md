@@ -3,6 +3,8 @@
 #### *Batch:* 1705May15Java
 #### *Developers:* Cody Boucher, Theresa Dinh, Richard Marquez, Darrin McIntyre
 
+### [User Stories](https://docs.google.com/document/d/1QqFmw7Qmrgp3Yy9gCnBTg-uOUbG4eKleCxOa1cK7P94/edit?usp=sharing)
+
 ## Pitch
 \#Chicken is an online community space where users compete for time on a stage. 
 
