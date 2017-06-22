@@ -44,7 +44,7 @@ public class Round {
 				+ ", loserVotes=" + loserVotes + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
-	Round(){}
+	public Round(){}
 
 	public Round(int id, int winnerId, int loserId, int winnerVotes, int loserVotes, Timestamp startDate, Timestamp endDate) {
 		super();
