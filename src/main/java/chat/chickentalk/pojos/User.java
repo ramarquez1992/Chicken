@@ -10,9 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "User")
+@Table(name = "CHATUSERS")
 public class User {
 	@Id
 	@Column(name = "userID")

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "User")
+@Table(name = "SPOTLIGHTROUND")
 public class Round {
 	@Id
 	@Column(name = "roundid")
