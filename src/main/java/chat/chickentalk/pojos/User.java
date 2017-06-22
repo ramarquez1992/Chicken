@@ -53,7 +53,7 @@ public class User {
 				+ lastname + ", lastLoggedIn=" + lastLoggedIn + "]";
 	}
 
-	User(){}
+	public User(){}
 
 	public User(int id, int status, int votesCast, boolean isBaby, String avatar, String email, String password,
 			String firstname, String lastname, Date lastLoggedIn) {
