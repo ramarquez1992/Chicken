@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import chat.chickentalk.pojos.Person;
 import chat.chickentalk.pojos.Round;
 import chat.chickentalk.pojos.User;
+import chat.chickentalk.pojos.UserStatus;
 
 public interface Dao {
 
 	public Person getPersonById(int id); // testing
+	
+	// Status Methods
 	
 	// User Methods
 	boolean createUser(User u);
