@@ -6,3 +6,7 @@ src/main/java/chat/chickentalk/util/Mailer.java
 .project
 *.iml
 target/
+.classpath
+.project
+.settings/
+
