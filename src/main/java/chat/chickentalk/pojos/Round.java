@@ -16,8 +16,8 @@ import javax.persistence.Table;
 public class Round {
 	@Id
 	@Column(name = "roundid")
-	@SequenceGenerator(name = "ROUNDID_SEQ", sequenceName = "ROUNDID_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROUNDID_SEQ")
+	@SequenceGenerator(name = "SPOTLIGHTROUNDID_SEQ", sequenceName = "SPOTLIGHTROUNDID_SEQ", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOTLIGHTROUNDID_SEQ")
 	int id;
 	
 	@Column(name = "winnerid")
@@ -44,7 +44,7 @@ public class Round {
 				+ ", loserVotes=" + loserVotes + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
-	Round(){}
+	public Round(){}
 
 	public Round(int id, int winnerId, int loserId, int winnerVotes, int loserVotes, Timestamp startDate, Timestamp endDate) {
 		super();

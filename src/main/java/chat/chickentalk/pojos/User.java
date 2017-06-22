@@ -15,8 +15,8 @@ import javax.persistence.Table;
 public class User {
 	@Id
 	@Column(name = "userID")
-	@SequenceGenerator(name = "USERID_SEQ", sequenceName = "USERID_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERID_SEQ")
+	@SequenceGenerator(name = "CHATUSERID_SEQ", sequenceName = "CHATUSERID_SEQ", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHATUSERID_SEQ")
 	int id;
 	
 	@Column(name = "email")
@@ -40,6 +40,7 @@ public class User {
 	@Column(name = "status")
 	int status; // User's restriction settings (normal, shadow ban, etc)
 	
+	
 	@Column(name = "votes")
 	int votesCast; // total number of votes cast from the beginning of time
 	
@@ -53,7 +54,7 @@ public class User {
 				+ lastname + ", lastLoggedIn=" + lastLoggedIn + "]";
 	}
 
-	User(){}
+	public User(){}
 
 	public User(int id, int status, int votesCast, boolean isBaby, String avatar, String email, String password,
 			String firstname, String lastname, Date lastLoggedIn) {
