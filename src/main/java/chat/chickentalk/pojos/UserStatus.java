@@ -9,26 +9,27 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 public class UserStatus {
-	
-	@Id
-	@Column(name = "user_status_ID")
-	@SequenceGenerator(name = "USERSTATUS_SEQ", sequenceName = "USERSTATUS_SEQ", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERSTATUS_SEQ")
-	private int id;
-	
-	@Column(name = "user_status_name")
-	private String name;
 
-	
-	public UserStatus(){}
-	
-	public UserStatus(String name) {
-		super();
-		this.name = name;
-	}
+    @Id
+    @Column(name = "user_status_ID")
+    @SequenceGenerator(name = "USERSTATUS_SEQ", sequenceName = "USERSTATUS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERSTATUS_SEQ")
+    private int id;
 
-	@Override
-	public String toString() {
-		return "UserStatus [id=" + id + ", name=" + name + "]";
-	}
+    @Column(name = "user_status_name")
+    private String name;
+
+
+    public UserStatus() {
+    }
+
+    public UserStatus(String name) {
+        super();
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatus [id=" + id + ", name=" + name + "]";
+    }
 }
