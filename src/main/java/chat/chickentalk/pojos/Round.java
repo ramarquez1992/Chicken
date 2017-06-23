@@ -14,103 +14,104 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SPOTLIGHTROUND")
 public class Round {
-	@Id
-	@Column(name = "roundid")
-	@SequenceGenerator(name = "ROUNDID_SEQ", sequenceName = "ROUNDID_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROUNDID_SEQ")
-	int id;
-	
-	@Column(name = "winnerid")
-	int winnerId;
-	
-	@Column(name = "loserid")
-	int loserId;
-	
-	@Column(name = "winnervotes")
-	int winnerVotes;
-	
-	@Column(name = "loservotes")
-	int loserVotes;
-	
-	@Column(name = "startdate")
-	Timestamp startDate; // date and time the round started
-	
-	@Column(name = "enddate")
-	Timestamp endDate; // date and time the round ended
-	
-	@Override
-	public String toString() {
-		return "Round [id=" + id + ", winnerId=" + winnerId + ", loserId=" + loserId + ", winnerVotes=" + winnerVotes
-				+ ", loserVotes=" + loserVotes + ", startDate=" + startDate + ", endDate=" + endDate + "]";
-	}
+    @Id
+    @Column(name = "roundid")
+    @SequenceGenerator(name = "SPOTLIGHTROUNDID_SEQ", sequenceName = "SPOTLIGHTROUNDID_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOTLIGHTROUNDID_SEQ")
+    int id;
 
-	Round(){}
+    @Column(name = "winnerid")
+    int winnerId;
 
-	public Round(int id, int winnerId, int loserId, int winnerVotes, int loserVotes, Timestamp startDate, Timestamp endDate) {
-		super();
-		this.id = id;
-		this.winnerId = winnerId;
-		this.loserId = loserId;
-		this.winnerVotes = winnerVotes;
-		this.loserVotes = loserVotes;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
+    @Column(name = "loserid")
+    int loserId;
 
-	public int getId() {
-		return id;
-	}
+    @Column(name = "winnervotes")
+    int winnerVotes;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Column(name = "loservotes")
+    int loserVotes;
 
-	public int getWinnerId() {
-		return winnerId;
-	}
+    @Column(name = "startdate")
+    Timestamp startDate; // date and time the round started
 
-	public void setWinnerId(int winnerId) {
-		this.winnerId = winnerId;
-	}
+    @Column(name = "enddate")
+    Timestamp endDate; // date and time the round ended
 
-	public int getLoserId() {
-		return loserId;
-	}
+    public Round() {
+    }
 
-	public void setLoserId(int loserId) {
-		this.loserId = loserId;
-	}
+    public Round(int id, int winnerId, int loserId, int winnerVotes, int loserVotes, Timestamp startDate, Timestamp endDate) {
+        super();
+        this.id = id;
+        this.winnerId = winnerId;
+        this.loserId = loserId;
+        this.winnerVotes = winnerVotes;
+        this.loserVotes = loserVotes;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
-	public int getWinnerVotes() {
-		return winnerVotes;
-	}
+    @Override
+    public String toString() {
+        return "Round [id=" + id + ", winnerId=" + winnerId + ", loserId=" + loserId + ", winnerVotes=" + winnerVotes
+                + ", loserVotes=" + loserVotes + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+    }
 
-	public void setWinnerVotes(int winnerVotes) {
-		this.winnerVotes = winnerVotes;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getLoserVotes() {
-		return loserVotes;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setLoserVotes(int loserVotes) {
-		this.loserVotes = loserVotes;
-	}
+    public int getWinnerId() {
+        return winnerId;
+    }
 
-	public Timestamp getStartDate() {
-		return startDate;
-	}
+    public void setWinnerId(int winnerId) {
+        this.winnerId = winnerId;
+    }
 
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
+    public int getLoserId() {
+        return loserId;
+    }
 
-	public Timestamp getEndDate() {
-		return endDate;
-	}
+    public void setLoserId(int loserId) {
+        this.loserId = loserId;
+    }
 
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
-	
+    public int getWinnerVotes() {
+        return winnerVotes;
+    }
+
+    public void setWinnerVotes(int winnerVotes) {
+        this.winnerVotes = winnerVotes;
+    }
+
+    public int getLoserVotes() {
+        return loserVotes;
+    }
+
+    public void setLoserVotes(int loserVotes) {
+        this.loserVotes = loserVotes;
+    }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
 }
