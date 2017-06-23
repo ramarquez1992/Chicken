@@ -1,16 +1,20 @@
 package chat.chickentalk.dao;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import chat.chickentalk.pojos.Round;
 import chat.chickentalk.pojos.User;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import chat.chickentalk.pojos.UserStatus;
 
 public interface Dao {
 
     // Status Methods
-
+	public UserStatus getUserStatus(int id);
+	public int setUserStatus(int id);
+	
     // User Methods
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     boolean createUser(User u);
@@ -25,7 +29,7 @@ public interface Dao {
     boolean deleteUser(User u);
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    ArrayList<User> getAllUsers();
+    List<User> getAllUsers();
 
     // Round Methods
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -41,7 +45,7 @@ public interface Dao {
     boolean deleteRound(Round u);
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    ArrayList<Round> getAllRounds();
+    List<Round> getAllRounds();
 
     // Join Methods
 
