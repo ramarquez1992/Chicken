@@ -8,6 +8,13 @@
     <name>Chicken Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+
     <repositories>
         <repository>
             <id>localrepository</id>
@@ -42,6 +49,12 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc7</artifactId>
             <version>12.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
         </dependency>
 
         <dependency>
