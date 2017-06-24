@@ -1,29 +1,53 @@
 package chat.chickentalk.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import chat.chickentalk.pojos.Person;
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
+import chat.chickentalk.model.UserStatus;
 
 public interface Dao {
 
-	public Person getPersonById(int id); // testing
+    // Status Methods
+	public UserStatus getUserStatus(int id);
+	public int setUserStatus(int id);
 	
-	// User Methods
-	boolean createUser(User u);
+    // User Methods
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean createUser(User u);
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     User getUserById(int id);
-	boolean updateUser(User u);
-	boolean deleteUser(User u);
-    ArrayList<User> getAllUsers();
-    
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean updateUser(User u);
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean deleteUser(User u);
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    List<User> getAllUsers();
+
     // Round Methods
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     boolean createRound(Round u);
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     Round getRoundById(int id);
-	boolean updateRound(Round u);
-	boolean deleteRound(Round u);
-    ArrayList<Round> getAllRounds();
-    
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean updateRound(Round u);
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean deleteRound(Round u);
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    List<Round> getAllRounds();
+
     // Join Methods
-    
+
 }
