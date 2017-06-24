@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    getUser(1, function(res) {console.log(res)});
+
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
 
