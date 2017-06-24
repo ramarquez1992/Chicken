@@ -8,16 +8,23 @@ import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 
-public class Leaderboard {
+public class LeaderboardService {
+	private static LeaderboardService INSTANCE = new LeaderboardService();
+	public LeaderboardService() {}
+	
 	Dao dao = DaoImpl.getInstance();
 	
+	public static LeaderboardService getInstance() {
+		return INSTANCE;
+	}
+	
 	//returns all the votes from rounds a user has won
-	public int getWinningVotes(User u) {
+	public int getWinningVotes(int id) {
 		int winningVotes = 0;
 		List<Round> rounds = new ArrayList<Round>();
 		rounds = dao.getAllRounds();
 		for(Round r : rounds) {
-			if(r.getWinnerId() == u.getId()) {
+			if(r.getWinnerId() == id) {
 				winningVotes += r.getWinnerVotes();
 			}
 		}
@@ -26,12 +33,12 @@ public class Leaderboard {
 	}
 	
 	//returns all the votes from rounds a user has lost
-	public int getLosingVotes(User u) {
+	public int getLosingVotes(int id) {
 		int losingVotes = 0;
 		List<Round> rounds = new ArrayList<Round>();
 		rounds = dao.getAllRounds();
 		for(Round r : rounds) {
-			if(r.getLoserId() == u.getId()) {
+			if(r.getLoserId() == id) {
 				losingVotes += r.getLoserVotes();
 			}
 		}
@@ -40,19 +47,19 @@ public class Leaderboard {
 	}
 	
 	//returns all votes a user has recieved
-	public int totalVotes(User u) {
-		int votesRecieved = getLosingVotes(u) + getWinningVotes(u);
+	public int totalVotes(int id) {
+		int votesRecieved = getLosingVotes(id) + getWinningVotes(id);
 		System.out.println(votesRecieved);
 		return votesRecieved;
 	}
 	
 	//returns games played by user
-	public int gamesPlayed(User u) {
+	public int gamesPlayed(int id) {
 		int gamesPlayed = 0;
 		List<Round> rounds = new ArrayList<Round>();
 		rounds = dao.getAllRounds();
 		for(Round r : rounds) {
-			if(u.getId() == r.getWinnerId() || u.getId() == r.getLoserId()) {
+			if(id == r.getWinnerId() || id == r.getLoserId()) {
 				gamesPlayed++;
 			}
 		}
@@ -61,13 +68,13 @@ public class Leaderboard {
 	}
 	
 	//returns the games won by a user
-	public int gamesWon(User u) {
+	public int gamesWon(int id) {
 		int gamesWon = 0;
 		List<Round> rounds = new ArrayList<Round>();
 
 		rounds = dao.getAllRounds();
 		for(Round r : rounds) {
-			if(u.getId() == r.getWinnerId()) {
+			if(id == r.getWinnerId()) {
 				gamesWon++;
 			}
 		}
@@ -76,7 +83,7 @@ public class Leaderboard {
 	}
 	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!
-	public String spotlightTime(User u) {
+	public String spotlightTime(int id) {
 		List<Round> rounds = new ArrayList<Round>();
 		int totalSeconds = 0;
 		int totalMinutes = 0;
@@ -84,7 +91,7 @@ public class Leaderboard {
 		String totalTime = "";
 		rounds = dao.getAllRounds();
 		for(Round r : rounds) {
-			if(u.getId() == r.getWinnerId() || u.getId() == r.getLoserId()) {
+			if(id == r.getWinnerId() || id == r.getLoserId()) {
 			long milliseconds = (r.getEndDate().getTime()) - (r.getStartDate().getTime());
 			int seconds = (int) milliseconds / 1000;
 			int hours = seconds / 3600;

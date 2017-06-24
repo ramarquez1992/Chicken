@@ -16,13 +16,13 @@ public class Test {
 //		Round r = dao.getRoundById(1);
 //		System.out.println(r.toString());
 //		
-		Leaderboard l = new Leaderboard();
-		System.out.println("before");
-		l.spotlightTime(u);
-		
-		System.out.println("after");
-		
-		
-		
+//		LeaderboardService l = new LeaderboardService();
+//		System.out.println("before");
+//		l.spotlightTime(u);
+//		
+//		System.out.println("after");
+//		
+//		
+//		
 	}
 }
