@@ -1,24 +1,26 @@
 package chat.chickentalk.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import chat.chickentalk.dao.Dao;
 import chat.chickentalk.dao.DaoImpl;
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
 
 public class Test {
 	public static void main(String[] args) {
-		DaoImpl dao = DaoImpl.getInstance();
-	//	User u = dao.getUserById(452);
+		Dao dao = DaoImpl.getInstance();
+		User u = dao.getUserById(2);
 //		System.out.println(u.toString());
 //		Round r = dao.getRoundById(1);
 //		System.out.println(r.toString());
 //		
-//		Leaderboard l = new Leaderboard();
-//		l.userWins(u);
-		ArrayList<Round> rounds = new ArrayList<Round>();
-		rounds = dao.getAllRounds();
-		System.out.println(rounds);
+		Leaderboard l = new Leaderboard();
+		System.out.println("before");
+		l.spotlightTime(u);
+		
+		System.out.println("after");
 		
 		
 		
