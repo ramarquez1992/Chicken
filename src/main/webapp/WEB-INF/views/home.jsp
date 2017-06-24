@@ -27,22 +27,37 @@
 </head>
 <body>
 
-<div id="vid-box"><!-- Stream goes here --></div>
 
-<form name="streamForm" id="stream" action="#" onsubmit="return stream(this);">
-    <input type="text" name="streamname" id="streamname" placeholder="Pick a stream name!" />
-    <input type="submit" name="stream_submit" value="Stream">
-    <div id="stream-info">Watching: <span id="here-now">0</span></div>
-</form>
 
-<form name="watchForm" id="watch" action="#" onsubmit="return watch(this);">
-    <input type="text" name="number" placeholder="Enter stream to join!" />
-    <input type="submit" value="Watch"/>
-</form>
 
-<div id="inStream">
-    <button id="end" onclick="end()">Done</button> <br>
+<!-- Navigation bar/menu-->
+<nav>
+    <a href="/landing">landing</a>
+    <a href="/home">home</a>
+    <a href="/profile">profile</a>
+</nav>
+
+<div id="spotlight">
+    <div id="chick1StreamContainer"></div>
+    <div id="chick2StreamContainer"></div>
+
+    <button id="chick1StreamBtn">chick1-stream</button>
+    <button id="chick2StreamBtn">chick2-stream</button>
+
+    <button onclick="attachSpotlight();">View</button>
 </div>
+
+<div id="global">
+    <p>global chat</p>
+</div>
+
+<div id="misc">
+    <p>misc info</p>
+</div>
+
+<!-- "Footer" container-->
+<footer>
+</footer>
 
 
 </body>

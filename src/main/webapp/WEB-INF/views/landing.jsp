@@ -21,6 +21,9 @@
 
 <!-- Navigation bar/menu-->
 <nav>
+    <a href="/landing">HOME</a>
+    <a href="/home">HOME</a>
+    <a href="/profile">HOME</a>
 </nav>
 
 <!-- "What is This?" container-->
