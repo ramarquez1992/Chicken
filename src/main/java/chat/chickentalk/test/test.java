@@ -4,9 +4,10 @@ import java.util.List;
 
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.dao.DaoImpl;
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
-import chat.chickentalk.pojos.UserStatus;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.UserStatus;
+import chat.chickentalk.model.User;
+
 
 public class test {
 

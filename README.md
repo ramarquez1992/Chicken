@@ -7,6 +7,7 @@
 
 - [Scrum board](https://trello.com/b/A7eJqRgx/chickentalkchat)
 - [Burndown chart](https://app.screenful.me/dashboard/22931/chickentalk-chat)
+- [SonarQube](https://sonarcloud.io/dashboard?id=chat.chickentalk%3AChicken)
 
 ---
 

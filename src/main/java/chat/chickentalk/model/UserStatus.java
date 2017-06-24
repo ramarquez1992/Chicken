@@ -1,4 +1,4 @@
-package chat.chickentalk.pojos;
+package chat.chickentalk.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

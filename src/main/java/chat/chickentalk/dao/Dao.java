@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
-import chat.chickentalk.pojos.UserStatus;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
+import chat.chickentalk.model.UserStatus;
 
 public interface Dao {
 
