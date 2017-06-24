@@ -9,13 +9,11 @@ public class LandingController {
 
     @RequestMapping(value = { "", "/", "/landing" }, method = RequestMethod.GET)
     public String getLanding() {
-        System.out.println("GET landing");
         return "landing";
     }
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String getHome() {
-        System.out.println("GET home");
         return "home";
     }
 

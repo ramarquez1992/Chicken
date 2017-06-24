@@ -10,7 +10,7 @@ import chat.chickentalk.model.User;
 
 public class LeaderboardService {
 	private static LeaderboardService INSTANCE = new LeaderboardService();
-	public LeaderboardService() {}
+	private LeaderboardService() {}
 	
 	Dao dao = DaoImpl.getInstance();
 	
