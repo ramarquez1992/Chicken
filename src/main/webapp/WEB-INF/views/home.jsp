@@ -5,6 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <link rel="icon" href="/static/img/chicken.ico">
     <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap.min.css">
