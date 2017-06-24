@@ -15,6 +15,7 @@
     <script src="/static/lib/jquery-3.2.1.min.js"></script>
     <script src="/static/lib/bootstrap.min.js"></script>
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/landing.js"></script>
 </head>
 <body>
 

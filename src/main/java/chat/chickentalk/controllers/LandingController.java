@@ -13,4 +13,10 @@ public class LandingController {
         return "landing";
     }
 
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String getHome() {
+        System.out.println("GET home");
+        return "home";
+    }
+
 }
