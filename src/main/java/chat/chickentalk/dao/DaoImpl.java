@@ -8,9 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Query;
 
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
-import chat.chickentalk.pojos.UserStatus;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
+import chat.chickentalk.model.UserStatus;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class DaoImpl implements Dao {
-    private static AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+    private static AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
     private SessionFactory sessionFactory;
 
 //    private List<UserStatus> list = getStatus();

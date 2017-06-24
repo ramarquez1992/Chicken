@@ -2,8 +2,8 @@ package chat.chickentalk.dao;
 
 import java.util.ArrayList;
 
-import chat.chickentalk.pojos.Round;
-import chat.chickentalk.pojos.User;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
