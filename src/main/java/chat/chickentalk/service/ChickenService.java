@@ -3,7 +3,7 @@ package chat.chickentalk.service;
 import java.util.ArrayList;
 
 import chat.chickentalk.dao.DaoImpl;
-import chat.chickentalk.pojos.User;
+import chat.chickentalk.model.User;
 
 public class ChickenService {
 	DaoImpl dao = (DaoImpl) DaoImpl.getInstance();
