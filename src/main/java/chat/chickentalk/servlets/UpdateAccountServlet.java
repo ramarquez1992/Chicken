@@ -57,9 +57,9 @@ public class UpdateAccountServlet extends HttpServlet {
 		if(service.updateUser(user, firstname, lastname, 
 				email, isBaby, password, passwordCheck, Avatar)){			
 			// {email: "", password: "", firstname: "", lastname:"", avatar:"", isBaby:""}
-			json += "{email: \"" + email + "\",password:\"" + password + "\",firstname:\""
+			json += "{email:\"" + email + "\",password:\"" + password + "\",firstname:\""
 					+ firstname + "\",lastname:\"" + lastname + "\",avatar:\"" +
-					Avatar + "\",isBaby:\"" + isBaby; 
+					Avatar + "\",isBaby:\"" + isBaby + "\"}"; 
 	        writer.write(json);
 		}
 		else{
