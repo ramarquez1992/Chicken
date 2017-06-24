@@ -6,7 +6,7 @@ import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.pojos.User;
 
 public class ChickenService {
-	DaoImpl dao = DaoImpl.getInstance();
+	DaoImpl dao = (DaoImpl) DaoImpl.getInstance();
 
 	/**
 	 * Receives information sent from the registration servlet and creates User
@@ -32,8 +32,8 @@ public class ChickenService {
 		}
 
 		User user = new User();
-		user.setFirstname(firstname);
-		user.setLastname(lastname);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
 		user.setEmail(email);
 		user.setPassword(password);
 
@@ -84,9 +84,9 @@ public class ChickenService {
 		// values to db
 		/// else if parameter is not empty, set User info to new parameters
 		if (!firstname.equals(""))
-			user.setFirstname(firstname);
+			user.setFirstName(firstname);
 		if (!lastname.equals(""))
-			user.setLastname(lastname);
+			user.setLastName(lastname);
 		if (!email.equals(""))
 			user.setEmail(email);
 		if (!password.equals(""))
