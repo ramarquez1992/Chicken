@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import chat.chickentalk.model.User;
-import chat.chickentalk.service.ChickenService;
+import chat.chickentalk.service.UserService;
 
 /**
  * Servlet mappings: /UpdateAccountServlet, /update
@@ -41,7 +41,7 @@ public class UpdateAccountServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(true); 
 		User user = (User)session.getAttribute("user"); 
-		ChickenService service = new ChickenService(); 
+		UserService service = new UserService(); 
 		PrintWriter writer = response.getWriter();
 		
 		String firstname = request.getParameter("firstname");
