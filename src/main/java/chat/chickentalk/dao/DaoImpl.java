@@ -1,3 +1,55 @@
+
+///**
+// * Private: Is only ran once upon instantiation of a DaoImpl object.
+// *
+// * @author: Darrin McIntyre
+// * @since 2017-06-23
+// **/
+//@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+//public List<UserStatus> getStatus() {
+//    Session s = sessionFactory.getCurrentSession();
+//    List<UserStatus> list = null;
+//
+//    try {
+//        Query query = s.createQuery("from UserStatus");
+//        list = query.list();
+//        
+//        
+//    } catch (HibernateException e) {
+//        e.printStackTrace();
+//        List<UserStatus> empty = null;
+//        empty.add(new UserStatus());
+//        return empty;
+//    }
+//
+//    return list;
+//}
+//
+///**
+// * Gets the User's status, returns null if the input id is not in the list.
+// *
+// * @author: Darrin McIntyre
+// * @since 2017-06-23
+// **/
+//public UserStatus getUserStatus(int id){
+//	if(id > Status.size()) return null;
+//	return Status.get(id);
+//}
+//
+///**
+// * Sets the User's status, returns -1 if the input id is not in the list.
+// *
+// * @author: Darrin McIntyre
+// * @since 2017-06-23
+// **/
+//public int setUserStatus(int id){
+//	if(id > Status.size()) return -1;
+//	
+//	UserStatus temp = Status.get(id);
+//	
+//	return temp.getId();
+//}
+
 package chat.chickentalk.dao;
 
 import java.util.ArrayList;
@@ -21,7 +73,7 @@ public class DaoImpl implements Dao {
     private static AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
     private SessionFactory sessionFactory;
 
-//    private List<UserStatus> list = getStatus();
+    private List<UserStatus> StatusList;
 
     public DaoImpl() {
     }
@@ -64,10 +116,6 @@ public class DaoImpl implements Dao {
             Query query = s.createQuery("from UserStatus");
             list = query.list();
 
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).toString();
-            }
-
         } catch (HibernateException e) {
             e.printStackTrace();
             return null;
@@ -76,6 +124,32 @@ public class DaoImpl implements Dao {
         return list;
     }
 
+    /**
+     * Gets the User's status, returns null if the input id is not in the list.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-23
+     **/
+    public UserStatus getUserStatus(int id){
+    	StatusList = getStatus();
+    	if(id > StatusList.size()) return null;
+    	return StatusList.get(id);
+    }
+
+    /**
+     * Sets the User's status, returns -1 if the input id is not in the list.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-23
+     **/
+    public int setUserStatus(int id){
+    	if(id > StatusList.size()) return -1;
+    	
+    	UserStatus temp = StatusList.get(id);
+    	
+    	return temp.getId();
+    }
+    
 
     /**
      * CREATE: Returns true on success, false on exception
@@ -244,15 +318,37 @@ public class DaoImpl implements Dao {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public ArrayList<User> getAllUsers() {
-        Session session = sessionFactory.getCurrentSession();
-        return null;
-    }
+    public List<User> getAllUsers() {
+	    Session s = sessionFactory.getCurrentSession();
+	    List<User> list = null;
+	
+	    try {
+	        Query query = s.createQuery("from User");
+	        list = query.list();
+	
+	    } catch (HibernateException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	
+	    return list;
+	}
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public ArrayList<Round> getAllRounds() {
-        Session session = sessionFactory.getCurrentSession();
-        return null;
-    }
+    public List<Round> getAllRounds() {
+	    Session s = sessionFactory.getCurrentSession();
+	    List<Round> list = null;
+	
+	    try {
+	        Query query = s.createQuery("from Round");
+	        list = query.list();
+	
+	    } catch (HibernateException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	
+	    return list;
+	}
 
 }

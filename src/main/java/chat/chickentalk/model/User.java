@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import chat.chickentalk.dao.Dao;
+import chat.chickentalk.dao.DaoImpl;
+
 @Entity
 @Table(name = "CHATUSERS")
 public class User {
@@ -46,7 +49,9 @@ public class User {
 
     @Column(name = "lastloggedin")
     Date lastLoggedIn; // last date time that the user logged in.
-
+    
+//    Dao dao = DaoImpl.getInstance();
+    
     public User() {
     }
 
@@ -79,13 +84,28 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getStatus() {
-        return status;
+    
+    /**
+     * Returns the UserStatus object. NOT IMPLEMENTED: Returning a dummy UserStatus object as a placeholder.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-23
+     **/
+    public UserStatus getStatus() {
+    	UserStatus temp = new UserStatus();
+    	temp.setId(1);
+    	temp.setName("normal");
+    	return temp;//dao.getUserStatus(status);
     }
-
-    public void setStatus(int status) {
-        this.status = status;
+    
+    /**
+     * Sets the user's status. NOT IMPLEMENTED: Returning -1 as a placeholder.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-23
+     **/
+    public int setStatus(int id) {
+        return -1;//dao.setUserStatus(id);
     }
 
     public int getVotesCast() {
