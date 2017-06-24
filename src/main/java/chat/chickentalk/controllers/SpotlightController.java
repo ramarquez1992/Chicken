@@ -10,11 +10,12 @@ import java.util.List;
 
 @Controller
 public class SpotlightController {
+    private SpotlightService svc = SpotlightService.getInstance();
 
     @ResponseBody @RequestMapping(value = "/spotlight/getQueue", method = RequestMethod.GET)
     public List<String> getSpotlightQueue() {
 
-        return SpotlightService.getInstance().getSpotlightQueue();
+        return svc.getSpotlightQueue();
     }
 
 }

@@ -6,7 +6,14 @@ import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
 
 public class UserService {
-	DaoImpl dao = (DaoImpl) DaoImpl.getInstance();
+	private static UserService INSTANCE = new UserService();
+	private UserService() {}
+
+	public static UserService getInstance() {
+		return INSTANCE;
+	}
+
+		DaoImpl dao = (DaoImpl) DaoImpl.getInstance();
 
 	/**
 	 * Receives information sent from the registration servlet and creates User
@@ -122,5 +129,9 @@ public class UserService {
 	 */
 	public List<User> getAllUsers() {
 		return dao.getAllUsers();
+	}
+
+	public User getUserById(int id) {
+		return DaoImpl.getInstance().getUserById(id);
 	}
 }

@@ -1,9 +1,3 @@
-$(document).ready(function () {
-    console.log("hello, world");
-    getSpotlightQueue();
-    getUser(1);
-});
-
 function getUser(userId) {
     $.ajax({
         url: "/users/" + userId,
