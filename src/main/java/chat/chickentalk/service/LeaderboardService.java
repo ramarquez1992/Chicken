@@ -1,6 +1,7 @@
 package chat.chickentalk.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chat.chickentalk.dao.Dao;
@@ -105,5 +106,66 @@ public class LeaderboardService {
 		}
 		System.out.println(totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds)); 
 		return totalTime;
+	}
+	
+	//gets spotlight time in milliseconds, used to find who has the most time in spotlight
+	public long slt(int id) {
+		long milliseconds = 0;
+		List<Round> rounds = new ArrayList<Round>();
+		rounds = dao.getAllRounds();
+		for(Round r : rounds) {
+			if(id == r.getWinnerId() || id == r.getLoserId()) {
+				milliseconds += (r.getEndDate().getTime()) - (r.getStartDate().getTime());
+			}
+		}
+		System.out.println("time " + milliseconds);
+		return milliseconds;
+	}
+	
+	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
+	//returns id of user with most games played
+	public int mostGames() {
+		List<User> users = new ArrayList<User>();
+		int mostGames = 0;
+		int mostGamesUser = 0;
+		users = dao.getAllUsers();
+		for(User u : users) {
+			if(gamesPlayed(u.getId()) > mostGames) {
+				mostGames = gamesPlayed(u.getId());
+				mostGamesUser = u.getId();
+			}
+		}
+		System.out.println("most games played id " + mostGamesUser);
+		return mostGamesUser;
+	}
+	
+	public int mostWins() {
+		List<User> users = new ArrayList<User>();
+		int mostWins = 0;
+		int mostWinsUser = 0;
+		users = dao.getAllUsers();
+		for(User u : users) {
+			if(gamesWon(u.getId()) > mostWins) {
+				mostWins = gamesWon(u.getId());
+				mostWinsUser = u.getId();
+			}
+		}
+		System.out.println("Most wins id " + mostWinsUser);
+		return mostWinsUser;
+	}
+	
+	public int mostSpotlightTime() {
+		List<User> users = new ArrayList<User>();
+		long mostTime = 0;
+		int mostTimeUser = 0;
+		users = dao.getAllUsers();
+		for(User u : users) {
+			if(slt(u.getId()) > mostTime) {
+				mostTime = slt(u.getId());
+				mostTimeUser = u.getId();
+			}
+		}
+		System.out.println("Most time id " + mostTimeUser);
+		return mostTimeUser;
 	}
 }
