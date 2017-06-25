@@ -135,4 +135,8 @@ public class UserService {
 	public User getUserById(int id) {
 		return DaoImpl.getInstance().getUserById(id);
 	}
+	
+	public User getUserByEmail(String email){
+		return DaoImpl.getInstance().getUserByEmail(email); 
+	}
 }

@@ -1,13 +1,19 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.dao.DaoImpl;
-import chat.chickentalk.model.User;
-import chat.chickentalk.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import chat.chickentalk.model.User;
+import chat.chickentalk.service.UserService;
 
 @Controller
 public class UserController {
@@ -23,12 +29,19 @@ public class UserController {
     }
 
     /**
-     * Retrieves User of the current session and the input from the form.
-     * Response will return a JSON string of User's new information if success -
-     * {email: " ", password: " ", firstname: " ", lastname:" ", avatar:" ", isBaby:" "}.
-     * {result:"false"} otherwise
-     *
-     * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
+     * Retrieves User of the current Session and updates their info with the given parameters.
+     * Returns the updated User if change is successful, null otherwise. 
+     * 
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password 
+     * @param passwordCheck second password prompt to ensure password is correct 
+     * @param isBaby maturity filter toggle
+     * @param avatar
+     * @param status current account standing
+     * @param request HttpServletRequest
+     * @return
      */
     @ResponseBody
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
@@ -50,5 +63,108 @@ public class UserController {
                 email, isBaby, password, passwordCheck, avatar);
 
         return (result ? u : null);
+    }
+    
+    /**
+     * Takes the email and password paramters and checks if a User with that email/password
+     * set exists. Sets User to current session and returns User. 
+     * Redirects to home page if the User exists. 
+     * 
+     * @param email
+     * @param password
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+    public User loginUser(
+    		@RequestParam("email") String email, 
+    		@RequestParam("password") String password,
+    		HttpServletRequest request,
+    		HttpServletResponse response){
+    	User user = svc.getUserByEmail(email); 
+    	request.getSession().setAttribute("user", user); 
+        try{
+        	if(user != null)
+        		response.sendRedirect("home"); 
+        }
+        catch(IOException e){
+        	e.printStackTrace();
+        }
+    	return user; 
+    }
+    
+    /**
+     * Ends the current Session and redirects to the landing page. 
+     * 
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
+    @ResponseBody
+    @RequestMapping(value = "/logoutUser", method = RequestMethod.POST)
+    public void logoutUser(
+    		HttpServletRequest request,
+    		HttpServletResponse response){
+    	request.getSession().invalidate();
+    	try{
+    		response.sendRedirect("landing");	//TBD by Richie 
+    	}
+    	catch(IOException e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * Creates a new User from the given paramters. If User account creation was a 
+     * success, returns the new User, null otherwise. Then redirects to the home page.
+     * 
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param password
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    public User createUser(
+    		@RequestParam("firstname") String firstname,
+            @RequestParam("lastname") String lastname,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            HttpServletRequest request, 
+            HttpServletResponse response
+    		){
+        boolean result = svc.createUser(firstname, lastname, email, password); 
+        User user = svc.getUserByEmail(email);
+        request.getSession().setAttribute("user", user); 
+        try{
+        	response.sendRedirect("home"); 
+        }
+        catch(IOException e){
+        	e.printStackTrace();
+        }
+        return (result ? user : null); 
+    }
+    
+    /**
+     * Deletes the User account of the current Session and logouts the User if success.
+     * 
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    public void deleteUser(
+    		HttpServletRequest request,
+    		HttpServletResponse response)
+    {
+    	User user = (User)request.getSession().getAttribute("user"); 
+    	if(svc.deleteUser(user))
+    		logoutUser(request, response);
+    	//what do if deletion fails?? 
     }
 }
