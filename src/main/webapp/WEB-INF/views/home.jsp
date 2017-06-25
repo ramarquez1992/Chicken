@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>#Chicken</title>
+    <title>Home &middot; #Chicken</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -15,41 +15,51 @@
 
     <script src="/static/lib/jquery-3.2.1.min.js"></script>
     <script src="/static/lib/bootstrap.min.js"></script>
+
+    <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
+    <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
+    <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
+
     <script src="/static/js/main.js"></script>
-    <script src="/static/js/landing.js"></script>
+    <script src="/static/js/webrtcKeys.js"></script>
+    <script src="/static/js/home.js"></script>
+
+
 </head>
 <body>
 
+
+
+
 <!-- Navigation bar/menu-->
 <nav>
-    <a href="/landing">HOME</a>
-    <a href="/home">HOME</a>
-    <a href="/profile">HOME</a>
+    <a href="/landing">landing</a>
+    <a href="/home">home</a>
+    <a href="/profile">profile</a>
 </nav>
 
-<!-- "What is This?" container-->
-<div id="about">
-    <p>Hello, World!</p>
+<div id="spotlight">
+    <div id="chick1StreamContainer"></div>
+    <div id="chick2StreamContainer"></div>
+
+    <button id="chick1StreamBtn">chick1-stream</button>
+    <button id="chick2StreamBtn">chick2-stream</button>
+
+    <button onclick="attachSpotlight();">View</button>
 </div>
 
-<!-- "Leaderboard" container-->
-<div id="leaderboard">
+<div id="global">
+    <p>global chat</p>
 </div>
 
-<!-- "Registration" container-->
-<div id="registration">
-    <form name="register" action="register-servlet">
-        <input id="first-name" type="text" placeholder="Enter your first name.">
-        <input id="last-name" type="text" placeholder="Enter your last name.">
-        <input id="email" type="text" placeholder="Enter your email.">
-        <input id="password" type="text" placeholder="Enter your password.">
-        <input id="password-confirm" type="text" placeholder="Enter your password again.">
-    </form>
+<div id="misc">
+    <p>misc info</p>
 </div>
 
 <!-- "Footer" container-->
 <footer>
 </footer>
+
 
 </body>
 </html>

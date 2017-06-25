@@ -1,25 +1,19 @@
-$(document).ready(function () {
-    console.log("hello, world");
-    getSpotlightQueue();
-    getUser(1);
-});
-
-function getUser(userId) {
+function getUser(userId, callback) {
     $.ajax({
         url: "/users/" + userId,
         method: "GET",
         success: function (res, status, xhr) {
-            console.log(res);
+            callback(res);
         }
     });
 }
 
-function getSpotlightQueue() {
+function getSpotlightQueue(callback) {
     $.ajax({
         url: "/spotlight/getQueue",
         method: "GET",
         success: function (res, status, xhr) {
-            console.log(res);
+            callback(res);
         }
     });
 }

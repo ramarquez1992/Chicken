@@ -9,3 +9,4 @@ target/
 .settings/
 src/main/resources/META-INF/beans.xml
 src/main/webapp/WEB-INF/beans.xml
+src/main/webapp/WEB-INF/static/js/webrtcKeys.js
