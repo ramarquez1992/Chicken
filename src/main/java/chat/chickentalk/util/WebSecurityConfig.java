@@ -14,7 +14,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .requiresChannel()
-                .antMatchers("/landing", "/home", "/")
+                .antMatchers("/landing", "/home")
                 .requiresSecure();
     }
 

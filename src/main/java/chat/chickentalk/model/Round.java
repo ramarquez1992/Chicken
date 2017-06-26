@@ -1,5 +1,6 @@
 package chat.chickentalk.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -13,29 +14,34 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SPOTLIGHTROUND")
-public class Round {
+public class Round implements Serializable{
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3L;
+
     @Id
     @Column(name = "roundid")
     @SequenceGenerator(name = "SPOTLIGHTROUNDID_SEQ", sequenceName = "SPOTLIGHTROUNDID_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOTLIGHTROUNDID_SEQ")
     int id;
 
-    @Column(name = "winnerid")
+    @Column(name = "winnerid", nullable = false)
     int winnerId;
 
-    @Column(name = "loserid")
+    @Column(name = "loserid", nullable = false)
     int loserId;
 
-    @Column(name = "winnervotes")
+    @Column(name = "winnervotes", nullable = false)
     int winnerVotes;
 
-    @Column(name = "loservotes")
+    @Column(name = "loservotes", nullable = false)
     int loserVotes;
 
-    @Column(name = "startdate")
+    @Column(name = "startdate", nullable = false)
     Timestamp startDate; // date and time the round started
 
-    @Column(name = "enddate")
+    @Column(name = "enddate", nullable = false)
     Timestamp endDate; // date and time the round ended
 
     public Round() {
@@ -113,5 +119,6 @@ public class Round {
     public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
-    
+
 }
+

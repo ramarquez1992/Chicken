@@ -1,22 +1,39 @@
 package chat.chickentalk.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+/* USER STATUS TABLE VALUES
+ *
+ * 0	normal
+ * 1	shadow ban
+ * 2	permanent ban
+ * 3	admin
+ * 4	Chicken
+ */
+
 
 @Entity
-public class UserStatus {
+@Table(name = "USERSTATUS")
+public class UserStatus implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "user_status_ID")
-    @SequenceGenerator(name = "USERSTATUS_SEQ", sequenceName = "USERSTATUS_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERSTATUS_SEQ")
     private int id;
 
-    @Column(name = "user_status_name")
+    @Column(name = "user_status_name", unique = true, length=100, nullable = false)
     private String name;
 
 
@@ -28,24 +45,31 @@ public class UserStatus {
         this.name = name;
     }
 
+    public UserStatus(int id, String name) {
+        super();
+        this.name = name;
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "UserStatus [id=" + id + ", name=" + name + "]";
     }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 }
+

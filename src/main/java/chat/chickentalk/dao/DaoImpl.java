@@ -1,72 +1,22 @@
-
-///**
-// * Private: Is only ran once upon instantiation of a DaoImpl object.
-// *
-// * @author: Darrin McIntyre
-// * @since 2017-06-23
-// **/
-//@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-//public List<UserStatus> getStatus() {
-//    Session s = sessionFactory.getCurrentSession();
-//    List<UserStatus> list = null;
-//
-//    try {
-//        Query query = s.createQuery("from UserStatus");
-//        list = query.list();
-//        
-//        
-//    } catch (HibernateException e) {
-//        e.printStackTrace();
-//        List<UserStatus> empty = null;
-//        empty.add(new UserStatus());
-//        return empty;
-//    }
-//
-//    return list;
-//}
-//
-///**
-// * Gets the User's status, returns null if the input id is not in the list.
-// *
-// * @author: Darrin McIntyre
-// * @since 2017-06-23
-// **/
-//public UserStatus getUserStatus(int id){
-//	if(id > Status.size()) return null;
-//	return Status.get(id);
-//}
-//
-///**
-// * Sets the User's status, returns -1 if the input id is not in the list.
-// *
-// * @author: Darrin McIntyre
-// * @since 2017-06-23
-// **/
-//public int setUserStatus(int id){
-//	if(id > Status.size()) return -1;
-//	
-//	UserStatus temp = Status.get(id);
-//	
-//	return temp.getId();
-//}
-
 package chat.chickentalk.dao;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Query;
-
-import chat.chickentalk.model.Round;
-import chat.chickentalk.model.User;
-import chat.chickentalk.model.UserStatus;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
+import chat.chickentalk.model.UserStatus;
 
 @Transactional
 public class DaoImpl implements Dao {
@@ -75,8 +25,7 @@ public class DaoImpl implements Dao {
 
     private List<UserStatus> StatusList;
 
-    public DaoImpl() {
-    }
+    public DaoImpl() {}
 
     public DaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -103,10 +52,12 @@ public class DaoImpl implements Dao {
         }
     }
 
-    /* TODO: returns null ptr exception with new unpopulated db
-     * needs to not break execution
-     * return empty list?
-     */
+    /**
+     * Gets all User status, returns empty list if the database is not populated.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-24
+     **/
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     private List<UserStatus> getStatus() {
         Session s = sessionFactory.getCurrentSession();
@@ -116,40 +67,55 @@ public class DaoImpl implements Dao {
             Query query = s.createQuery("from UserStatus");
             list = query.list();
 
+            System.out.println("List Size: " + list.size());
+            for(int i = 0; i < list.size(); i++){
+                System.out.println("LIST: " + list.get(i).toString());
+            }
+
         } catch (HibernateException e) {
             e.printStackTrace();
-            return null;
+            return list = Collections.EMPTY_LIST;
         }
 
         return list;
     }
 
     /**
-     * Gets the User's status, returns null if the input id is not in the list.
+     * Admin user can promote another user. Returns a boolean, true, on success. False on failure.
+     *
+     * 0	normal
+     * 1	shadow ban
+     * 2	permanent ban
+     * 3	admin
+     * 4	Chicken
+     *
+     * @param admin The user object that is promoting the other user.
+     * @param email The unique email of the user that is to be promoted.
      *
      * @author: Darrin McIntyre
-     * @since 2017-06-23
+     * @since 2017-06-22
      **/
-    public UserStatus getUserStatus(int id){
-    	StatusList = getStatus();
-    	if(id > StatusList.size()) return null;
-    	return StatusList.get(id);
-    }
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public boolean changeUserStatus(String email, int num){
+        if(StatusList == null){
+            StatusList = getStatus();
+        }
 
-    /**
-     * Sets the User's status, returns -1 if the input id is not in the list.
-     *
-     * @author: Darrin McIntyre
-     * @since 2017-06-23
-     **/
-    public int setUserStatus(int id){
-    	if(id > StatusList.size()) return -1;
-    	
-    	UserStatus temp = StatusList.get(id);
-    	
-    	return temp.getId();
+        try{
+            User temp = getUserByEmail(email);
+            UserStatus us = StatusList.get(num);
+            System.out.println(us.toString());
+            temp.setStatus(us);
+            updateUser(temp);
+
+            return true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Whoops");
+            return false;
+        }
     }
-    
 
     /**
      * CREATE: Returns true on success, false on exception
@@ -189,6 +155,26 @@ public class DaoImpl implements Dao {
         }
 
         return u;
+    }
+
+    /**
+     * READ: Returns User object that contains the input email, returns null if an exception occurs.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-06-25
+     **/
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public User getUserByEmail(String email) {
+        Session s = sessionFactory.getCurrentSession();
+
+        try {
+            Criteria criteria = s.createCriteria(User.class);
+            User u = (User) criteria.add(Restrictions.eq("email", email)).uniqueResult();
+            return u;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -319,36 +305,36 @@ public class DaoImpl implements Dao {
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<User> getAllUsers() {
-	    Session s = sessionFactory.getCurrentSession();
-	    List<User> list = null;
-	
-	    try {
-	        Query query = s.createQuery("from User");
-	        list = query.list();
-	
-	    } catch (HibernateException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	
-	    return list;
-	}
+        Session s = sessionFactory.getCurrentSession();
+        List<User> list = null;
+
+        try {
+            Query query = s.createQuery("from User");
+            list = query.list();
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return list;
+    }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<Round> getAllRounds() {
-	    Session s = sessionFactory.getCurrentSession();
-	    List<Round> list = null;
-	
-	    try {
-	        Query query = s.createQuery("from Round");
-	        list = query.list();
-	
-	    } catch (HibernateException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	
-	    return list;
-	}
+        Session s = sessionFactory.getCurrentSession();
+        List<Round> list = null;
+
+        try {
+            Query query = s.createQuery("from Round");
+            list = query.list();
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return list;
+    }
 
 }

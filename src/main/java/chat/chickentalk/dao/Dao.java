@@ -2,26 +2,33 @@ package chat.chickentalk.dao;
 
 import java.util.List;
 
-
+import chat.chickentalk.model.UserStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
-import chat.chickentalk.model.UserStatus;
 
 public interface Dao {
 
     // Status Methods
-	public UserStatus getUserStatus(int id);
-	public int setUserStatus(int id);
-	
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean changeUserStatus(String email, int num);
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    boolean createUserStatus(UserStatus us);
+
+
     // User Methods
+
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     boolean createUser(User u);
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     User getUserById(int id);
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    User getUserByEmail(String email);
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     boolean updateUser(User u);
@@ -51,3 +58,4 @@ public interface Dao {
     // Join Methods
 
 }
+

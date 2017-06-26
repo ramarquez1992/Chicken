@@ -46,6 +46,7 @@
     <button id="chick2StreamBtn">chick2-stream</button>
 
     <button onclick="attachSpotlight();">View</button>
+
 </div>
 
 <div id="global">
