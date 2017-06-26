@@ -8,13 +8,15 @@ import chat.chickentalk.model.User;
 
 public class UserService {
 	private static UserService INSTANCE = new UserService();
-	private UserService() {}
+
+	private UserService() {
+	}
 
 	public static UserService getInstance() {
 		return INSTANCE;
 	}
 
-		Dao dao = DaoImpl.getInstance();
+	Dao dao = DaoImpl.getInstance();
 
 	/**
 	 * Receives information sent from the registration servlet and creates User
@@ -33,11 +35,8 @@ public class UserService {
 	 *         otherwise
 	 */
 	public boolean createUser(String firstname, String lastname, String email, String password) {
-		List<User> users = dao.getAllUsers();
-		for (User u : users) {
-			if (email.equals(u.getEmail()))
-				return false;
-		}
+		if (dao.getUserByEmail(email) != null)
+			return false;
 
 		User user = new User();
 		user.setFirstName(firstname);
@@ -77,12 +76,9 @@ public class UserService {
 	 */
 	public boolean updateUser(User user, String firstname, String lastname, String email, boolean isBaby,
 			String password, String passwordCheck, String Avatar) {
-		List<User> users = dao.getAllUsers();
-		for (User u : users) {
-			if (email.equals(u.getEmail())) // check that email not already
-											// registered in db
-				return false;
-		}
+		if (dao.getUserByEmail(email) != null) // check that email is not
+												// already in db
+			return false;
 		if (!password.equals(passwordCheck) & password != null & passwordCheck != null)
 			return false;
 		// pw check will exist unless front end checks for matching passwords
@@ -135,8 +131,16 @@ public class UserService {
 	public User getUserById(int id) {
 		return DaoImpl.getInstance().getUserById(id);
 	}
-	
-	public User getUserByEmail(String email){
-		return DaoImpl.getInstance().getUserByEmail(email); 
+
+	public User getUserByEmail(String email) {
+		return DaoImpl.getInstance().getUserByEmail(email);
 	}
+
+	public boolean changeUserStatus(User user, String email, int status) {
+		if (user.getStatus().getName().equals("admin")) {
+			return DaoImpl.getInstance().changeUserStatus(email, status);
+		}
+		return false;
+	}
+
 }
