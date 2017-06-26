@@ -68,23 +68,23 @@ public class UserController {
      * @param response HttpServletResponse
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public User loginUser(
+    public void loginUser(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             HttpServletRequest request,
             HttpServletResponse response){
         User user = svc.getUserByEmail(email);
         request.getSession().setAttribute("user", user);
-        try{
-            if(user != null)
+        try {
+            if (user != null) {
                 response.sendRedirect("home");
-        }
-        catch(IOException e){
+            } else {
+                response.sendRedirect("landing");
+            }
+        } catch(IOException e){
             e.printStackTrace();
         }
-        return user;
     }
 
     /**
@@ -112,34 +112,37 @@ public class UserController {
      * Creates a new User from the given paramters. If User account creation was a
      * success, returns the new User, null otherwise. Then redirects to the home page.
      *
-     * @param firstname
-     * @param lastname
+     * @param firstName
+     * @param lastName
      * @param email
      * @param password
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public User createUser(
-            @RequestParam("firstname") String firstname,
-            @RequestParam("lastname") String lastname,
+    public void createUser(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             HttpServletRequest request,
             HttpServletResponse response
     ){
-        boolean result = svc.createUser(firstname, lastname, email, password);
+        boolean result = svc.createUser(firstName, lastName, email, password);
         User user = svc.getUserByEmail(email);
         request.getSession().setAttribute("user", user);
-        try{
-            response.sendRedirect("home");
+
+        try {
+            if (result) {
+                response.sendRedirect("home");
+            } else {
+                response.sendRedirect("landing");
+            }
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        return (result ? user : null);
     }
 
     /**

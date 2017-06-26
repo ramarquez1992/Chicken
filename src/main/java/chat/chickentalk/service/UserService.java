@@ -4,6 +4,7 @@ import java.util.List;
 
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.User;
+import chat.chickentalk.model.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +37,15 @@ public class UserService {
 				return false;
 		}
 
+		UserStatus us = new UserStatus(3,"admin");
+
 		User user = new User();
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
 		user.setEmail(email);
 		user.setPassword(password);
+		user.setBaby(true);
+		user.setStatus(us);
 
 		if (dao.createUser(user))
 			return true;
