@@ -24,7 +24,7 @@
 <nav>
     <a href="landing">landing</a>
     <a href="home">home</a>
-    <a href="leaderboard">profile</a>
+    <a href="leaderboard">leaderboard</a>
     <a href="profile">profile</a>
 </nav>
 
