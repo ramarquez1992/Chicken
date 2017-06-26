@@ -1,5 +1,10 @@
 $(document).ready(function () {
     console.log("hello, landing");
-    getSpotlightQueue();
-    getUser(1);
+    getUser(1, function (res) {
+        console.log(res);
+    });
+
+    getSpotlightQueue(function(res) {
+        console.log(res);
+    });
 });

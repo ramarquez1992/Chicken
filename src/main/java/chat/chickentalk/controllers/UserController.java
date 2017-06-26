@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -51,4 +53,109 @@ public class UserController {
 
         return (result ? u : null);
     }
+
+
+    /**
+     * Takes the email and password paramters and checks if a User with that email/password
+     * set exists. Sets User to current session and returns User.
+     * Redirects to home page if the User exists.
+     *
+     * @param email
+     * @param password
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+    public User loginUser(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            HttpServletRequest request,
+            HttpServletResponse response){
+        User user = svc.getUserByEmail(email);
+        request.getSession().setAttribute("user", user);
+        try{
+            if(user != null)
+                response.sendRedirect("home");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    /**
+     * Ends the current Session and redirects to the landing page.
+     *
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
+    @ResponseBody
+    @RequestMapping(value = "/logoutUser", method = RequestMethod.POST)
+    public void logoutUser(
+            HttpServletRequest request,
+            HttpServletResponse response){
+        request.getSession().invalidate();
+        try{
+            response.sendRedirect("landing");	//TBD by Richie
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a new User from the given paramters. If User account creation was a
+     * success, returns the new User, null otherwise. Then redirects to the home page.
+     *
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param password
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    public User createUser(
+            @RequestParam("firstname") String firstname,
+            @RequestParam("lastname") String lastname,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+        boolean result = svc.createUser(firstname, lastname, email, password);
+        User user = svc.getUserByEmail(email);
+        request.getSession().setAttribute("user", user);
+        try{
+            response.sendRedirect("home");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return (result ? user : null);
+    }
+
+    /**
+     * Deletes the User account of the current Session and logouts the User if success.
+     *
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    public void deleteUser(
+            HttpServletRequest request,
+            HttpServletResponse response)
+    {
+        User user = (User)request.getSession().getAttribute("user");
+        if(svc.deleteUser(user))
+            logoutUser(request, response);
+        //what do if deletion fails??
+    }
+
 }

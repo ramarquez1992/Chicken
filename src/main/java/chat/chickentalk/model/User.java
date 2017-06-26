@@ -1,47 +1,58 @@
 package chat.chickentalk.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import chat.chickentalk.dao.Dao;
-import chat.chickentalk.dao.DaoImpl;
+import org.springframework.stereotype.Component;
 
+@Component
 @Entity
 @Table(name = "CHATUSERS")
-public class User {
+public class User implements Serializable{
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2L;
+
     @Id
     @Column(name = "userID")
     @SequenceGenerator(name = "CHATUSERID_SEQ", sequenceName = "CHATUSERID_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHATUSERID_SEQ")
     int id;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, length=100, nullable = false)
     String email;
 
-    @Column(name = "password")
+    @Column(name = "password", length=100, nullable = false)
     String password;
 
-    @Column(name = "firstname")
+    @Column(name = "firstname", length=100, nullable = false)
     String firstname;
 
-    @Column(name = "lastname")
+    @Column(name = "lastname", length=100, nullable = false)
     String lastname;
 
     @Column(name = "avatar")
     String Avatar; // user profile image blob.
 
-    @Column(name = "filter")
+    @Column(name = "filter", nullable = false)
     int isBaby; // Mature language filter setting.
 
-    @Column(name = "status")
-    int status; // User's restriction settings (normal, shadow ban, etc)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="status", nullable = false)
+    UserStatus status; // User's restriction settings (normal, shadow ban, etc)
 
 
     @Column(name = "votes")
@@ -49,13 +60,13 @@ public class User {
 
     @Column(name = "lastloggedin")
     Date lastLoggedIn; // last date time that the user logged in.
-    
+
 //    Dao dao = DaoImpl.getInstance();
-    
+
     public User() {
     }
 
-    public User(int id, int status, int votesCast, boolean isBaby, String avatar, String email, String password,
+    public User(int id, UserStatus status, int votesCast, boolean isBaby, String avatar, String email, String password,
                 String firstname, String lastname, Date lastLoggedIn) {
         super();
         this.id = id;
@@ -84,7 +95,7 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     /**
      * Returns the UserStatus object. NOT IMPLEMENTED: Returning a dummy UserStatus object as a placeholder.
      *
@@ -92,19 +103,17 @@ public class User {
      * @since 2017-06-23
      **/
     public UserStatus getStatus() {
-    	UserStatus temp = new UserStatus();
-    	temp.setId(1);
-    	temp.setName("normal");
-    	return temp;//dao.getUserStatus(status);
+        return status;
     }
-    
+
     /**
      * Sets the user's status. NOT IMPLEMENTED: Returning -1 as a placeholder.
      *
      * @author: Darrin McIntyre
      * @since 2017-06-23
      **/
-    public int setStatus(int id) {
+    public int setStatus(UserStatus newStatus) {
+        status = newStatus;
         return -1;//dao.setUserStatus(id);
     }
 
@@ -175,3 +184,4 @@ public class User {
     }
 
 }
+
