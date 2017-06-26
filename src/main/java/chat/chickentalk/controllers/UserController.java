@@ -77,7 +77,7 @@ public class UserController {
         User user = svc.getUserByEmail(email);
         request.getSession().setAttribute("user", user);
         try {
-            if (user != null) {
+            if (user != null && user.getPassword().equals(password)) {
                 response.sendRedirect("home");
             } else {
                 response.sendRedirect("landing");
