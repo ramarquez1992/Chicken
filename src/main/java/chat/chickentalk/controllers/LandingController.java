@@ -5,6 +5,7 @@ import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Controller
 public class LandingController {
+    @Autowired
+    Dao dao;
 
     @RequestMapping(value = { "", "/", "/landing" }, method = RequestMethod.GET)
     public String getLanding() {
@@ -27,8 +30,6 @@ public class LandingController {
 
     @RequestMapping(value = "createDatabase", method = RequestMethod.GET)
     public String createDatabase() {
-        Dao dao = DaoImpl.getInstance();
-
         UserStatus us = new UserStatus(0,"normal");
         UserStatus us2 = new UserStatus(1,"shadow ban");
         UserStatus us3 = new UserStatus(2,"permanent ban");

@@ -3,18 +3,15 @@ package chat.chickentalk.service;
 import java.util.List;
 
 import chat.chickentalk.dao.Dao;
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
-	private static UserService INSTANCE = new UserService();
-	private UserService() {}
 
-	public static UserService getInstance() {
-		return INSTANCE;
-	}
-
-		Dao dao = DaoImpl.getInstance();
+	@Autowired
+    Dao dao;
 
 	/**
 	 * Receives information sent from the registration servlet and creates User
@@ -133,10 +130,10 @@ public class UserService {
 	}
 
 	public User getUserById(int id) {
-		return DaoImpl.getInstance().getUserById(id);
+		return dao.getUserById(id);
 	}
 
 	public User getUserByEmail(String email){
-		return DaoImpl.getInstance().getUserByEmail(email);
+		return dao.getUserByEmail(email);
 	}
 }

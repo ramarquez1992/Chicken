@@ -2,6 +2,7 @@ package chat.chickentalk.controllers;
 
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.SpotlightService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Controller
 public class SpotlightController {
-    private SpotlightService svc = SpotlightService.getInstance();
+    @Autowired
+    private SpotlightService svc;
 
     @ResponseBody @RequestMapping(value = "/spotlight/getQueue", method = RequestMethod.GET)
     public List<String> getSpotlightQueue() {
