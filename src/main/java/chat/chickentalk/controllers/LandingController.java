@@ -52,6 +52,15 @@ public class LandingController {
         u2.setLastName("Chicken");
         u2.setBaby(true);
         u2.setStatus(us5);
+        
+        User u3 = new User();
+        u3.setEmail("three@email.com");
+        u3.setPassword("password");
+        u3.setFirstName("Dan");
+        u3.setLastName("Demo");
+        u3.setBaby(true);
+        u3.setStatus(us);
+        
 
         Round r = new Round();
         r.setLoserId(2);
@@ -82,6 +91,16 @@ public class LandingController {
         r3.setEndDate(time);
         time.setTime(time.getTime()-8500);
         r3.setStartDate(time);
+        
+        Round r4 = new Round();
+        r4.setLoserId(1);
+        r4.setWinnerId(3);
+        r4.setWinnerVotes(8);
+        r4.setLoserVotes(5);
+        time = new Timestamp(System.currentTimeMillis());
+        r4.setEndDate(time);
+        time.setTime(time.getTime()-15000);
+        r4.setStartDate(time);
 
         dao.createUserStatus(us);
         dao.createUserStatus(us2);
@@ -90,9 +109,12 @@ public class LandingController {
         dao.createUserStatus(us5);
         dao.createUser(u);
         dao.createUser(u2);
+        dao.createUser(u3);
         dao.createRound(r);
         dao.createRound(r2);
         dao.createRound(r3);
+        dao.createRound(r4);
+        
 
 
         List<Round> rounds = dao.getAllRounds();

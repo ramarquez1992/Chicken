@@ -38,6 +38,14 @@
 <div id="leaderboard">
 </div>
 
+<div>
+<h3 id="mostGames">Most Games</h3>
+</div>
+
+<div>
+<h3 id="mostWins">Most Wins</h3>
+</div>
+
 
 <!-- "Footer" container-->
 <footer>

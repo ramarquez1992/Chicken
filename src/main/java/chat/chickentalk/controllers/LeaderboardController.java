@@ -15,6 +15,11 @@ import chat.chickentalk.service.SpotlightService;
 public class LeaderboardController {
 	@Autowired
 	private LeaderboardService svc;
+	
+	@RequestMapping(value = "leaderboard", method = RequestMethod.GET)
+    public String getHome() {
+        return "leaderboard";
+    }
 
 	@ResponseBody @RequestMapping(value = "/leaderboard/winningVotes/{userId}", method = RequestMethod.GET)
 	public int getWinningVotes(@PathVariable int userId) {
