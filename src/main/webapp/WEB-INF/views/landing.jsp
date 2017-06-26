@@ -39,12 +39,14 @@
 
 <!-- "Registration" container-->
 <div id="registration">
-    <form name="register" action="register-servlet">
-        <input id="first-name" type="text" placeholder="Enter your first name.">
-        <input id="last-name" type="text" placeholder="Enter your last name.">
-        <input id="email" type="text" placeholder="Enter your email.">
-        <input id="password" type="text" placeholder="Enter your password.">
-        <input id="password-confirm" type="text" placeholder="Enter your password again.">
+    <form name="register" action="createUser" method="post">
+        <input name="firstName" type="text" placeholder="Enter your first name.">
+        <input name="lastName" type="text" placeholder="Enter your last name.">
+        <input name="email" type="text" placeholder="Enter your email.">
+        <input name="password" type="text" placeholder="Enter your password.">
+        <input name="passwordConfirm" type="text" placeholder="Enter your password again.">
+
+        <input type="submit" value="register">
     </form>
 </div>
 
@@ -52,6 +54,7 @@
     <form name="login" action="loginUser" method="post">
         <input autofocus type="email" name="email" placeholder="email">
         <input type="password" name="password" placeholder="password">
+
         <input type="submit" value="login">
     </form>
 </div>
