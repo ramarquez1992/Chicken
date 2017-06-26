@@ -48,6 +48,14 @@
     </form>
 </div>
 
+<div id="login">
+    <form name="login" action="loginUser" method="post">
+        <input autofocus type="email" name="email" placeholder="email">
+        <input type="password" name="password" placeholder="password">
+        <input type="submit" value="login">
+    </form>
+</div>
+
 <!-- "Footer" container-->
 <footer>
 </footer>

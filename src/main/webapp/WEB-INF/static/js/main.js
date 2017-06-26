@@ -1,12 +1,12 @@
-function login(email, password, callback) {
-    $.ajax({
-        url: "loginUser" + userId,
-        method: "POST",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
+// function login(email, password, callback) {
+//     $.ajax({
+//         url: "loginUser" + userId,
+//         method: "POST",
+//         success: function (res, status, xhr) {
+//             callback(res);
+//         }
+//     });
+// }
 
 function getUser(userId, callback) {
     $.ajax({

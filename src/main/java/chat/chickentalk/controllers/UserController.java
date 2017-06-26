@@ -68,23 +68,23 @@ public class UserController {
      * @param response HttpServletResponse
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public User loginUser(
+    public void loginUser(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             HttpServletRequest request,
             HttpServletResponse response){
         User user = svc.getUserByEmail(email);
         request.getSession().setAttribute("user", user);
-        try{
-            if(user != null)
+        try {
+            if (user != null) {
                 response.sendRedirect("home");
-        }
-        catch(IOException e){
+            } else {
+                response.sendRedirect("landing");
+            }
+        } catch(IOException e){
             e.printStackTrace();
         }
-        return user;
     }
 
     /**
