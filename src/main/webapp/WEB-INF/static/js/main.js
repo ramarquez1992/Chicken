@@ -1,6 +1,6 @@
 function login(email, password, callback) {
     $.ajax({
-        url: "/loginUser" + userId,
+        url: "loginUser" + userId,
         method: "POST",
         success: function (res, status, xhr) {
             callback(res);
@@ -10,7 +10,7 @@ function login(email, password, callback) {
 
 function getUser(userId, callback) {
     $.ajax({
-        url: "/users/" + userId,
+        url: "users/" + userId,
         method: "GET",
         success: function (res, status, xhr) {
             callback(res);
@@ -20,7 +20,7 @@ function getUser(userId, callback) {
 
 function getSpotlightQueue(callback) {
     $.ajax({
-        url: "/spotlight/getQueue",
+        url: "spotlight/getQueue",
         method: "GET",
         success: function (res, status, xhr) {
             callback(res);

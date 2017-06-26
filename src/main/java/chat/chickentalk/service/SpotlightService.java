@@ -1,21 +1,16 @@
 package chat.chickentalk.service;
 
 import chat.chickentalk.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+@Service
 public class SpotlightService {
-    private static SpotlightService INSTANCE = new SpotlightService();
     private Deque<User> queue = new ArrayDeque<>();
-
-    private SpotlightService() {}
-
-    public static SpotlightService getInstance() {
-        return INSTANCE;
-    }
 
     public List<String> getSpotlightQueue() {
         List<String> result = new ArrayList<String>();

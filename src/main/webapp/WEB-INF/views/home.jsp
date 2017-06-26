@@ -7,22 +7,22 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-    <link rel="icon" href="/static/img/chicken.ico">
-    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/lib/Poppins.font">
-    <link rel="stylesheet" type="text/css" href="/static/lib/Montserrat.font">
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="icon" href="static/img/chicken.ico">
+    <link rel="stylesheet" type="text/css" href="static/lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/lib/Poppins.font">
+    <link rel="stylesheet" type="text/css" href="static/lib/Montserrat.font">
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
 
-    <script src="/static/lib/jquery-3.2.1.min.js"></script>
-    <script src="/static/lib/bootstrap.min.js"></script>
+    <script src="static/lib/jquery-3.2.1.min.js"></script>
+    <script src="static/lib/bootstrap.min.js"></script>
 
     <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
     <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
     <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
 
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/webrtcKeys.js"></script>
-    <script src="/static/js/home.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/webrtcKeys.js"></script>
+    <script src="static/js/home.js"></script>
 
 
 </head>
@@ -33,9 +33,9 @@
 
 <!-- Navigation bar/menu-->
 <nav>
-    <a href="/landing">landing</a>
-    <a href="/home">home</a>
-    <a href="/profile">profile</a>
+    <a href="landing">landing</a>
+    <a href="home">home</a>
+    <a href="profile">profile</a>
 </nav>
 
 <div id="spotlight">

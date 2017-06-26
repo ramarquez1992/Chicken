@@ -8,17 +8,15 @@ import chat.chickentalk.dao.Dao;
 import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LeaderboardService {
-	private static LeaderboardService INSTANCE = new LeaderboardService();
-	private LeaderboardService() {}
+	@Autowired
+    Dao dao;
 	
-	Dao dao = DaoImpl.getInstance();
-	
-	public static LeaderboardService getInstance() {
-		return INSTANCE;
-	}
-	
+
 	//returns all the votes from rounds a user has won
 	public int getWinningVotes(int id) {
 		int winningVotes = 0;

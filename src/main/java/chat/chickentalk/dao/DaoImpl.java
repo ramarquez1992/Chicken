@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +19,9 @@ import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
 
+@Repository
 @Transactional
 public class DaoImpl implements Dao {
-    private static AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
     private SessionFactory sessionFactory;
 
     private List<UserStatus> StatusList;
@@ -31,13 +32,10 @@ public class DaoImpl implements Dao {
         this.sessionFactory = sessionFactory;
     }
 
-    public static Dao getInstance() {
-        return appContext.getBean("dao", Dao.class);
-    }
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public boolean createUserStatus(UserStatus p) {

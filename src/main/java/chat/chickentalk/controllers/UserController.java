@@ -3,6 +3,7 @@ package chat.chickentalk.controllers;
 import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private UserService svc = UserService.getInstance();
+    @Autowired
+    private UserService svc;
 
     @ResponseBody
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
