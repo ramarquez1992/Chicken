@@ -1,42 +1,33 @@
-package chat.chickentalk.controllers;
+package chat.chickentalk.test;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.sql.Timestamp;
-
-@Controller
-public class LandingController {
-    @Autowired
-    Dao dao;
-
-    @RequestMapping(value = { "", "/", "landing" }, method = RequestMethod.GET)
-    public String getLanding() {
-        return "landing";
-    }
-
-    @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String getHome() {
-        return "home";
-    }
-
-
-
-
-    @RequestMapping(value = "createDatabase", method = RequestMethod.GET)
-    public String createDatabase() {
-    	UserStatus us = new UserStatus(0,"normal");
+public class TestingGrounds {
+	AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
+	Dao dao = appContext.getBean("dao", Dao.class);
+	
+	public static void main(String[] args) {
+		TestingGrounds tg = new TestingGrounds();
+		//tg.createDatabase();
+		tg.createDB();
+	}
+  
+	public void createDB(){
+		UserStatus us = new UserStatus(0,"normal");
         UserStatus us2 = new UserStatus(1,"shadow ban");
         UserStatus us3 = new UserStatus(2,"permanent ban");
         UserStatus us4 = new UserStatus(3,"admin");
         UserStatus us5 = new UserStatus(4,"Chicken");
-
+        
         /*
          * Dummy user for the database. Required! This user is given a loss when ties occur for example.
          * 
@@ -141,6 +132,5 @@ public class LandingController {
         System.out.println(r3.toString());
         System.out.println(r4.toString());
 
-        return "home";
-    }
+	}
 }
