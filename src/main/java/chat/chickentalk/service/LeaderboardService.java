@@ -78,7 +78,7 @@ public class LeaderboardService {
 			}
 		}
 		System.out.println(gamesWon);
-		return gamesWon++;
+		return gamesWon;
 	}
 	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!

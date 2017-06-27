@@ -28,6 +28,9 @@ public class LandingController {
         return "home";
     }
 
+
+
+
     @RequestMapping(value = "createDatabase", method = RequestMethod.GET)
     public String createDatabase() {
         UserStatus us = new UserStatus(0,"normal");
