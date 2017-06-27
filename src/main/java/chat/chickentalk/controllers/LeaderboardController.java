@@ -17,7 +17,7 @@ public class LeaderboardController {
 	private LeaderboardService svc;
 	
 	@RequestMapping(value = "leaderboard", method = RequestMethod.GET)
-    public String getHome() {
+    public String getLeaderboard() {
         return "leaderboard";
     }
 
