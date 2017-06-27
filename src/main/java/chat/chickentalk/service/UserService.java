@@ -78,7 +78,7 @@ public class UserService {
 	 *         false otherwise
 	 */
 	public boolean updateUser(User user, String firstname, String lastname, String email, boolean isBaby,
-			String password, String passwordCheck, String Avatar) {
+			String password, String passwordCheck, String Avatar, String status) {
 		List<User> users = dao.getAllUsers();
 		for (User u : users) {
 			if (email.equals(u.getEmail())) // check that email not already
@@ -88,7 +88,7 @@ public class UserService {
 		if (!password.equals(passwordCheck) & password != null & passwordCheck != null)
 			return false;
 		// pw check will exist unless front end checks for matching passwords
-		// may need to tweak password check later
+		// may need to tweak password check further later
 
 		// if any parameter is empty, keep old name to prevent overwriting empty
 		// values to db
@@ -101,9 +101,12 @@ public class UserService {
 			user.setEmail(email);
 		if (!password.equals(""))
 			user.setPassword(password);
+		if(!status.equals(""))
+			user.setStatus(new UserStatus(status)); // potential problem?
+		if(!Avatar.equals(""))
+			user.setAvatar(Avatar);
 
 		user.setBaby(isBaby);
-		user.setAvatar(Avatar);
 
 		if (dao.updateUser(user))
 			return true;

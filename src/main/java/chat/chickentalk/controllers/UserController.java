@@ -1,6 +1,5 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -29,15 +27,16 @@ public class UserController {
     }
 
     /**
-     * Retrieves User of the current session and the input from the form.
-     * Response will return a JSON string of User's new information if success -
-     * {email: " ", password: " ", firstname: " ", lastname:" ", avatar:" ", isBaby:" "}.
-     * {result:"false"} otherwise
+     * User can update their personal information. Admin can change another User's status. 
      *
-     * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
+     * Form Parameters: 
+     * firstname, lastname, email, isBaby, 
+     * password, password-check, avatar [shown to User, hidden from admin in view]
+     * 
+     * status [hidden in View if User is not admin] 
      */
     @ResponseBody
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
     public User updateUser(
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
@@ -53,10 +52,36 @@ public class UserController {
         User u = (User) request.getSession().getAttribute("user");
 
         boolean result = svc.updateUser(u, firstName, lastName,
-                email, isBaby, password, passwordCheck, avatar);
+                email, isBaby, password, passwordCheck, avatar, status);
 
         return (result ? u : null);
     }
+    
+//    /**
+//     * User can only update their own profile. 
+//     * 
+//     * 
+//     * @param firstName
+//     * @param lastName
+//     * @param email
+//     * @param isBaby
+//     * @param password
+//     * @param passwordConfirm
+//     * @param avatar
+//     * @return
+//     */
+//    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+//    public User updateProfile(
+//            @RequestParam("firstName") String firstName,
+//            @RequestParam("lastName") String lastName,
+//            @RequestParam("email") String email, 
+//            @RequestParam("isBaby") boolean isBaby,
+//            @RequestParam("password") String password, 
+//            @RequestParam("passwordConfirm") String passwordConfirm, 
+//            @RequestParam("Avatar") String avatar){
+//    	
+//        svc.updateUser(); 
+//    }
 
 
     /**
