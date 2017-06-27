@@ -30,7 +30,7 @@ public class Round implements Serializable{
     int winnerId;
 
     @Column(name = "loserid", nullable = false)
-    int loserId;
+    int loserId = 1;
 
     @Column(name = "winnervotes", nullable = false)
     int winnerVotes;
