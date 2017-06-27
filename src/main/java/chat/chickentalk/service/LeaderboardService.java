@@ -1,11 +1,9 @@
 package chat.chickentalk.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import chat.chickentalk.dao.Dao;
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

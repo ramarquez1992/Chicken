@@ -1,6 +1,5 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UserController {
