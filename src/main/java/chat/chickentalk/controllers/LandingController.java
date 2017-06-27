@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Controller
 public class LandingController {
     @Autowired
     Dao dao;
 
-    @RequestMapping(value = { "", "/", "/landing" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "", "/", "landing" }, method = RequestMethod.GET)
     public String getLanding() {
         return "landing";
     }
