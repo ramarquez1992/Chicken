@@ -16,7 +16,7 @@ $(document).ready(function () {
     
     getMostSpotlightTime(function(res) {
     	var mostTime = $('#mostTime').html();
-    	$('mostTime').html(mostTime + " " + res);
+    	$('#mostTime').html(mostTime + " " + res);
     	console.log(res);
     })
 });

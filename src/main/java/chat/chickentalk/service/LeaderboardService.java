@@ -27,7 +27,7 @@ public class LeaderboardService {
 				winningVotes += r.getWinnerVotes();
 			}
 		}
-		System.out.println(winningVotes);
+		//System.out.println(winningVotes);
 		return winningVotes;
 	}
 	
@@ -41,14 +41,14 @@ public class LeaderboardService {
 				losingVotes += r.getLoserVotes();
 			}
 		}
-		System.out.println(losingVotes);
+		//System.out.println(losingVotes);
 		return losingVotes;
 	}
 	
 	//returns all votes a user has recieved
 	public int totalVotes(int id) {
 		int votesRecieved = getLosingVotes(id) + getWinningVotes(id);
-		System.out.println(votesRecieved);
+		//System.out.println(votesRecieved);
 		return votesRecieved;
 	}
 	
@@ -62,7 +62,7 @@ public class LeaderboardService {
 				gamesPlayed++;
 			}
 		}
-		System.out.println(gamesPlayed);
+		//System.out.println(gamesPlayed);
 		return gamesPlayed;
 	}
 	
@@ -77,7 +77,7 @@ public class LeaderboardService {
 				gamesWon++;
 			}
 		}
-		System.out.println(gamesWon);
+		//System.out.println(gamesWon);
 		return gamesWon;
 	}
 	
@@ -133,7 +133,7 @@ public class LeaderboardService {
 				mostGamesUser = u.getId();
 			}
 		}
-		System.out.println("most games played id " + mostGamesUser);
+		//System.out.println("most games played id " + mostGamesUser);
 		return mostGamesUser;
 	}
 	
@@ -148,7 +148,7 @@ public class LeaderboardService {
 				mostWinsUser = u.getId();
 			}
 		}
-		System.out.println("Most wins id " + mostWinsUser);
+		//System.out.println("Most wins id " + mostWinsUser);
 		return mostWinsUser;
 	}
 	
