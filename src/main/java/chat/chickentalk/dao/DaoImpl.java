@@ -56,7 +56,7 @@ public class DaoImpl implements Dao {
      * @author: Darrin McIntyre
      * @since 2017-06-24
      **/
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+//    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     private List<UserStatus> getStatus() {
         Session s = sessionFactory.getCurrentSession();
         List<UserStatus> list = null;
@@ -87,7 +87,6 @@ public class DaoImpl implements Dao {
      * 3	admin
      * 4	Chicken
      *
-     * @param admin The user object that is promoting the other user.
      * @param email The unique email of the user that is to be promoted.
      *
      * @author: Darrin McIntyre
