@@ -1,6 +1,5 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -66,8 +64,6 @@ public class UserController {
      *
      * @param email
      * @param password
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
      * @return
      */
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
@@ -97,7 +93,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */
-    @RequestMapping(value = "/logoutUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/logoutUser", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
         request.getSession().invalidate();
 

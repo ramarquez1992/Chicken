@@ -39,5 +39,6 @@
     <a href="home">home</a>
     <a href="leaderboard">leaderboard</a>
     <a href="profile">profile</a>
+    <a href="logoutUser">logout</a>
 </nav>
 
