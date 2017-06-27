@@ -1,7 +1,6 @@
 package chat.chickentalk.controllers;
 
 import chat.chickentalk.dao.Dao;
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
