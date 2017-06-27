@@ -66,8 +66,6 @@ public class UserController {
      *
      * @param email
      * @param password
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
      * @return
      */
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
@@ -97,7 +95,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */
-    @RequestMapping(value = "/logoutUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/logoutUser", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
         request.getSession().invalidate();
 
