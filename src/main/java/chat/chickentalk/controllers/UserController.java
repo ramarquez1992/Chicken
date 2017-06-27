@@ -5,10 +5,12 @@ import chat.chickentalk.model.User;
 import chat.chickentalk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -69,21 +71,23 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-    public void loginUser(
+    public String loginUser(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
-            HttpServletRequest request,
-            HttpServletResponse response){
+            HttpSession session,
+            ModelMap map){
         User user = svc.getUserByEmail(email);
-        request.getSession().setAttribute("user", user);
         try {
             if (user != null && user.getPassword().equals(password)) {
-                response.sendRedirect("home");
+                session.setAttribute("user", user);
+                return "home";
             } else {
-                response.sendRedirect("landing");
+                map.addAttribute("errorMsg", "Your login information was incorrect. Please try again.");
+                return "landing";
             }
-        } catch(IOException e){
+        } catch(Exception e){
             e.printStackTrace();
+            return "landing";
         }
     }
 
@@ -93,19 +97,11 @@ public class UserController {
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */
-    @ResponseBody
     @RequestMapping(value = "/logoutUser", method = RequestMethod.POST)
-    public void logoutUser(
-            HttpServletRequest request,
-            HttpServletResponse response){
+    public String logoutUser(HttpServletRequest request) {
         request.getSession().invalidate();
-        try{
-            response.sendRedirect("landing");	//TBD by Richie
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+
+        return "landing";
     }
 
     /**
@@ -153,14 +149,18 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-    public void deleteUser(
+    public boolean deleteUser(
             HttpServletRequest request,
             HttpServletResponse response)
     {
         User user = (User)request.getSession().getAttribute("user");
-        if(svc.deleteUser(user))
-            logoutUser(request, response);
-        //what do if deletion fails??
+        if(svc.deleteUser(user)) {
+            return true;
+//            logoutUser(request, response);
+        } else {
+            return false;
+        }
+        // TODO: what do if deletion fails??
     }
 
 }
