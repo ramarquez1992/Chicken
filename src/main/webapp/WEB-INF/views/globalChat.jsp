@@ -21,6 +21,47 @@
     <script src="static/js/globalchattest.js"></script>
     
 <style>
+
+/* The Modal (background) */
+.modal {
+	backdrop: 'static';
+	display: none;
+    position: fixed; /* Stay in place */
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    data-backdrop: 'static';
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 header {
   background: #eee;
   padding: 20px;
@@ -52,19 +93,17 @@ header a:first-child {
 
 .you {
   font-weight: bold;
+  color:purple;
 }
 
 </style>    
     
 </head>
 <body>
-
+<span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
+<span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
+<span id="idNum" style="visibility: hidden;">${user.getId()}</span>
   <header>
-    <a href="http://skylink.io/web">More about SkylinkJS</a>
-    <input type="text" id="name" placeholder="My name" autofocus />
-    <button onclick="setName()">Set my name</button>
-    <button onclick="joinRoom()">Join room</button>
-    <button onclick="leaveRoom()">Leave room</button>
     <br/>
     <input type="text" id="message" placeholder="My message" />
     <button onclick="sendMessage()">Send message</button>
@@ -73,7 +112,29 @@ header a:first-child {
   
   <div id="container">
     <div id="chatbox"></div>
-  </div>
-  
+ </div>
+
+<div class="modal fade" id="UserProfile">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">User Profile</h4>
+			</div>
+			<div class="modal-body">
+				<h3>User Info</h3>
+				<p id="fullName"></p>
+				<p id="something"></p>	
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 </body>
 </html>

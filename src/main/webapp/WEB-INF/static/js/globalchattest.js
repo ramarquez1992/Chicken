@@ -7,25 +7,30 @@ skylink.init({
 
 skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	var user = 'You';
+	var id = "";
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
+		id = peerInfo.userData.userId || peerId;
 	}
-	addMessage(user + ' joined the room', 'action');
+	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
 
 skylink.on('peerUpdated', function(peerId, peerInfo, isSelf) {
 	if(isSelf) {
 		user = peerInfo.userData.name || peerId;
-		addMessage('You\'re now known as ' + user, 'action');
+		addMessage("blank", 'You\'re now known as ' + user, 'action');
 	}
 });
 
 skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 	var user = 'You';
+	var id = "";
+	
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
+		id = peerInfo.userData.userId || peerId;
 	}
-	addMessage(user + ' left the room', 'action');
+	addMessage(peerInfo.userData, ' left the room', 'action');
 });
 
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
@@ -33,20 +38,27 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 	className = 'you';
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
+		id = peerInfo.userData.userId || peerId;
 		className = 'message';
+		addMessage(peerInfo.userData, ': ' + message.content, className);
 	}
-	addMessage(user + ': ' + message.content, className);
+	else addMessage(user, user + ': ' + message.content, className);
 });
 
 function setName() {
-	var input = document.getElementById('name');
+	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
+	var num = document.getElementById('idNum').innerHTML
+	alert(userName);
 	skylink.setUserData({
-		name: input.value
+		name: userName,
+		userId : num
 	});
 }
 
+window.onload = setTimeout(joinRoom, 500);
+
 function joinRoom() {
-	window.alert("hello!");
+	setName();
 	skylink.joinRoom();
 }
 
@@ -62,17 +74,38 @@ function sendMessage() {
 	input.select();
 }
 
-function addMessage(message, className) {
-	var chatbox = document.getElementById('chatbox'),
-	div = document.createElement('div');
+function addMessage(user, message, className) {
+	var chatbox = document.getElementById('chatbox');
+	var div = document.createElement('div');
 	div.className = className;
-	div.textContent = message;
+	
+	if(message.substring(0,3) == "You") {
+		div.style.cssText = 'color:blue;';
+		div.textContent = message;
+	}
+	else {
+		var userProfile = document.createElement('span');
+		var userMessage = document.createElement('span');
+		userProfile.className = className;
+		userProfile.style.cssText = "color:purple;"
+		userProfile.textContent = user.name;
+		userProfile.onclick = function(){
+			$('#UserProfile').modal({
+		  		backdrop: 'static'
+			}); 
+			 $("#fullName").text(user.name);
+			 $("#something").text(user.userId);
+		};
+		userMessage.textContent = message;
+		div.appendChild(userProfile);
+		div.appendChild(userMessage);
+	}
 	chatbox.appendChild(div);
 }
 
 function replaceWords(message) {
     var comment = message.value;
-    var badWords = ["fuck", "shit", "crap" ,"damn"];
+    var badWords = ["fuck", "shit", "crap" ,"damn", "ass", "cunt", "bitch", "dick", "penis", "vagina", "whore"];
     var censored = censor(comment, badWords);
     comment.value = censored;
     
