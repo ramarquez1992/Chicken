@@ -99,6 +99,7 @@ public class SpotlightService {
 
         // add winner to front of queue
         getSpotlightQueue().addFirst(chick1);
+        getSpotlightQueue().addLast(chick2);
 
         chick1 = null;
         chick2 = null;
@@ -119,9 +120,12 @@ public class SpotlightService {
         return queue;
     }
 
-    // TODO: check if not banned, not already in queue, etc.
+    // TODO: check if not banned
     public boolean addUserToQueue(User u) {
-        if (!queue.contains(u)) {
+        if (!queue.contains(u) && (
+                chick1 == null || chick2 == null ||
+                (chick1.getId() != u.getId() && chick2.getId() != u.getId())
+                )) {
             queue.add(u);
             return true;
         } else {
