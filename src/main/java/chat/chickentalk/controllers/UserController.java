@@ -25,6 +25,11 @@ public class UserController {
 
 		return u;
 	}
+	
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    public String getProfile() {
+        return "profile";
+    }
 
 	/**
 	 * User can update their personal information. Admin can change another
@@ -145,6 +150,21 @@ public class UserController {
 			return false;
 		}
 		// TODO: what do if deletion fails??
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+	public String uploadAvatar(HttpServletRequest request){
+		User loggedUser = (User)request.getSession().getAttribute("user");  
+		
+		//redirect to login if null
+		if(request.getMethod().equals("GET"))
+			return "profile.jsp";
+		
+		loggedUser.setAvatar(request.getParameter("avatar"));
+//		svc.updateUser(loggedUser, "", "", "", false, "", "", request.getParameter("avatar"), "");
+		request.getSession().setAttribute("avatar", new String(loggedUser.getAvatar()));
+		return "profile.jsp"; 
 	}
 
 }

@@ -2,40 +2,38 @@
 
 <!--  Update User Profile  -->
 <div>
-    <%-- how do we get the info of the clicked user into the form? --%>
-    <%-- how do if check ????? --%>
-    <% if((user.getEmail()).equals(email)){ %>
     <form name="update" action="updateProfile" method="post">
-    <%-- Eventually replace placeholder with current info --%>
-        <input name="firstName" type="text" placeholder="First name">
-        <input name="lastName" type="text" placeholder="Last name">
-        <input name="password" type="password" placeholder="Password">
-        <input name="passwordCheck" type="password" placeholder="Confirm password">
-        
+        <input name="firstName" type="text" placeholder="${user.getFirstName()}">
+        <input name="lastName" type="text" placeholder="${user.getLastName()}">
+        <input name="password" type="password" placeholder="New password">
+        <input name="passwordCheck" type="password" placeholder="Confirm new password">
+
         <!-- Avatar and Update Avatar -->
-        <div>
-            <input type="submit" value="Upload image">
-        </div>
-        
+        <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar">
+            <div class="form-group">
+                <label for="receipt_input" class="control-label">Avatar</label>
+                <input name="receipt" id="receipt_input" type="file" class="file" accept="image/*" data-show-upload="false" data-allowed-file-extensions='["jpg", "png"]' required>
+            </div>
+            <input id="avatar" name="avatar" hidden=hidden />
+            <div class="form-group">	
+                <button type="submit">Submit Avatar</button>
+            </div>
+            <c:if test="${ avatar != null }">   <!-- for showing all past images, iirc -->
+                <div class="form-group">
+                    <label class="control-label">Blob from DB</label>
+                    <input name="avatar_input" id="avatar_input" type="file" class="file" data-show-upload="false">
+                    <input id="imageAvatar" value="${avatar}" hidden="hidden"/>
+                </div>
+            </c:if>
+        </form>
+
         <!-- Maturity Filter -->
         <div>
-        	<input name="isBaby" type="checkbox">
+            <input name="isBaby" type="checkbox"> Turn on maturity filter 
         </div>
-    <% } %>    
-        
-        <!-- User Status (only visible to Admin) -->
-        <% if((user.getStatus.getName()).equals("admin")){ %>   
-        <div>
-            <input name="status" type="submit" value="normal">
-            <input name="status" type="submit" value="shadow ban">
-            <input name="status" type="submit" value="permanent ban">
-            <input name="status" type="submit" value="admin">
-            <input name="status" type="submit" value="Chicken">
-        </div>
-        <% } %>
-        
+
         <input type="submit" value="Update Profile">
-    </form> 
+    </form>
 </div>
     
 <script src="static/js/profile.js"></script>
