@@ -1,3 +1,5 @@
+var app = angular.module('mainApp', []);
+
 function getUser(userId, callback) {
     $.ajax({
         url: "users/" + userId,

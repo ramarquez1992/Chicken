@@ -1,3 +1,15 @@
+app.controller('SpotlightController', function ($scope) {
+
+    setInterval(function() {
+        getCurrentRound(function(res) {
+            $scope.currentRound = res;
+            $scope.$apply();
+        });
+
+    }, 500);
+
+});
+
 $(document).ready(function () {
     addSelfToQueue(function(res) {
         //

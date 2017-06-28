@@ -58,24 +58,6 @@ ${user.getEmail()}
 <script src="static/js/webrtcKeys.js"></script>
 <script src="static/js/home.js"></script>
 
-<script>
-    var app = angular.module('mainApp', [])
-        .controller('SpotlightController', function ($scope) {
-
-            setInterval(function() {
-                getCurrentRound(function(res) {
-                    $scope.currentRound = res;
-                    $scope.$apply();
-                });
-
-//                getSpotlightQueue(function(res) {
-//                    $scope.queue = res;
-//                    $scope.$apply();
-//                });
-            }, 500);
-
-        });
-</script>
 
 
 <%@ include file="footer.jspf" %>
