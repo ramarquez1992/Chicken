@@ -42,7 +42,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public User updateUser(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+	public String updateUser(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
 			@RequestParam("email") String email, @RequestParam("password") String password,
 			@RequestParam("passwordCheck") String passwordCheck, @RequestParam("isBaby") boolean isBaby,
 			@RequestParam("avatar") String avatar, @RequestParam("status") String status, HttpServletRequest request) {
@@ -51,7 +51,8 @@ public class UserController {
 
 		boolean result = svc.updateUser(u, firstName, lastName, email, isBaby, password, passwordCheck, avatar, status);
 
-		return (result ? u : null);
+//		return (result ? u : null);
+		return "profile"; 
 	}
 
 	/**
@@ -159,12 +160,11 @@ public class UserController {
 		
 		//redirect to login if null
 		if(request.getMethod().equals("GET"))
-			return "profile.jsp";
+			return "profile";
 		
 		loggedUser.setAvatar(request.getParameter("avatar"));
 //		svc.updateUser(loggedUser, "", "", "", false, "", "", request.getParameter("avatar"), "");
 		request.getSession().setAttribute("avatar", new String(loggedUser.getAvatar()));
-		return "profile.jsp"; 
+		return "profile"; 
 	}
-
 }
