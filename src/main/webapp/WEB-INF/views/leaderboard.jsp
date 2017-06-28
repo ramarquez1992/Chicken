@@ -39,15 +39,17 @@
 </div>
 
 <div>
-<h3 id="mostGames">Most Games </h3>
+<h1 id="mostGames">Most Games </h1>
+<h3 id="gamesPlayed">Games Played </h3>
 </div>
 
 <div>
-<h3 id="mostWins">Most Wins </h3>
+<h1 id="mostWins">Most Wins </h1>
+<h3 id="gamesWon">Games Won </h3>
 </div>
 
 <div>
-<h3 id ="mostTime">Most Time </h3>
+<h1 id ="mostTime">Most Time </h1>
 </div>
 
 

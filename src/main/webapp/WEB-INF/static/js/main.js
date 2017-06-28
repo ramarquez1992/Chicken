@@ -28,6 +28,16 @@ function getMostGames(callback) {
 	});
 }
 
+function gamesPlayed(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesPlayed/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
 function getMostGamesWon(callback) {
 	$.ajax({
 		url: "leaderboard/mostGamesWon",
@@ -37,6 +47,17 @@ function getMostGamesWon(callback) {
 		}
 	});
 }
+
+function gamesWon(callback) {
+	$.ajax({
+		url: "leaderboard/gamesWon/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
 
 function getMostSpotlightTime(callback) {
 	$.ajax({

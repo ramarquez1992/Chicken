@@ -122,45 +122,45 @@ public class LeaderboardService {
 	
 	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
 	//returns id of user with most games played
-	public int mostGames() {
+	public User mostGames() {
 		List<User> users = new ArrayList<User>();
 		int mostGames = 0;
-		int mostGamesUser = 0;
+		User mostGamesUser = null;
 		users = dao.getAllUsers();
 		for(User u : users) {
 			if(gamesPlayed(u.getId()) > mostGames) {
 				mostGames = gamesPlayed(u.getId());
-				mostGamesUser = u.getId();
+				mostGamesUser = u;
 			}
 		}
 		//System.out.println("most games played id " + mostGamesUser);
 		return mostGamesUser;
 	}
 	
-	public int mostWins() {
+	public User mostWins() {
 		List<User> users = new ArrayList<User>();
 		int mostWins = 0;
-		int mostWinsUser = 0;
+		User mostWinsUser = null;
 		users = dao.getAllUsers();
 		for(User u : users) {
 			if(gamesWon(u.getId()) > mostWins) {
 				mostWins = gamesWon(u.getId());
-				mostWinsUser = u.getId();
+				mostWinsUser = u;
 			}
 		}
 		//System.out.println("Most wins id " + mostWinsUser);
 		return mostWinsUser;
 	}
 	
-	public int mostSpotlightTime() {
+	public User mostSpotlightTime() {
 		List<User> users = new ArrayList<User>();
 		long mostTime = 0;
-		int mostTimeUser = 0;
+		User mostTimeUser = null;
 		users = dao.getAllUsers();
 		for(User u : users) {
 			if(slt(u.getId()) > mostTime) {
 				mostTime = slt(u.getId());
-				mostTimeUser = u.getId();
+				mostTimeUser = u;
 			}
 		}
 		System.out.println("Most time id " + mostTimeUser);

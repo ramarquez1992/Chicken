@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import chat.chickentalk.model.User;
 import chat.chickentalk.service.LeaderboardService;
 import chat.chickentalk.service.SpotlightService;
 
@@ -52,17 +54,17 @@ public class LeaderboardController {
 	}
 	
 	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesPlayed", method = RequestMethod.GET)
-    public int getMostGamesPlayed() {
+    public User getMostGamesPlayed() {
 		return svc.mostGames();
     }
 	
 	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesWon", method = RequestMethod.GET)
-    public int getMostGamesWon() {
+    public User getMostGamesWon() {
 		return svc.mostWins();
     }
 	
 	@ResponseBody @RequestMapping(value = "/spotlight/mostSpotlightTime", method = RequestMethod.GET)
-    public int getMostSpotlightTime() {
+    public User getMostSpotlightTime() {
 		return svc.mostSpotlightTime();
     }
 	
