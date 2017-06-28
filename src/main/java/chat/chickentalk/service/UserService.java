@@ -47,10 +47,7 @@ public class UserService {
 		user.setBaby(true);
 		user.setStatus(us);
 
-		if (dao.createUser(user))
-			return true;
-		else
-			return false;
+		return dao.createUser(user); 
 	}
 
 	/**
@@ -78,14 +75,14 @@ public class UserService {
 	 *         false otherwise
 	 */
 	public boolean updateUser(User user, String firstname, String lastname, String email, boolean isBaby,
-			String password, String passwordCheck, String Avatar, String status) {
+			String password, String passwordCheck, String avatar, String status) {
 		List<User> users = dao.getAllUsers();
 		for (User u : users) {
 			if (email.equals(u.getEmail())) // check that email not already
 											// registered in db
 				return false;
 		}
-		if (!password.equals(passwordCheck) & password != null & passwordCheck != null)
+		if (!password.equals(passwordCheck) || password.equals("") || passwordCheck.equals(""))
 			return false;
 		// pw check will exist unless front end checks for matching passwords
 		// may need to tweak password check further later
@@ -103,15 +100,12 @@ public class UserService {
 			user.setPassword(password);
 		if(!status.equals(""))
 			user.setStatus(new UserStatus(status)); // potential problem?
-		if(!Avatar.equals(""))
-			user.setAvatar(Avatar);
+		if(!avatar.equals(""))
+			user.setAvatar(avatar);
 
 		user.setBaby(isBaby);
 
-		if (dao.updateUser(user))
-			return true;
-		else
-			return false;
+		return dao.updateUser(user);
 	}
 
 	/**
@@ -122,10 +116,7 @@ public class UserService {
 	 * @return true if dao successfully deletes the User, false otherwise
 	 */
 	public boolean deleteUser(User user) {
-		if (dao.deleteUser(user))
-			return true;
-		else
-			return false;
+		return dao.deleteUser(user); 
 	}
 
 	/**

@@ -13,7 +13,7 @@ public class SpotlightService {
     private Deque<User> queue = new ArrayDeque<>();
 
     public List<String> getSpotlightQueue() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         result.add("richie");
         result.add("cody");
