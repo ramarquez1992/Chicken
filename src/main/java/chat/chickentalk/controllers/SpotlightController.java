@@ -51,7 +51,7 @@ public class SpotlightController {
         User chick1 = svc.getChick1();
         User currUser = (User) request.getSession().getAttribute("user");
 
-        if (chick1.getd() == currUser.getId()) chick1 = null;
+        if (chick1.getId() == currUser.getId()) chick1 = null;
 
         return chick1;
     }
