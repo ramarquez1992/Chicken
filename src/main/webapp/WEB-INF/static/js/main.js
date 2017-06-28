@@ -84,6 +84,36 @@ function getSpotlightQueue(callback) {
     });
 }
 
+function voteChick1(callback) {
+    $.ajax({
+        url: "spotlight/voteChick1",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function voteChick2(callback) {
+    $.ajax({
+        url: "spotlight/voteChick2",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function getCurrentRound(callback) {
+    $.ajax({
+        url: "spotlight/getCurrentRound",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';

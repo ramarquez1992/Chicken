@@ -28,8 +28,8 @@ public class SpotlightService {
 
     private User chick1;
     private User chick2;
-    private int chick1Votes;
-    private int chick2Votes;
+    private int chick1Votes = 0;
+    private int chick2Votes = 0;
 
     public static void main(String[] args) {
 //        int min = 1;
@@ -75,6 +75,14 @@ public class SpotlightService {
         this.chick2 = chick2;
     }
 
+    public int getChick1Votes() {
+        return chick1Votes;
+    }
+
+    public int getChick2Votes() {
+        return chick2Votes;
+    }
+
     public Round stopRound() {
         // set chick1 to winner
         // TODO: check for ties
@@ -103,6 +111,8 @@ public class SpotlightService {
 
         chick1 = null;
         chick2 = null;
+        chick1Votes = 0;
+        chick2Votes = 0;
 
         return r;
 
@@ -122,10 +132,11 @@ public class SpotlightService {
 
     // TODO: check if not banned
     public boolean addUserToQueue(User u) {
+        // TODO: need to check userids not instances
         if (!queue.contains(u) && (
                 chick1 == null || chick2 == null ||
-                (chick1.getId() != u.getId() && chick2.getId() != u.getId())
-                )) {
+                        (chick1.getId() != u.getId() && chick2.getId() != u.getId())
+        )) {
             queue.add(u);
             return true;
         } else {
@@ -148,4 +159,11 @@ public class SpotlightService {
         return result;
     }
 
+    public int voteChick1() {
+        return ++chick1Votes;
+    }
+
+    public int voteChick2() {
+        return ++chick2Votes;
+    }
 }

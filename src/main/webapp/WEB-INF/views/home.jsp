@@ -6,17 +6,19 @@ ${user.getEmail()}
 
     <div id="spotlight" class="row">
         <div id="chick1StreamContainer" class="col-xs-4">
-            <h3 class="chickName">chick1</h3>
+            <h3 class="chickName">{{currentRound.chick1.email}}</h3>
+            <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
         </div>
 
         <div id="chick2StreamContainer" class="col-xs-4">
-            <h3 class="chickName">chick2</h3>
+            <h3 class="chickName">{{currentRound.chick2.email}}</h3>
+            <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
         </div>
 
         <div id="queueContainer" class="col-xs-4">
             <h3>Queue</h3>
             <table class="table table-hover">
-                <tr ng-repeat="user in queue">
+                <tr ng-repeat="user in currentRound.queue">
                     <td>{{user.email}}</td>
                 </tr>
             </table>
@@ -61,10 +63,15 @@ ${user.getEmail()}
         .controller('SpotlightController', function ($scope) {
 
             setInterval(function() {
-                getSpotlightQueue(function(res) {
-                    $scope.queue = res;
+                getCurrentRound(function(res) {
+                    $scope.currentRound = res;
                     $scope.$apply();
                 });
+
+//                getSpotlightQueue(function(res) {
+//                    $scope.queue = res;
+//                    $scope.$apply();
+//                });
             }, 500);
 
         });

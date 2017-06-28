@@ -1,20 +1,29 @@
 $(document).ready(function () {
     addSelfToQueue(function(res) {
-        console.log(res);
-        getSpotlightQueue(function(res) {
-            console.log(res);
-        });
+        //
     });
 
     $('#startNextRound').click(function() {
         startNextRound(function(res) {
-            console.log(res);
+            //
         });
     });
 
     $('#stopRound').click(function() {
         stopRound(function(res) {
-            console.log(res);
+            //
+        });
+    });
+
+    $('#voteChick1').click(function() {
+        voteChick1(function(res) {
+            //
+        });
+    });
+
+    $('#voteChick2').click(function() {
+        voteChick2(function(res) {
+            //
         });
     });
 
