@@ -1,6 +1,7 @@
 package chat.chickentalk.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chat.chickentalk.dao.Dao;
@@ -79,6 +80,12 @@ public class LeaderboardService {
 		return gamesWon;
 	}
 	
+	public int gamesLost(int id) {
+		int gamesLost = (gamesPlayed(id) - gamesWon(id)); 
+	//	System.out.println("games Lost " + gamesLost);
+		return gamesLost;
+	}
+	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!
 	public String spotlightTime(int id) {
 		List<Round> rounds = new ArrayList<Round>();
@@ -100,7 +107,7 @@ public class LeaderboardService {
 			totalHours += hours;
 			}
 		}
-		System.out.println(totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds)); 
+	//	System.out.println(totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds)); 
 		return totalTime;
 	}
 	
@@ -114,25 +121,33 @@ public class LeaderboardService {
 				milliseconds += (r.getEndDate().getTime()) - (r.getStartDate().getTime());
 			}
 		}
-		System.out.println("time " + milliseconds);
+	//	System.out.println("time " + milliseconds);
 		return milliseconds;
 	}
 	
 	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
 	//returns id of user with most games played
-	public User mostGames() {
+	public List<User> mostGames(int num) {
 		List<User> users = new ArrayList<User>();
-		int mostGames = 0;
-		User mostGamesUser = null;
+//		int mostGames = 0;
+//		User mostGamesUser = null;
 		users = dao.getAllUsers();
-		for(User u : users) {
-			if(gamesPlayed(u.getId()) > mostGames) {
-				mostGames = gamesPlayed(u.getId());
-				mostGamesUser = u;
+//		for(User u : users) {
+//			if(gamesPlayed(u.getId()) > mostGames) {
+//				mostGames = gamesPlayed(u.getId());
+//				mostGamesUser = u;
+//			}
+//		}
+//		//System.out.println("most games played id " + mostGamesUser);
+//		return mostGamesUser;
+		Collections.sort(users, (i1, i2) -> gamesPlayed(i1.getId() - gamesPlayed(i2.getId())));
+		List<User> mostGamesUsers = new ArrayList<User>(users.subList(0, num));
+		System.out.println("Finall list " + mostGamesUsers);
+			for(User u : mostGamesUsers) {
+				System.out.println("user id " + u.getId());
+				System.out.println("games played " + gamesPlayed(u.getId()));
 			}
-		}
-		//System.out.println("most games played id " + mostGamesUser);
-		return mostGamesUser;
+		return mostGamesUsers;
 	}
 	
 	public User mostWins() {
@@ -161,7 +176,22 @@ public class LeaderboardService {
 				mostTimeUser = u;
 			}
 		}
-		System.out.println("Most time id " + mostTimeUser);
+	//	System.out.println("Most time id " + mostTimeUser);
 		return mostTimeUser;
+	}
+	
+	public User mostVotes() {
+		List<User> users = new ArrayList<User>();
+		long mostVotes = 0;
+		User mostVotesUser = null;
+		users = dao.getAllUsers();
+		for(User u : users) {
+			if(totalVotes(u.getId()) > mostVotes) {
+				mostVotes = totalVotes(u.getId());
+				mostVotesUser = u;
+			}
+		}
+	//	System.out.println("most votes user id " + mostVotesUser);
+		return mostVotesUser;
 	}
 }

@@ -1,5 +1,7 @@
 package chat.chickentalk.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,14 +47,19 @@ public class LeaderboardController {
 		return svc.gamesWon(userId);
 	}
 	
+	@ResponseBody @RequestMapping(value = "/leaderboard/gamesLost/{userId}", method = RequestMethod.GET)
+	public int getGamesLost(@PathVariable int userId) {
+		return svc.gamesLost(userId);
+	}
+	
 	@ResponseBody @RequestMapping(value = "/leaderboard/spotlightTime/{userId}", method = RequestMethod.GET)
 	public String getSpotlightTime(@PathVariable int userId) {
 		return svc.spotlightTime(userId);
 	}
 	
-	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesPlayed", method = RequestMethod.GET)
-    public User getMostGamesPlayed() {
-		return svc.mostGames();
+	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesPlayed/{num}", method = RequestMethod.GET)
+    public List<User> getMostGamesPlayed(@PathVariable int num) {
+		return svc.mostGames(num);
     }
 	
 	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesWon", method = RequestMethod.GET)
@@ -63,6 +70,11 @@ public class LeaderboardController {
 	@ResponseBody @RequestMapping(value = "/spotlight/mostSpotlightTime", method = RequestMethod.GET)
     public User getMostSpotlightTime() {
 		return svc.mostSpotlightTime();
+    }
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/mostVotes", method = RequestMethod.GET)
+    public User getMostVotes() {
+		return svc.mostVotes();
     }
 	
 	

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Controller
 public class LandingController {
@@ -129,26 +130,6 @@ public class LandingController {
         dao.createRound(r3);
         dao.createRound(r4);
 
-
-
-        List<Round> rounds = dao.getAllRounds();
-        List<User> users = dao.getAllUsers();
-
-
-        User temp = users.get(0);
-        Round round = rounds.get(0);
-
-
-        System.out.println(temp.toString());
-        System.out.println(round.toString());
-        System.out.println(us.getName());
-
-        temp = dao.getUserByEmail("z@rn.com");
-        dao.changeUserStatus(temp.getEmail(), 3);
-        temp = dao.getUserByEmail(temp.getEmail());
-
-        System.out.println(temp.getStatus().getName());
-        System.out.println(temp.getEmail());
 
         return "home";
     }

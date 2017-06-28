@@ -18,24 +18,14 @@ function getSpotlightQueue(callback) {
     });
 }
 
-function getMostGames(callback) {
+function getMostGames(num, callback) {
 	$.ajax({
-		url: "leaderboard/mostGamesPlayed",
+		url: "leaderboard/mostGamesPlayed/" + num,
 		method: "GET",
 		success: function (res, status, xhr) {
 			callback(res);
 		}
 	});
-}
-
-function gamesPlayed(userId, callback) {
-	$.ajax({
-		url: "leaderboard/gamesPlayed/" + userId,
-		method: "GET",
-		success: function (res, status, xhr) {
-			callback(res);
-		}
-	})
 }
 
 function getMostGamesWon(callback) {
@@ -48,7 +38,18 @@ function getMostGamesWon(callback) {
 	});
 }
 
-function gamesWon(callback) {
+
+function gamesPlayed(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesPlayed/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function gamesWon(userId, callback) {
 	$.ajax({
 		url: "leaderboard/gamesWon/" + userId,
 		method: "GET",
@@ -58,6 +59,25 @@ function gamesWon(callback) {
 	})
 }
 
+function gamesLost(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesLost/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function spotlightTime(userId, callback) {
+	$.ajax({
+		url: "leaderboard/spotlightTime/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
 
 function getMostSpotlightTime(callback) {
 	$.ajax({
@@ -66,8 +86,30 @@ function getMostSpotlightTime(callback) {
 		success: function (res, status, xhr) {
 			callback(res);
 		}
-	});
+	})
 }
+
+function getMostVotes(callback) {
+	$.ajax({
+		url: "leaderboard/mostVotes",
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function totalVotes(userId, callback) {
+	$.ajax({
+		url: "leaderboard/totalVotes/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
