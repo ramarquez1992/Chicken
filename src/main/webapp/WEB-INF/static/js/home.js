@@ -1,17 +1,38 @@
 $(document).ready(function () {
     getUser(1, function(res) {console.log(res)});
 
+    addSelfToQueue(function(res) {
+        console.log(res);
+        getSpotlightQueue(function(res) {
+            console.log(res);
+        });
+    });
+
+    $('#startNextRound').click(function() {
+        startNextRound(function(res) {
+            console.log(res);
+        });
+    });
+
+    $('#stopRound').click(function() {
+        stopRound(function(res) {
+            console.log(res);
+        });
+    });
+
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
 
     $('#chick1StreamBtn').click(function () {
         stream('chick1', function (ctrl) {
+            $('#chick1StreamContainer video').remove();
             ctrl.addLocalStream(chick1StreamContainer);
         });
     });
 
     $('#chick2StreamBtn').click(function () {
         stream('chick2', function (ctrl) {
+            $('#chick2StreamContainer video').remove();
             ctrl.addLocalStream(chick2StreamContainer);
         });
     });
@@ -61,10 +82,12 @@ function end(){
 
 function attachSpotlight() {
     getStream("chick1", function (video) {
+        $('#chick1StreamContainer video').remove();
         chick1StreamContainer.appendChild(video);
     });
 
     getStream("chick2", function (video) {
+        $('#chick2StreamContainer video').remove();
         chick2StreamContainer.appendChild(video);
     });
 }

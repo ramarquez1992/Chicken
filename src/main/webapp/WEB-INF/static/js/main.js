@@ -8,6 +8,36 @@ function getUser(userId, callback) {
     });
 }
 
+function startNextRound(callback) {
+    $.ajax({
+        url: "spotlight/startNextRound",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function stopRound(callback) {
+    $.ajax({
+        url: "spotlight/stopRound",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function addSelfToQueue(callback) {
+    $.ajax({
+        url: "spotlight/addSelfToQueue",
+        method: "POST",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function getSpotlightQueue(callback) {
     $.ajax({
         url: "spotlight/getQueue",
