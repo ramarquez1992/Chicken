@@ -3,11 +3,7 @@ sudo: false
 install: true
 
 notifications:
-  slack:
-    rooms:
-      - 1705may15java:$SLACK_TOKEN#chicken
-    on_success: always
-    on_failure: always
+  slack: 1705may15java:$SLACK_TOKEN
 
 addons:
   sonarqube:
