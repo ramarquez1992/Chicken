@@ -9,8 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +99,6 @@ public class DaoImpl implements Dao {
         try{
             User temp = getUserByEmail(email);
             UserStatus us = StatusList.get(num);
-            System.out.println(us.toString());
             temp.setStatus(us);
             updateUser(temp);
 
@@ -109,7 +106,6 @@ public class DaoImpl implements Dao {
         }
         catch(Exception e){
             e.printStackTrace();
-            System.out.println("Whoops");
             return false;
         }
     }
@@ -121,11 +117,18 @@ public class DaoImpl implements Dao {
      * @since 2017-06-22
      **/
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public boolean createUser(User p) {
+    public boolean createUser(User u) {
         Session session = sessionFactory.getCurrentSession();
-
+        
+        if(u.getStatus() == null) {
+        	if(StatusList == null){
+                StatusList = getStatus();
+            }
+        	u.setStatus(StatusList.get(0));
+        }
+        
         try {
-            session.save(p);
+            session.save(u);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

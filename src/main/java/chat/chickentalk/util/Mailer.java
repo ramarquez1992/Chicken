@@ -1,8 +1,6 @@
 package chat.chickentalk.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
@@ -13,13 +11,21 @@ import java.util.Properties;
 @Component
 public class Mailer {
 
-    @Value("#{ systemProperties['CHICKEN_EMAIL_ADDRESS'] }")
-    private static String username;
+    @Value("#{ systemEnvironment['CHICKEN_EMAIL_ADDRESS'] }")
+    private String username;
 
-    @Value("#{ systemProperties['CHICKEN_EMAIL_PASSWORD'] }")
-    private static String password;
+    @Value("#{ systemEnvironment['CHICKEN_EMAIL_PASSWORD'] }")
+    private String password;
 
-    public static boolean sendMail(String recipientEmail, String subject, String body) {
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean sendMail(String recipientEmail, String subject, String body) {
         boolean result = false;
 
         Properties props = new Properties();

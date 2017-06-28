@@ -2,6 +2,7 @@ package chat.chickentalk.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,9 +22,6 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "CHATUSERS")
 public class User implements Serializable{
-    /**
-     *
-     */
     private static final long serialVersionUID = 2L;
 
     @Id
@@ -45,10 +43,10 @@ public class User implements Serializable{
     String lastname;
 
     @Column(name = "avatar")
-    String Avatar; // user profile image blob.
+    String Avatar = ""; // user profile image blob.
 
     @Column(name = "filter", nullable = false)
-    int isBaby; // Mature language filter setting.
+    int isBaby = 1; // Mature language filter setting. Default 1 for true.
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="status", nullable = false)
@@ -56,12 +54,10 @@ public class User implements Serializable{
 
 
     @Column(name = "votes")
-    int votesCast; // total number of votes cast from the beginning of time
+    int votesCast = 0; // total number of votes cast from the beginning of time
 
     @Column(name = "lastloggedin")
-    Date lastLoggedIn; // last date time that the user logged in.
-
-//    Dao dao = DaoImpl.getInstance();
+    Date lastLoggedIn = new Date(Calendar.getInstance().getTimeInMillis());; // last date time that the user logged in.
 
     public User() {
     }
@@ -128,6 +124,10 @@ public class User implements Serializable{
     public boolean isBaby() {
         if (this.isBaby == 1) return true;
         return false;
+    }
+    
+    public int isIntBaby(){
+    	return isBaby;
     }
 
     public void setBaby(boolean isBaby) {

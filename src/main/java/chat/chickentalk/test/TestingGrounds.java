@@ -1,45 +1,36 @@
-package chat.chickentalk.controllers;
+package chat.chickentalk.test;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.sql.Timestamp;
-
-@Controller
-public class LandingController {
-    @Autowired
-    Dao dao;
-
-    @RequestMapping(value = { "", "/", "landing" }, method = RequestMethod.GET)
-    public String getLanding() {
-        return "landing";
-    }
-
-    @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String getHome() {
-        return "home";
-    }
-
-
-
-
-    @RequestMapping(value = "createDatabase", method = RequestMethod.GET)
-    public String createDatabase() {
-    	UserStatus us = new UserStatus(0,"normal");
+public class TestingGrounds {
+	AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
+	Dao dao = appContext.getBean("dao", Dao.class);
+	
+	public static void main(String[] args) {
+		TestingGrounds tg = new TestingGrounds();
+		//tg.createDatabase();
+		tg.createDB();
+	}
+  
+	public void createDB(){
+		UserStatus us = new UserStatus(0,"normal");
         UserStatus us2 = new UserStatus(1,"shadow ban");
         UserStatus us3 = new UserStatus(2,"permanent ban");
         UserStatus us4 = new UserStatus(3,"admin");
         UserStatus us5 = new UserStatus(4,"Chicken");
-
+        
         /*
          * Dummy user for the database. Required! This user is given a loss when ties occur for example.
-         *
+         * 
          * DM 6-27-17
          */
         User dummy = new User();
@@ -49,7 +40,7 @@ public class LandingController {
         dummy.setLastName("Dummy");
         dummy.setBaby(true);
         dummy.setStatus(us);
-
+        
         User u = new User();
         u.setEmail("zoro@rn.com");
         u.setPassword("password");
@@ -65,15 +56,12 @@ public class LandingController {
         u2.setLastName("Chicken");
         u2.setBaby(false);
         u2.setStatus(us5);
-
+        
         User u3 = new User();
-        u3.setEmail("three@email.com");
+        u3.setEmail("gladiator@glad.arena");
         u3.setPassword("password");
-        u3.setFirstName("Dan");
-        u3.setLastName("Demo");
-        u3.setBaby(true);
-        u3.setStatus(us);
-
+        u3.setFirstName("Maximus");
+        u3.setLastName("Meridius");
 
         Round r = new Round();
         r.setLoserId(3);
@@ -104,15 +92,15 @@ public class LandingController {
         r3.setEndDate(time);						// 2.5 minutes difference
         time = new Timestamp(System.currentTimeMillis() - 150000);
         r3.setStartDate(time);
-
+        
         Round r4 = new Round();
-        r4.setLoserId(1);
+        r4.setLoserId(4);
         r4.setWinnerId(3);
-        r4.setWinnerVotes(8);
-        r4.setLoserVotes(5);
+        r4.setWinnerVotes(19);
+        r4.setLoserVotes(9);
         time = new Timestamp(System.currentTimeMillis());
-        r4.setEndDate(time);
-        time.setTime(time.getTime()-15000);
+        r4.setEndDate(time);						// 1.3 min difference
+        time = new Timestamp(System.currentTimeMillis() - 78000);
         r4.setStartDate(time);
 
         dao.createUserStatus(us);
@@ -129,27 +117,20 @@ public class LandingController {
         dao.createRound(r3);
         dao.createRound(r4);
 
+        // Printing out all of the test objects to the console.
+        System.out.println("\n\n\nTEST DATA: \n\n" + us.toString());
+        System.out.println(us2.toString());
+        System.out.println(us3.toString());
+        System.out.println(us4.toString());
+        System.out.println(us5.toString());
+        System.out.println("\nDO NOT USE: " + dummy.toString() + "\n");
+        System.out.println(u.toString());
+        System.out.println(u2.toString());
+        System.out.println(u3.toString());
+        System.out.println("\n" + r.toString());
+        System.out.println(r2.toString());
+        System.out.println(r3.toString());
+        System.out.println(r4.toString());
 
-
-        List<Round> rounds = dao.getAllRounds();
-        List<User> users = dao.getAllUsers();
-
-
-        User temp = users.get(0);
-        Round round = rounds.get(0);
-
-
-        System.out.println(temp.toString());
-        System.out.println(round.toString());
-        System.out.println(us.getName());
-
-        temp = dao.getUserByEmail("z@rn.com");
-        dao.changeUserStatus(temp.getEmail(), 3);
-        temp = dao.getUserByEmail(temp.getEmail());
-
-        System.out.println(temp.getStatus().getName());
-        System.out.println(temp.getEmail());
-
-        return "home";
-    }
+	}
 }
