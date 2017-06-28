@@ -2,14 +2,24 @@
 
 ${user.getEmail()}
 
-<div class="container-fluid">
+<div ng-controller="SpotlightController" class="container-fluid">
 
     <div id="spotlight" class="row">
-        <div id="chick1StreamContainer" class="col-xs-3 col-xs-offset-3">
+        <div id="chick1StreamContainer" class="col-xs-4">
             <h3 class="chickName">chick1</h3>
         </div>
-        <div id="chick2StreamContainer" class="col-xs-3">
+
+        <div id="chick2StreamContainer" class="col-xs-4">
             <h3 class="chickName">chick2</h3>
+        </div>
+
+        <div id="queueContainer" class="col-xs-4">
+            <h3>Queue</h3>
+            <table class="table table-hover">
+                <tr ng-repeat="user in queue">
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -45,6 +55,20 @@ ${user.getEmail()}
 <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
 <script src="static/js/webrtcKeys.js"></script>
 <script src="static/js/home.js"></script>
+
+<script>
+    var app = angular.module('mainApp', [])
+        .controller('SpotlightController', function ($scope) {
+
+            setInterval(function() {
+                getSpotlightQueue(function(res) {
+                    $scope.queue = res;
+                    $scope.$apply();
+                });
+            }, 500);
+
+        });
+</script>
 
 
 <%@ include file="footer.jspf" %>

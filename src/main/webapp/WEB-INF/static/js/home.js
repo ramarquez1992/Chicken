@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    getUser(1, function(res) {console.log(res)});
-
     addSelfToQueue(function(res) {
         console.log(res);
         getSpotlightQueue(function(res) {
@@ -20,18 +18,24 @@ $(document).ready(function () {
         });
     });
 
+    getSelf(function(res) {
+        currUser = res;
+    });
+
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
 
     $('#chick1StreamBtn').click(function () {
-        stream('chick1', function (ctrl) {
+        // stream('chick1', function (ctrl) {
+        stream(currUser.email, function (ctrl) {
             $('#chick1StreamContainer video').remove();
             ctrl.addLocalStream(chick1StreamContainer);
         });
     });
 
     $('#chick2StreamBtn').click(function () {
-        stream('chick2', function (ctrl) {
+        // stream('chick2', function (ctrl) {
+        stream(currUser.email, function (ctrl) {
             $('#chick2StreamContainer video').remove();
             ctrl.addLocalStream(chick2StreamContainer);
         });
@@ -80,14 +84,28 @@ function end(){
     window.ctrl.hangup();
 }
 
-function attachSpotlight() {
-    getStream("chick1", function (video) {
-        $('#chick1StreamContainer video').remove();
-        chick1StreamContainer.appendChild(video);
-    });
+function refreshChicks(callback) {
+    getChick1(function(res) {
+        chick1 = res;
 
-    getStream("chick2", function (video) {
-        $('#chick2StreamContainer video').remove();
-        chick2StreamContainer.appendChild(video);
+        getChick2(function(res2) {
+            chick2 = res2;
+            callback();
+        });
+    });
+}
+
+function attachSpotlight() {
+    refreshChicks(function() {
+
+        getStream(chick1.email, function (video) {
+            $('#chick1StreamContainer video').remove();
+            chick1StreamContainer.appendChild(video);
+        });
+
+        getStream(chick2.email, function (video) {
+            $('#chick2StreamContainer video').remove();
+            chick2StreamContainer.appendChild(video);
+        });
     });
 }

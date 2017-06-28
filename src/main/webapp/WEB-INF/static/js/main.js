@@ -8,6 +8,42 @@ function getUser(userId, callback) {
     });
 }
 
+function getChick1(callback) {
+    $.ajax({
+        url: "spotlight/getChick1",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        },
+        error: function (res, status, xhr) {
+            callback(null);
+        }
+    });
+}
+
+function getChick2(callback) {
+    $.ajax({
+        url: "spotlight/getChick2",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        },
+        error: function (res, status, xhr) {
+            callback(null);
+        }
+    });
+}
+
+function getSelf(callback) {
+    $.ajax({
+        url: "users/getSelf",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function startNextRound(callback) {
     $.ajax({
         url: "spotlight/startNextRound",
