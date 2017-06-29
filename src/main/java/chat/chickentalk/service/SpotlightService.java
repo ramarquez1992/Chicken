@@ -1,18 +1,14 @@
 package chat.chickentalk.service;
 
 import chat.chickentalk.dao.Dao;
-import chat.chickentalk.dao.DaoImpl;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -83,7 +79,10 @@ public class SpotlightService {
         return chick2Votes;
     }
 
+
     public Round stopRound() {
+        if (chick1 == null || chick2 == null) return null;
+
         // set chick1 to winner
         // TODO: check for ties
         if (chick2Votes > chick1Votes) {
@@ -115,7 +114,6 @@ public class SpotlightService {
         chick2Votes = 0;
 
         return r;
-
     }
 
     public void startNextRound() {

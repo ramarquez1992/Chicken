@@ -5,6 +5,10 @@ import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.SpotlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,8 +17,8 @@ import sun.util.resources.cldr.ebu.CurrencyNames_ebu;
 
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class SpotlightController {
@@ -104,6 +108,48 @@ public class SpotlightController {
         );
 
         return cr;
+    }
+
+//    @MessageMapping("/topic/messages")
+//    @SendTo("/topic/messages")
+//    public String send(@DestinationVariable("topic") String topic, String message) throws Exception {
+//        System.out.println("sending " + message + " @ " + topic);
+//        return message;
+//    }
+
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    private int roundLength = 3;
+    private Timer timer;
+
+    public void sendCurrRound(List<User> users) {
+        this.template.convertAndSend("/topic/messages", users);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/start", method = RequestMethod.GET)
+    public boolean start() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                svc.stopRound();
+                svc.startNextRound();
+
+                List<User> users = new ArrayList<>();
+                users.add(svc.getChick1());
+                users.add(svc.getChick2());
+
+                sendCurrRound(users);
+            }
+        };
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(task, new Date(), TimeUnit.MILLISECONDS.convert(roundLength, TimeUnit.SECONDS)); // Starts automatically
+
+
+        return true;
     }
 
 }

@@ -66,6 +66,7 @@ function stopRound(callback) {
     });
 }
 
+
 function addSelfToQueue(callback) {
     $.ajax({
         url: "spotlight/addSelfToQueue",
