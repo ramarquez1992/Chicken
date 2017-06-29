@@ -62,19 +62,19 @@ public class LeaderboardController {
 		return svc.mostGames(num);
     }
 	
-	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesWon", method = RequestMethod.GET)
-    public User getMostGamesWon() {
-		return svc.mostWins();
+	@ResponseBody @RequestMapping(value = "/leaderboard/mostGamesWon/{num}", method = RequestMethod.GET)
+    public List<User> getMostGamesWon(@PathVariable int num) {
+		return svc.mostWins(num);
     }
 	
-	@ResponseBody @RequestMapping(value = "/spotlight/mostSpotlightTime", method = RequestMethod.GET)
-    public User getMostSpotlightTime() {
-		return svc.mostSpotlightTime();
+	@ResponseBody @RequestMapping(value = "/spotlight/mostSpotlightTime/{num}", method = RequestMethod.GET)
+    public List<User> getMostSpotlightTime(@PathVariable int num) {
+		return svc.mostSpotlightTime(num);
     }
 	
-	@ResponseBody @RequestMapping(value = "/leaderboard/mostVotes", method = RequestMethod.GET)
-    public User getMostVotes() {
-		return svc.mostVotes();
+	@ResponseBody @RequestMapping(value = "/leaderboard/mostVotes/{num}", method = RequestMethod.GET)
+    public List<User> getMostVotes(@PathVariable int num) {
+		return svc.mostVotes(num);
     }
 	
 	

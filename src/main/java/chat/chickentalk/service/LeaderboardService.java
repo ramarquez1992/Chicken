@@ -150,48 +150,63 @@ public class LeaderboardService {
 		return mostGamesUsers;
 	}
 	
-	public User mostWins() {
+	public List<User> mostWins(int num) {
 		List<User> users = new ArrayList<User>();
-		int mostWins = 0;
-		User mostWinsUser = null;
+//		int mostWins = 0;
+//		User mostWinsUser = null;
 		users = dao.getAllUsers();
-		for(User u : users) {
-			if(gamesWon(u.getId()) > mostWins) {
-				mostWins = gamesWon(u.getId());
-				mostWinsUser = u;
-			}
-		}
+//		for(User u : users) {
+//			if(gamesWon(u.getId()) > mostWins) {
+//				mostWins = gamesWon(u.getId());
+//				mostWinsUser = u;
+//			}
+//		}
 		//System.out.println("Most wins id " + mostWinsUser);
-		return mostWinsUser;
+//		return mostWinsUser;
+		Collections.sort(users, (i1, i2) -> gamesWon(i1.getId() - gamesWon(i2.getId())));
+		List<User> mostWinsUsers = new ArrayList<User>(users.subList(0, num));
+		System.out.println("Final list " + mostWinsUsers);
+			for(User u : mostWinsUsers) {
+				System.out.println("user id " + u.getId());
+				System.out.println("games won " + gamesWon(u.getId()));
+			}
+		return mostWinsUsers;
 	}
 	
-	public User mostSpotlightTime() {
+	public List<User> mostSpotlightTime(int num) {
 		List<User> users = new ArrayList<User>();
-		long mostTime = 0;
-		User mostTimeUser = null;
 		users = dao.getAllUsers();
-		for(User u : users) {
-			if(slt(u.getId()) > mostTime) {
-				mostTime = slt(u.getId());
-				mostTimeUser = u;
-			}
+		
+		//TODO: figure out wtf is wrong here!!!!!!!
+		Collections.sort(users, (i1, i2) -> slt(i1.getId() - slt(i2.getId())));
+		List<User> mostTimeUsers = new ArrayList<User>(users.subList(0, num));
+		System.out.println("Final list " + mostTimeUsers);
+		for(User u : mostTimeUsers) {
+			System.out.println("user id " + u.getId());
+			System.out.println("spotlight time " + spotlightTime(u.getId()));
 		}
-	//	System.out.println("Most time id " + mostTimeUser);
-		return mostTimeUser;
+		return mostTimeUsers;
 	}
 	
-	public User mostVotes() {
+	public List<User> mostVotes(int num) {
 		List<User> users = new ArrayList<User>();
-		long mostVotes = 0;
-		User mostVotesUser = null;
+//		long mostVotes = 0;
+//		User mostVotesUser = null;
 		users = dao.getAllUsers();
-		for(User u : users) {
-			if(totalVotes(u.getId()) > mostVotes) {
-				mostVotes = totalVotes(u.getId());
-				mostVotesUser = u;
-			}
-		}
+//		for(User u : users) {
+//			if(totalVotes(u.getId()) > mostVotes) {
+//				mostVotes = totalVotes(u.getId());
+//				mostVotesUser = u;
+//			}
+//		}
 	//	System.out.println("most votes user id " + mostVotesUser);
-		return mostVotesUser;
+		Collections.sort(users, (i1, i2) -> totalVotes(i1.getId() - totalVotes(i2.getId())));
+		List<User> mostVotesUsers = new ArrayList<User>(users.subList(0, num));
+		System.out.println("Final list " + mostVotesUsers);
+			for(User u : mostVotesUsers) {
+				System.out.println("user id " + u.getId());
+				System.out.println("games won " + gamesWon(u.getId()));
+			}
+		return mostVotesUsers;
 	}
 }

@@ -28,9 +28,9 @@ function getMostGames(num, callback) {
 	});
 }
 
-function getMostGamesWon(callback) {
+function getMostGamesWon(num, callback) {
 	$.ajax({
-		url: "leaderboard/mostGamesWon",
+		url: "leaderboard/mostGamesWon/" + num,
 		method: "GET",
 		success: function (res, status, xhr) {
 			callback(res);
@@ -79,9 +79,9 @@ function spotlightTime(userId, callback) {
 	})
 }
 
-function getMostSpotlightTime(callback) {
+function getMostSpotlightTime(num, callback) {
 	$.ajax({
-		url: "spotlight/mostSpotlightTime",
+		url: "spotlight/mostSpotlightTime/" + num,
 		method: "GET",
 		success: function (res, status, xhr) {
 			callback(res);
@@ -89,9 +89,9 @@ function getMostSpotlightTime(callback) {
 	})
 }
 
-function getMostVotes(callback) {
+function getMostVotes(num, callback) {
 	$.ajax({
-		url: "leaderboard/mostVotes",
+		url: "leaderboard/mostVotes/" + num,
 		method: "GET",
 		success: function (res, status, xhr) {
 			callback(res);
