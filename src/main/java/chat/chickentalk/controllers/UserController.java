@@ -25,11 +25,11 @@ public class UserController {
 
 		return u;
 	}
-	
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
-    public String getProfile() {
-        return "profile";
-    }
+
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public String getProfile() {
+		return "profile";
+	}
 
 	/**
 	 * User can update their personal information. Admin can change another
@@ -41,26 +41,27 @@ public class UserController {
 	 * status [hidden in View if User is not admin]
 	 */
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public String updateUser(
-			@RequestParam(value = "firstName", required = false) String firstName, 
+	public String updateUser(@RequestParam(value = "firstName", required = false) String firstName,
 			@RequestParam(value = "lastName", required = false) String lastName,
-			@RequestParam(value = "email", required = false) String email, 
+			@RequestParam(value = "email", required = false) String email,
 			@RequestParam(value = "password", required = false) String password,
-			@RequestParam(value = "passwordCheck", required = false) String passwordCheck, 
-			@RequestParam(value = "isBaby", defaultValue="false") boolean isBaby,
-			@RequestParam(value = "avatar", required = false) String avatar, 
+			@RequestParam(value = "passwordCheck", required = false) String passwordCheck,
+			@RequestParam(value = "isBaby", defaultValue = "false") boolean isBaby,
+			@RequestParam(value = "avatar", required = false) String avatar,
 			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
 		User user = (User) request.getSession().getAttribute("user");
-		String emailTemp = (email.equals("")) ? user.getEmail() : email; 
-		
-//		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, avatar, status);
-		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status);	//debugging version
+		String emailTemp = (email.equals("")) ? user.getEmail() : email;
+
+		// boolean result = svc.updateUser(user, firstName, lastName, email,
+		// isBaby, password, passwordCheck, avatar, status);
+		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status); // debugging
+																														// version
 
 		user = result ? svc.getUserByEmail(emailTemp) : null;
 		request.getSession().setAttribute("user", user);
-		
-		return "profile"; 
+
+		return "profile";
 	}
 
 	/**
@@ -160,16 +161,23 @@ public class UserController {
 		}
 		// TODO: what do if deletion fails??
 	}
-	
+
+	/**
+	 * Sets the String representation of uploaded image to User of current
+	 * Session. Then sets it for the current Session's attribute.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
-	public String uploadAvatar(HttpServletRequest request){
-		User loggedUser = (User)request.getSession().getAttribute("user");  
-		String avatar = request.getParameter("avatar"); 
-		
-		loggedUser.setAvatar(avatar);
-//		svc.updateUser(loggedUser, "", "", "", false, "", "", request.getParameter("avatar"), "");
-		request.getSession().setAttribute("user", loggedUser);
+	public String uploadAvatar(HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		String avatar = request.getParameter("avatar");
+
+		user.setAvatar(avatar);
+
+		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("avatar", avatar);
-		return "profile"; 
+		return "profile";
 	}
 }
