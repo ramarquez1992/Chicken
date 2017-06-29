@@ -1,22 +1,23 @@
 <%@ include file="header.jspf" %>
 
+    <!-- !!! lets a User update their own account details, doesn't work to let a User view other people's accounts -->
 <!--  Update User Profile  -->
 <div>
     <!-- Avatar and Update Avatar -->
-    <div onsubmit="findImageAvatar('imageForm','img')">
-        <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar">
+    <div onsubmit="findImageAvatar('imageForm','img')"> <!-- calls JS method -->
+        <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar"> <!-- supposed to call uploadAvatar in Controller -->
             <div class="form-group">
                 <label for="receipt_input" class="control-label">Avatar</label>
                 <input name="receipt" id="receipt_input" type="file" class="file" accept="image/*" data-show-upload="false" data-allowed-file-extensions='["jpg", "png"]' required>
             </div>
-            <input id="avatar" name="avatar" hidden=hidden/>
-            <div class="form-group">
-                <button type="submit" method="post" action="uploadAvatar">Submit Avatar</button>
+            <input id="avatar" name="avatar" hidden=hidden/> <!-- Controller not getting "avatar" parameter --> 
+            <div class="form-group"> <!-- submit avatar button --> 
+                <button type="submit">Submit Avatar</button>
             </div>
             <c:if test="${ avatar != null }">   <!-- for showing all past images, iirc -->
                 <div class="form-group">
                     <label class="control-label">Avatar</label>
-                    <input name="avatar_input" id="avatar_input" type="file" class="file" data-show-upload="false">
+                    <input name="avatar_input" id="avatar_input" type="file" class="file" data-show-upload="false"> <!-- #avatar_input supposed to trigger JS --> 
                     <input id="imageAvatar" value="${avatar}" hidden="hidden"/>
                 </div>
             </c:if>

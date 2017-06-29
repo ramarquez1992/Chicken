@@ -40,18 +40,24 @@ public class UserController {
 	 * 
 	 * status [hidden in View if User is not admin]
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public String updateUser(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
-			@RequestParam("email") String email, @RequestParam("password") String password,
-			@RequestParam("passwordCheck") String passwordCheck, @RequestParam("isBaby") boolean isBaby,
-			@RequestParam("avatar") String avatar, @RequestParam("status") String status, HttpServletRequest request) {
+	public String updateUser(
+			@RequestParam(value = "firstName", required = false) String firstName, 
+			@RequestParam(value = "lastName", required = false) String lastName,
+			@RequestParam(value = "email", required = false) String email, 
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "passwordCheck", required = false) String passwordCheck, 
+			@RequestParam(value = "isBaby", defaultValue="false") boolean isBaby,
+			@RequestParam(value = "avatar", required = false) String avatar, 
+			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
-		User u = (User) request.getSession().getAttribute("user");
-
-		boolean result = svc.updateUser(u, firstName, lastName, email, isBaby, password, passwordCheck, avatar, status);
-
-//		return (result ? u : null);
+		User user = (User) request.getSession().getAttribute("user");
+//		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, avatar, status);
+		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status);	//debugging version
+		System.out.println("\n \n UPDATE USER RESULT: " + result + "\n \n ");	//debugging purposes 
+		user = result ? svc.getUserByEmail(email) : null;
+		request.getSession().setAttribute("user", user);
+		
 		return "profile"; 
 	}
 
@@ -153,18 +159,15 @@ public class UserController {
 		// TODO: what do if deletion fails??
 	}
 	
-	@ResponseBody
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
 	public String uploadAvatar(HttpServletRequest request){
 		User loggedUser = (User)request.getSession().getAttribute("user");  
+		String avatar = request.getParameter("avatar"); 
 		
-		//redirect to login if null
-		if(request.getMethod().equals("GET"))
-			return "profile";
-		
-		loggedUser.setAvatar(request.getParameter("avatar"));
+		loggedUser.setAvatar(avatar);
 //		svc.updateUser(loggedUser, "", "", "", false, "", "", request.getParameter("avatar"), "");
-		request.getSession().setAttribute("avatar", new String(loggedUser.getAvatar()));
+		request.getSession().setAttribute("user", loggedUser);
+		request.getSession().setAttribute("avatar", avatar);
 		return "profile"; 
 	}
 }

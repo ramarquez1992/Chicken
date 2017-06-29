@@ -82,7 +82,7 @@ public class UserService {
 											// registered in db
 				return false;
 		}
-		if (!password.equals(passwordCheck) || password.equals("") || passwordCheck.equals(""))
+		if (!password.equals(passwordCheck))
 			return false;
 		// pw check will exist unless front end checks for matching passwords
 		// may need to tweak password check further later
@@ -100,8 +100,8 @@ public class UserService {
 			user.setPassword(password);
 		if(!status.equals(""))
 			user.setStatus(new UserStatus(status)); // potential problem?
-		if(!avatar.equals(""))
-			user.setAvatar(avatar);
+		if(!avatar.equals(""))	//no avatar results in null pointer exception 
+			user.setAvatar(avatar);	
 
 		user.setBaby(isBaby);
 
