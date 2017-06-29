@@ -1,15 +1,22 @@
 language: java
 sudo: false
 install: true
+
+notifications:
+  slack: 1705may15java:$SLACK_TOKEN
+
 addons:
   sonarqube:
     organization: $SONARQUBE_ORG
     token:
       secure: $SONARQUBE_TOKEN
+
 jdk:
   - oraclejdk8
+
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
 cache:
   directories:
     - '$HOME/.m2/repository'

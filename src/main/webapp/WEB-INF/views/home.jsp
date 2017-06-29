@@ -2,14 +2,35 @@
 
 ${user.getEmail()}
 
-<div id="spotlight">
-    <div id="chick1StreamContainer"></div>
-    <div id="chick2StreamContainer"></div>
+<div ng-controller="SpotlightController" class="container-fluid">
 
-    <button id="chick1StreamBtn">chick1-stream</button>
-    <button id="chick2StreamBtn">chick2-stream</button>
+    <div id="spotlight" class="row">
+        <div id="chick1StreamContainer" class="col-xs-4">
+            <h3 class="chickName">{{currentRound.chick1.email}}</h3>
+            <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
+        </div>
 
-    <button onclick="attachSpotlight();">View</button>
+        <div id="chick2StreamContainer" class="col-xs-4">
+            <h3 class="chickName">{{currentRound.chick2.email}}</h3>
+            <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
+        </div>
+
+        <div id="queueContainer" class="col-xs-4">
+            <h3>Queue</h3>
+            <table class="table table-hover">
+                <tr ng-repeat="user in currentRound.queue">
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <button id="chick1StreamBtn">chick1-stream</button>
+        <button id="chick2StreamBtn">chick2-stream</button>
+
+        <button onclick="attachSpotlight();">View</button>
+    </div>
 
 </div>
 
@@ -21,10 +42,25 @@ ${user.getEmail()}
     <p>misc info</p>
 </div>
 
+
+
+
+<div>
+    <button id="startNextRound">start next round</button>
+    <button id="stopRound">stop round</button>
+</div>
+
+<button id="sendBtn">send</button>
+
+
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
 <script src="static/js/webrtcKeys.js"></script>
+
+<%--<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>--%>
+<script src="static/lib/stomp.min.js"></script>
 <script src="static/js/home.js"></script>
 
 
