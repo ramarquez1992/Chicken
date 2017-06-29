@@ -19,6 +19,33 @@ The stage holds a 1-on-1 conversation in front of an audience that may chat amon
 
 ---
 
+## Multi-tiered web application leveraging:
+- HTML5, CSS3 w/ SASS
+- JSPs, JavaScript, jQuery, AngularJS, AJAX
+- WebRTC, Temasys Skylink, WebSockets
+- Java 1.8, Spring (MVC, Security, SpEL), Hibernate, Jackson
+- S3, OracleDB on RDS
+- Tomcat on EC2
+
+---
+
+## DevOps
+- Trello
+- Screenful
+- Slack
+- Maven
+- Git, GitHub
+- Travis CI
+- SonarQube
+- AWS EC2
+
+---
+
+## Getting up and running
+todo...
+
+---
+
 ## Git workflow
 [Video tutorial](https://www.youtube.com/watch?v=oFYyTZwMyAg&spfreload=10)
 
