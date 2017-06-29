@@ -46,7 +46,7 @@ function gamesPlayed(userId, callback) {
 		success: function (res, status, xhr) {
 			callback(res);
 		}
-	})
+	});
 }
 
 function gamesWon(userId, callback) {
