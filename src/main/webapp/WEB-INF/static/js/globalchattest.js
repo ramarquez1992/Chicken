@@ -5,6 +5,20 @@ skylink.init({
 	defaultRoom: 'LGpMxj'
 });
 
+window.onload = setTimeout(initChat, 250);
+
+function initChat() {
+	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
+	var num = document.getElementById('idNum').innerHTML
+	
+	skylink.setUserData({
+		name: userName,
+		userId : num
+	});
+	
+	skylink.joinRoom();
+}
+
 skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	var user = 'You';
 	var id = "";
@@ -13,13 +27,6 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 		id = peerInfo.userData.userId || peerId;
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
-});
-
-skylink.on('peerUpdated', function(peerId, peerInfo, isSelf) {
-	if(isSelf) {
-		user = peerInfo.userData.name || peerId;
-		addMessage("blank", 'You\'re now known as ' + user, 'action');
-	}
 });
 
 skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
@@ -37,34 +44,11 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 	var user = 'You',
 	className = 'you';
 	if(!isSelf) {
-		user = peerInfo.userData.name || peerId;
-		id = peerInfo.userData.userId || peerId;
 		className = 'message';
 		addMessage(peerInfo.userData, ': ' + message.content, className);
 	}
 	else addMessage(user, user + ': ' + message.content, className);
 });
-
-function setName() {
-	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
-	var num = document.getElementById('idNum').innerHTML
-	alert(userName);
-	skylink.setUserData({
-		name: userName,
-		userId : num
-	});
-}
-
-window.onload = setTimeout(joinRoom, 500);
-
-function joinRoom() {
-	setName();
-	skylink.joinRoom();
-}
-
-function leaveRoom() {
-	skylink.leaveRoom();
-}
 
 function sendMessage() {
 	var input = document.getElementById('message');
@@ -103,17 +87,32 @@ function addMessage(user, message, className) {
 	chatbox.appendChild(div);
 }
 
+var badWords;
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "static/lib/terms-to-block.csv",
+        async: false,
+        dataType: "text",
+        success: function(data) {badWords = processData(data);}
+     });
+});
+
+function processData(allText) {
+    var allBadWords = allText.split(/\r\n|\n/);
+    return allBadWords;
+}
+
 function replaceWords(message) {
     var comment = message.value;
-    var badWords = ["fuck", "shit", "crap" ,"damn", "ass", "cunt", "bitch", "dick", "penis", "vagina", "whore"];
     var censored = censor(comment, badWords);
     comment.value = censored;
-    
     return censored;
 }
 
 function censor(string, filters) {
-    var regex = new RegExp(filters.join("|"), "gi");
+	
+    var regex = new RegExp(filters.join("\\b|\\b"), "gi");
     return string.replace(regex, function (match) {
         var stars = '';
         for (var i = 0; i < match.length; i++) {

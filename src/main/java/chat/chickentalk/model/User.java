@@ -43,7 +43,7 @@ public class User implements Serializable{
     String lastname;
 
     @Column(name = "avatar")
-    String Avatar = ""; // user profile image blob.
+    String Avatar = "https://s3.amazonaws.com/theresa.d.bucket/c+h+i+c+k+e+n.png"; // user profile image blob.
 
     @Column(name = "filter", nullable = false)
     int isBaby = 1; // Mature language filter setting. Default 1 for true.
