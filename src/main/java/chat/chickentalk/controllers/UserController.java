@@ -26,6 +26,13 @@ public class UserController {
         return u;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/users/getSelf", method = RequestMethod.GET)
+    public User getSelf(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+
+        return u;
+    }
     /**
      * Retrieves User of the current session and the input from the form.
      * Response will return a JSON string of User's new information if success -

@@ -7,8 +7,10 @@
 
 - [Scrum board](https://trello.com/b/A7eJqRgx/chickentalkchat)
 - [Burndown chart](https://app.screenful.me/dashboard/22931/chickentalk-chat)
+- [Slack](https://1705may15java.slack.com/messages/C5UEUHBU2/)
 - [Travis CI](https://travis-ci.org/richard92m/Chicken/branches)
 - [SonarQube](https://sonarcloud.io/dashboard?id=chat.chickentalk%3AChicken)
+- [EC2 (chickentalk.chat)](https://chickentalk.chat:8443)
 
 ---
 
@@ -16,6 +18,21 @@
 \#Chicken is an online community space where users compete for time on a stage. 
 
 The stage holds a 1-on-1 conversation in front of an audience that may chat among themselves. After a set period of time the audience votes on who they think should remain on the stage. One user gets voted off the stage and another is pulled at random from the audience.
+
+---
+
+## Multi-tiered web application leveraging:
+- HTML5, CSS3 w/ SASS
+- JSPs, JavaScript, jQuery, AngularJS, AJAX
+- WebRTC, Temasys Skylink, WebSockets
+- Java 1.8, Spring (MVC, Security, SpEL), Hibernate, Jackson
+- S3, OracleDB on RDS
+- Tomcat on EC2
+
+---
+
+## Getting up and running
+todo...
 
 ---
 
