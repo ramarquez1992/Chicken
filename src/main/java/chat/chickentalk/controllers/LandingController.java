@@ -131,6 +131,21 @@ public class LandingController {
         dao.createRound(r4);
 
 
+        // Printing out all of the test objects to the console.
+        System.out.println("\n\n\nTEST DATA: \n\n" + us.toString());
+        System.out.println(us2.toString());
+        System.out.println(us3.toString());
+        System.out.println(us4.toString());
+        System.out.println(us5.toString());
+        System.out.println("\nDO NOT USE: " + dummy.toString() + "\n");
+        System.out.println(u.toString());
+        System.out.println(u2.toString());
+        System.out.println(u3.toString());
+        System.out.println("\n" + r.toString());
+        System.out.println(r2.toString());
+        System.out.println(r3.toString());
+        System.out.println(r4.toString());
+        System.out.println("\n\n");
         return "home";
     }
 }

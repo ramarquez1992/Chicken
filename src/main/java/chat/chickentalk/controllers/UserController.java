@@ -15,6 +15,7 @@ import java.io.IOException;
 @Controller
 public class UserController {
 
+
     @Autowired
     private UserService svc;
 
@@ -26,6 +27,13 @@ public class UserController {
         return u;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/users/getSelf", method = RequestMethod.GET)
+    public User getSelf(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+
+        return u;
+    }
     /**
      * Retrieves User of the current session and the input from the form.
      * Response will return a JSON string of User's new information if success -
@@ -34,28 +42,29 @@ public class UserController {
      *
      * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
      */
-    @ResponseBody
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public User updateUser(
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("passwordCheck") String passwordCheck,
-            @RequestParam("isBaby") boolean isBaby,
-            @RequestParam("avatar") String avatar,
-            @RequestParam("status") String status,
-            HttpServletRequest request
-            ) {
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	public String updateUser(@RequestParam(value = "firstName", required = false) String firstName,
+			@RequestParam(value = "lastName", required = false) String lastName,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "passwordCheck", required = false) String passwordCheck,
+			@RequestParam(value = "isBaby", defaultValue = "false") boolean isBaby,
+			@RequestParam(value = "avatar", required = false) String avatar,
+			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
-        User u = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
+		String emailTemp = (email.equals("")) ? user.getEmail() : email;
 
-        boolean result = svc.updateUser(u, firstName, lastName,
-                email, isBaby, password, passwordCheck, avatar);
+		// boolean result = svc.updateUser(user, firstName, lastName, email,
+		// isBaby, password, passwordCheck, avatar, status);
+		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status); // debugging
+																														// version
 
-        return (result ? u : null);
-    }
+		user = result ? svc.getUserByEmail(emailTemp) : null;
+		request.getSession().setAttribute("user", user);
 
+		return "profile";
+	}
 
     /**
      * Takes the email and password paramters and checks if a User with that email/password
@@ -158,5 +167,6 @@ public class UserController {
         }
         // TODO: what do if deletion fails??
     }
+
 
 }

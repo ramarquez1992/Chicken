@@ -1,8 +1,7 @@
 <%@ include file="header.jspf" %>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <!-- Leaderboard container-->
  
-<div id="leaderboard" ng-app="leaderboard">
+<div id="leaderboard">
 	<div ng-controller="mostGamesCtrl">
 	<h1>Most Games</h1>
 		<table class="table">
@@ -102,9 +101,8 @@
 
 
 <script>
-	var Leaderboard = angular.module("leaderboard", []);
 	//handles most games table information
-	Leaderboard.controller("mostGamesCtrl", function($scope) {
+	app.controller("mostGamesCtrl", function($scope) {
 		
 		getMostGames(2, function(res) {
 			$scope.mostGames = res;
@@ -136,7 +134,7 @@
 	});
 	
 	//handles most wins table information
-	Leaderboard.controller("mostWinsCtrl", function($scope) {
+	app.controller("mostWinsCtrl", function($scope) {
 		getMostGamesWon(2, function(res) {
 			$scope.mostWins = res;
 			$scope.$apply();
@@ -159,7 +157,7 @@
 	});
 	
 	//handels most votes
-	Leaderboard.controller("mostVotesCtrl", function($scope) {
+	app.controller("mostVotesCtrl", function($scope) {
 		getMostVotes(2, function(res) {
 			$scope.mostVotes = res;
 			$scope.$apply();
@@ -182,7 +180,7 @@
 	});
 	
 	//handles most time 
-	Leaderboard.controller("mostTimeCtrl", function ($scope) {
+	app.controller("mostTimeCtrl", function ($scope) {
 		getMostSpotlightTime(2, function(res) {
 			$scope.mostTime = res;
 			$scope.$apply();
@@ -205,5 +203,4 @@
 	});
 </script>
 
-<script src="static/js/leaderboard.js"></script>
 <%@ include file="footer.jspf" %>
