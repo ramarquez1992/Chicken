@@ -51,15 +51,6 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 });
 
 function sendMessage() {
-//	var input = document.getElementById('message');
-//	var isBaby = document.getElementById('isBaby').innerHTML;
-//	var censorInput = input.value;
-//	alert(isBaby);
-//	if(isBaby=='true') censorInput = replaceWords(input);
-//	skylink.sendP2PMessage(censorInput);
-//	input.value = '';
-//	input.select();
-	
 	var input = document.getElementById('message');
 	skylink.sendP2PMessage(input.value);
 	input.value = '';
@@ -74,7 +65,6 @@ function addMessage(user, message, className) {
 	var censorInput = message;
 	
 	if(isBaby=='true') {
-		alert("Message = " + message);
 		censorInput = replaceWords(message);
 	}
 	
@@ -120,15 +110,9 @@ function processData(allText) {
     return allBadWords;
 }
 
-function replaceWords(message) {
-    var censored = censor(message, badWords);
-    return censored;
-}
-
-function censor(string, filters) {
-	
-    var regex = new RegExp(filters.join("\\b|\\b"), "gi");
-    return string.replace(regex, function (match) {
+function replaceWords(message) {	
+	var regex = new RegExp(badWords.join("\\b|\\b"), "gi");
+    return message.replace(regex, function (match) {
         var stars = '';
         for (var i = 0; i < match.length; i++) {
             stars += '*';
