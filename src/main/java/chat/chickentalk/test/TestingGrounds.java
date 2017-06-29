@@ -131,6 +131,10 @@ public class TestingGrounds {
         System.out.println(r2.toString());
         System.out.println(r3.toString());
         System.out.println(r4.toString());
+        
+        
+        User temp = dao.getUserByEmail("zoro@rn.com");
+        System.out.println(temp.toString());
 
 	}
 }
