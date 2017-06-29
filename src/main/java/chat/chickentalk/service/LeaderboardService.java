@@ -18,8 +18,7 @@ public class LeaderboardService {
 	//returns all the votes from rounds a user has won
 	public int getWinningVotes(int id) {
 		int winningVotes = 0;
-		List<Round> rounds = new ArrayList<Round>();
-		rounds = dao.getAllRounds();
+		List<Round> rounds = dao.getAllRounds();
 		for(Round r : rounds) {
 			if(r.getWinnerId() == id) {
 				winningVotes += r.getWinnerVotes();
@@ -32,8 +31,7 @@ public class LeaderboardService {
 	//returns all the votes from rounds a user has lost
 	public int getLosingVotes(int id) {
 		int losingVotes = 0;
-		List<Round> rounds = new ArrayList<Round>();
-		rounds = dao.getAllRounds();
+		List<Round> rounds = dao.getAllRounds();
 		for(Round r : rounds) {
 			if(r.getLoserId() == id) {
 				losingVotes += r.getLoserVotes();
@@ -53,8 +51,7 @@ public class LeaderboardService {
 	//returns games played by user
 	public int gamesPlayed(int id) {
 		int gamesPlayed = 0;
-		List<Round> rounds = new ArrayList<Round>();
-		rounds = dao.getAllRounds();
+		List<Round> rounds = dao.getAllRounds();
 		for(Round r : rounds) {
 			if(id == r.getWinnerId() || id == r.getLoserId()) {
 				gamesPlayed++;
@@ -67,9 +64,7 @@ public class LeaderboardService {
 	//returns the games won by a user
 	public int gamesWon(int id) {
 		int gamesWon = 0;
-		List<Round> rounds = new ArrayList<Round>();
-
-		rounds = dao.getAllRounds();
+		List<Round> rounds = dao.getAllRounds();
 		for(Round r : rounds) {
 			if(id == r.getWinnerId()) {
 				gamesWon++;
@@ -81,12 +76,12 @@ public class LeaderboardService {
 	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!
 	public String spotlightTime(int id) {
-		List<Round> rounds = new ArrayList<Round>();
+		List<Round>	rounds = dao.getAllRounds();
 		int totalSeconds = 0;
 		int totalMinutes = 0;
 		int totalHours = 0;
 		String totalTime = "";
-		rounds = dao.getAllRounds();
+
 		for(Round r : rounds) {
 			if(id == r.getWinnerId() || id == r.getLoserId()) {
 			long milliseconds = (r.getEndDate().getTime()) - (r.getStartDate().getTime());
@@ -107,8 +102,7 @@ public class LeaderboardService {
 	//gets spotlight time in milliseconds, used to find who has the most time in spotlight
 	public long slt(int id) {
 		long milliseconds = 0;
-		List<Round> rounds = new ArrayList<Round>();
-		rounds = dao.getAllRounds();
+		List<Round> rounds = dao.getAllRounds();
 		for(Round r : rounds) {
 			if(id == r.getWinnerId() || id == r.getLoserId()) {
 				milliseconds += (r.getEndDate().getTime()) - (r.getStartDate().getTime());
@@ -121,10 +115,10 @@ public class LeaderboardService {
 	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
 	//returns id of user with most games played
 	public int mostGames() {
-		List<User> users = new ArrayList<User>();
+		List<User> users = dao.getAllUsers();
 		int mostGames = 0;
 		int mostGamesUser = 0;
-		users = dao.getAllUsers();
+		
 		for(User u : users) {
 			if(gamesPlayed(u.getId()) > mostGames) {
 				mostGames = gamesPlayed(u.getId());
@@ -136,10 +130,10 @@ public class LeaderboardService {
 	}
 	
 	public int mostWins() {
-		List<User> users = new ArrayList<User>();
+		List<User> users = dao.getAllUsers();
 		int mostWins = 0;
 		int mostWinsUser = 0;
-		users = dao.getAllUsers();
+		
 		for(User u : users) {
 			if(gamesWon(u.getId()) > mostWins) {
 				mostWins = gamesWon(u.getId());
