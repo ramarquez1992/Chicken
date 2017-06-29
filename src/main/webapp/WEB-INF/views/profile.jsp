@@ -4,7 +4,10 @@
 
 <!--  Update User Profile  -->
 <div>
-    <!-- Avatar and Update Avatar uses bootstrap-fileinput plugin -->
+    <!-- avatar and Update avatar, uses bootstrap-fileinput plugin -->
+    <div> <!-- current avatar display -->
+        <img src="${user.getAvatar()}" alt="current avatar">
+    </div>
     <div onsubmit="findImageAvatar('imageForm','img')"> <!-- calls JS method -->
         <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar"> <!-- supposed to call uploadAvatar in Controller -->
             <div class="form-group">
@@ -15,7 +18,7 @@
             <div class="form-group"> <!-- submit avatar button --> 
                 <button type="submit">Submit Avatar</button>
             </div>
-            <c:if test="${ avatar != null }">   <!-- for showing all past images, iirc -->
+            <c:if test="${ avatar != null }">   <!-- the part that requires plugin --> 
                 <div class="form-group">
                     <label class="control-label">Avatar</label>
                     <input name="avatar_input" id="avatar_input" type="file" class="file" data-show-upload="false"> <!-- #avatar_input supposed to trigger JS --> 
