@@ -36,8 +36,13 @@ public class SpotlightController {
     public boolean addSelfToQueue(HttpServletRequest request) {
 
         User u = (User) request.getSession().getAttribute("user");
+        boolean result = svc.addUserToQueue(u);
 
-        return svc.addUserToQueue(u);
+        if (result) {
+            sendRound(svc.getCurrentRound());
+        }
+
+        return result;
     }
 
     @ResponseBody
@@ -45,8 +50,13 @@ public class SpotlightController {
     public boolean removeSelfFromQueue(HttpServletRequest request) {
 
         User u = (User) request.getSession().getAttribute("user");
+        boolean result = svc.removeUserFromQueue(u);
 
-        return svc.removeUserFromQueue(u);
+        if (result) {
+            sendRound(svc.getCurrentRound());
+        }
+
+        return result;
     }
 
     @ResponseBody
@@ -99,15 +109,7 @@ public class SpotlightController {
     @ResponseBody
     @RequestMapping(value = "/spotlight/getCurrentRound", method = RequestMethod.GET)
     public CurrentRound getCurrentRound() {
-        CurrentRound cr = new CurrentRound(
-                svc.getChick1(),
-                svc.getChick2(),
-                svc.getChick1Votes(),
-                svc.getChick2Votes(),
-                svc.getSpotlightQueue()
-        );
-
-        return cr;
+        return svc.getCurrentRound();
     }
 
 //    @MessageMapping("/topic/messages")
@@ -124,8 +126,8 @@ public class SpotlightController {
     private int roundLength = 3;
     private Timer timer;
 
-    public void sendCurrRound(List<User> users) {
-        this.template.convertAndSend("/topic/messages", users);
+    public void sendRound(CurrentRound cr) {
+        this.template.convertAndSend("/topic/messages", cr);
     }
 
     @ResponseBody
@@ -137,11 +139,7 @@ public class SpotlightController {
                 svc.stopRound();
                 svc.startNextRound();
 
-                List<User> users = new ArrayList<>();
-                users.add(svc.getChick1());
-                users.add(svc.getChick2());
-
-                sendCurrRound(users);
+                sendRound(svc.getCurrentRound());
             }
         };
 

@@ -1,6 +1,7 @@
 package chat.chickentalk.service;
 
 import chat.chickentalk.dao.Dao;
+import chat.chickentalk.model.CurrentRound;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,17 @@ public class SpotlightService {
         return chick2Votes;
     }
 
+    public CurrentRound getCurrentRound() {
+        CurrentRound cr = new CurrentRound(
+                getChick1(),
+                getChick2(),
+                getChick1Votes(),
+                getChick2Votes(),
+                getSpotlightQueue()
+        );
+
+        return cr;
+    }
 
     public Round stopRound() {
         if (chick1 == null || chick2 == null) return null;
