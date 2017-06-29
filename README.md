@@ -7,8 +7,10 @@
 
 - [Scrum board](https://trello.com/b/A7eJqRgx/chickentalkchat)
 - [Burndown chart](https://app.screenful.me/dashboard/22931/chickentalk-chat)
+- [Slack](https://1705may15java.slack.com/messages/C5UEUHBU2/)
 - [Travis CI](https://travis-ci.org/richard92m/Chicken/branches)
 - [SonarQube](https://sonarcloud.io/dashboard?id=chat.chickentalk%3AChicken)
+- [EC2 (chickentalk.chat)](https://chickentalk.chat:8443)
 
 ---
 
@@ -26,18 +28,6 @@ The stage holds a 1-on-1 conversation in front of an audience that may chat amon
 - Java 1.8, Spring (MVC, Security, SpEL), Hibernate, Jackson
 - S3, OracleDB on RDS
 - Tomcat on EC2
-
----
-
-## DevOps
-- Trello
-- Screenful
-- Slack
-- Maven
-- Git, GitHub
-- Travis CI
-- SonarQube
-- AWS EC2
 
 ---
 
