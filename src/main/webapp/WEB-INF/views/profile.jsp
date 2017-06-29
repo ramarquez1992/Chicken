@@ -1,9 +1,10 @@
 <%@ include file="header.jspf" %>
 
-    <!-- !!! lets a User update their own account details, doesn't work to let a User view other people's accounts -->
+<!-- !!! lets a User update their own account details, doesn't work to let a User view other people's accounts -->
+
 <!--  Update User Profile  -->
 <div>
-    <!-- Avatar and Update Avatar -->
+    <!-- Avatar and Update Avatar uses bootstrap-fileinput plugin -->
     <div onsubmit="findImageAvatar('imageForm','img')"> <!-- calls JS method -->
         <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar"> <!-- supposed to call uploadAvatar in Controller -->
             <div class="form-group">
@@ -34,7 +35,8 @@
 
         <!-- Maturity Filter -->
         <div>
-            <input name="isBaby" type="checkbox"> Turn on maturity filter 
+            <!-- shows as checked if Baby, not if Adult -->
+            <input name="isBaby" type="checkbox" <c:if test="${user.isBaby()}">checked </c:if>> Toggle maturity filter 
         </div>
 
         <!-- Submit all the changes -->
