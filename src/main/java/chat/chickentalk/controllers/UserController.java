@@ -52,10 +52,12 @@ public class UserController {
 			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
 		User user = (User) request.getSession().getAttribute("user");
+		String emailTemp = (email.equals("")) ? user.getEmail() : email; 
+		
 //		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, avatar, status);
 		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status);	//debugging version
-		System.out.println("\n \n UPDATE USER RESULT: " + result + "\n \n ");	//debugging purposes 
-		user = result ? svc.getUserByEmail(email) : null;
+
+		user = result ? svc.getUserByEmail(emailTemp) : null;
 		request.getSession().setAttribute("user", user);
 		
 		return "profile"; 
