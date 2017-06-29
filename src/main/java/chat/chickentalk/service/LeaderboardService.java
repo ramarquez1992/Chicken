@@ -1,6 +1,7 @@
 package chat.chickentalk.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chat.chickentalk.dao.Dao;
@@ -24,7 +25,6 @@ public class LeaderboardService {
 				winningVotes += r.getWinnerVotes();
 			}
 		}
-		System.out.println(winningVotes);
 		return winningVotes;
 	}
 	
@@ -37,14 +37,12 @@ public class LeaderboardService {
 				losingVotes += r.getLoserVotes();
 			}
 		}
-		System.out.println(losingVotes);
 		return losingVotes;
 	}
 	
 	//returns all votes a user has recieved
 	public int totalVotes(int id) {
 		int votesRecieved = getLosingVotes(id) + getWinningVotes(id);
-		System.out.println(votesRecieved);
 		return votesRecieved;
 	}
 	
@@ -57,7 +55,6 @@ public class LeaderboardService {
 				gamesPlayed++;
 			}
 		}
-		System.out.println(gamesPlayed);
 		return gamesPlayed;
 	}
 	
@@ -70,8 +67,12 @@ public class LeaderboardService {
 				gamesWon++;
 			}
 		}
-		System.out.println(gamesWon);
 		return gamesWon;
+	}
+	
+	public int gamesLost(int id) {
+		int gamesLost = (gamesPlayed(id) - gamesWon(id)); 
+		return gamesLost;
 	}
 	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!
@@ -95,7 +96,7 @@ public class LeaderboardService {
 			totalHours += hours;
 			}
 		}
-		System.out.println(totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds)); 
+		totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds); 
 		return totalTime;
 	}
 	
@@ -108,54 +109,44 @@ public class LeaderboardService {
 				milliseconds += (r.getEndDate().getTime()) - (r.getStartDate().getTime());
 			}
 		}
-		System.out.println("time " + milliseconds);
 		return milliseconds;
 	}
 	
 	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
 	//returns id of user with most games played
-	public int mostGames() {
-		List<User> users = dao.getAllUsers();
-		int mostGames = 0;
-		int mostGamesUser = 0;
-		
-		for(User u : users) {
-			if(gamesPlayed(u.getId()) > mostGames) {
-				mostGames = gamesPlayed(u.getId());
-				mostGamesUser = u.getId();
-			}
-		}
-		System.out.println("most games played id " + mostGamesUser);
-		return mostGamesUser;
-	}
-	
-	public int mostWins() {
-		List<User> users = dao.getAllUsers();
-		int mostWins = 0;
-		int mostWinsUser = 0;
-		
-		for(User u : users) {
-			if(gamesWon(u.getId()) > mostWins) {
-				mostWins = gamesWon(u.getId());
-				mostWinsUser = u.getId();
-			}
-		}
-		System.out.println("Most wins id " + mostWinsUser);
-		return mostWinsUser;
-	}
-	
-	public int mostSpotlightTime() {
+	public List<User> mostGames(int num) {
 		List<User> users = new ArrayList<User>();
-		long mostTime = 0;
-		int mostTimeUser = 0;
 		users = dao.getAllUsers();
-		for(User u : users) {
-			if(slt(u.getId()) > mostTime) {
-				mostTime = slt(u.getId());
-				mostTimeUser = u.getId();
-			}
-		}
-		System.out.println("Most time id " + mostTimeUser);
-		return mostTimeUser;
+		Collections.sort(users, (i1, i2) -> (gamesPlayed(i1.getId()) - (gamesPlayed(i2.getId()))));
+		Collections.reverse(users);
+		List<User> mostGamesUsers = new ArrayList<User>(users.subList(0, num));
+		return mostGamesUsers;
+	}
+	
+	public List<User> mostWins(int num) {
+		List<User> users = new ArrayList<User>();
+		users = dao.getAllUsers();
+		Collections.sort(users, (i1, i2) -> (gamesWon(i1.getId()) - (gamesWon(i2.getId()))));
+		Collections.reverse(users);
+		List<User> mostWinsUsers = new ArrayList<User>(users.subList(0, num));
+		return mostWinsUsers;
+	}
+	
+	public List<User> mostSpotlightTime(int num) {
+		List<User> users = new ArrayList<User>();
+		users = dao.getAllUsers();
+		Collections.sort(users, (i1, i2) -> Long.compare(slt(i1.getId()), slt(i2.getId())));
+		Collections.reverse(users);
+		List<User> mostTimeUsers = new ArrayList<User>(users.subList(0, num));
+		return mostTimeUsers;
+	}
+	
+	public List<User> mostVotes(int num) {
+		List<User> users = new ArrayList<User>();
+		users = dao.getAllUsers();
+		Collections.sort(users, (i1, i2) -> (totalVotes(i1.getId()) - (totalVotes(i2.getId()))));
+		Collections.reverse(users);
+		List<User> mostVotesUsers = new ArrayList<User>(users.subList(0, num));
+		return mostVotesUsers;
 	}
 }
