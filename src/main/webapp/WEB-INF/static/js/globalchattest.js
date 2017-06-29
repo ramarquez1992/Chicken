@@ -51,9 +51,17 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 });
 
 function sendMessage() {
+//	var input = document.getElementById('message');
+//	var isBaby = document.getElementById('isBaby').innerHTML;
+//	var censorInput = input.value;
+//	alert(isBaby);
+//	if(isBaby=='true') censorInput = replaceWords(input);
+//	skylink.sendP2PMessage(censorInput);
+//	input.value = '';
+//	input.select();
+	
 	var input = document.getElementById('message');
-	var censoredInput = replaceWords(input);
-	skylink.sendP2PMessage(censoredInput);
+	skylink.sendP2PMessage(input.value);
 	input.value = '';
 	input.select();
 }
@@ -61,11 +69,20 @@ function sendMessage() {
 function addMessage(user, message, className) {
 	var chatbox = document.getElementById('chatbox');
 	var div = document.createElement('div');
+	
+	var isBaby = document.getElementById('isBaby').innerHTML;
+	var censorInput = message;
+	
+	if(isBaby=='true') {
+		alert("Message = " + message);
+		censorInput = replaceWords(message);
+	}
+	
 	div.className = className;
 	
-	if(message.substring(0,3) == "You") {
+	if(censorInput.substring(0,3) == "You") {
 		div.style.cssText = 'color:blue;';
-		div.textContent = message;
+		div.textContent = censorInput;
 	}
 	else {
 		var userProfile = document.createElement('span');
@@ -80,7 +97,7 @@ function addMessage(user, message, className) {
 			 $("#fullName").text(user.name);
 			 $("#something").text(user.userId);
 		};
-		userMessage.textContent = message;
+		userMessage.textContent = censorInput;
 		div.appendChild(userProfile);
 		div.appendChild(userMessage);
 	}
@@ -104,9 +121,7 @@ function processData(allText) {
 }
 
 function replaceWords(message) {
-    var comment = message.value;
-    var censored = censor(comment, badWords);
-    comment.value = censored;
+    var censored = censor(message, badWords);
     return censored;
 }
 
