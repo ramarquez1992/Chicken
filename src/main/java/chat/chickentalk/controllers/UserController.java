@@ -34,6 +34,12 @@ public class UserController {
 
         return u;
     }
+    
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public String getProfile() {
+		return "profile";
+	}
+    
     /**
      * Retrieves User of the current session and the input from the form.
      * Response will return a JSON string of User's new information if success -
@@ -168,5 +174,22 @@ public class UserController {
         // TODO: what do if deletion fails??
     }
 
+	/**
+	 * Sets the String representation of uploaded image to User of current
+	 * Session. Then sets it for the current Session's attribute.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+	public String uploadAvatar(HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		String avatar = request.getParameter("avatar");
 
+		user.setAvatar(avatar);
+
+		request.getSession().setAttribute("user", user);
+		request.getSession().setAttribute("avatar", avatar);
+		return "profile";
+	}
 }
