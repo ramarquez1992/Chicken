@@ -10,10 +10,11 @@ window.onload = setTimeout(initChat, 250);
 function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
-	
+	var uStatus = document.getElementById('status').innerHTML
 	skylink.setUserData({
 		name: userName,
-		userId : num
+		userId : num,
+		status : uStatus
 	});
 	
 	skylink.joinRoom();
@@ -52,12 +53,18 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 
 function sendMessage() {
 	var input = document.getElementById('message');
-	skylink.sendP2PMessage(input.value);
+	var status = document.getElementById('status').innerHTML;
+	if(status == "permanent ban");
+	else skylink.sendP2PMessage(input.value);
 	input.value = '';
 	input.select();
 }
 
 function addMessage(user, message, className) {
+	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
+		return;
+	}
+	
 	var chatbox = document.getElementById('chatbox');
 	var div = document.createElement('div');
 	

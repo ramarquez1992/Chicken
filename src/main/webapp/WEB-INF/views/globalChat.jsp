@@ -104,6 +104,7 @@ header a:first-child {
 <span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
 <span id="idNum" style="visibility: hidden;">${user.getId()}</span>
 <span id="isBaby" style="visibility: hidden;">${user.isBaby()}</span>
+<span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
   <header>
     <br/>
     <input type="text" id="message" placeholder="My message" />
