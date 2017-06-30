@@ -34,7 +34,7 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.0); /* Black w/ opacity */
     data-backdrop: 'static';
 }
 
@@ -83,7 +83,15 @@ header a:first-child {
 
 #chatbox {
   position: absolute;
+  width: 70%;
   bottom: 0px;
+}
+
+#userList {
+	float:left;
+	margin-left:70%;
+	border: 1px #ddd solid;
+	width:125px;
 }
 
 .action {
@@ -114,6 +122,7 @@ header a:first-child {
   
   <div id="container">
     <div id="chatbox"></div>
+    <div id="userList"><p>User List</p></div>
  </div>
 
 <div class="modal fade" id="UserProfile">
@@ -129,6 +138,7 @@ header a:first-child {
 			<div class="modal-body">
 				<h3>User Info</h3>
 				<p id="fullName"></p>
+				<p id="userStatus"></p>
 				<p id="something"></p>	
 			</div>
 		</div>

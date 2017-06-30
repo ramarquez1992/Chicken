@@ -11,6 +11,11 @@ function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
 	var uStatus = document.getElementById('status').innerHTML
+	
+	
+	
+	
+	
 	skylink.setUserData({
 		name: userName,
 		userId : num,
@@ -20,12 +25,29 @@ function initChat() {
 	skylink.joinRoom();
 }
 
+var userList = [];
+
 skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	var user = 'You';
 	var id = "";
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+		
+		if(!userList.includes(user) && id != document.getElementById('idNum').innerHTML) {
+			var userListBox = document.getElementById('userList');
+			var userProfile = document.createElement('li');
+			userProfile.className = 'message';
+			userProfile.style.cssText = "color:orange;"
+			userProfile.textContent = user;
+			userProfile.onclick = function(){
+				$('#UserProfile').modal({}); 
+				 $("#fullName").text(user);
+				 $("#userStatus").text(user.status);
+				 $("#something").text(id);
+			};
+			userListBox.appendChild(userProfile);
+		}
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
@@ -37,6 +59,21 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+		
+		var node = document.getElementById('userList');
+
+		
+		
+		var elements = document.getElementsByTagName('li')
+		for (var i = 0; i < elements.length; i++) {
+		     if (elements[i].innerHTML.indexOf(user) !== -1) {
+		         node.removeChild(elements[i]);
+		         break;
+		     }
+		}
+		
+		
+		
 	}
 	addMessage(peerInfo.userData, ' left the room', 'action');
 });
@@ -88,10 +125,9 @@ function addMessage(user, message, className) {
 		userProfile.style.cssText = "color:purple;"
 		userProfile.textContent = user.name;
 		userProfile.onclick = function(){
-			$('#UserProfile').modal({
-		  		backdrop: 'static'
-			}); 
+			$('#UserProfile').modal({}); 
 			 $("#fullName").text(user.name);
+			 $("#userStatus").text(user.status);
 			 $("#something").text(user.userId);
 		};
 		userMessage.textContent = censorInput;
