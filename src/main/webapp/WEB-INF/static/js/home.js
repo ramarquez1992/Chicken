@@ -1,50 +1,38 @@
+var currUser = {};
+var currRound = {};
+
 app.controller('SpotlightController', function ($scope) {
 
-    setInterval(function() {
-        getCurrentRound(function(res) {
+
+    getSelf(function(cu) {
+        currUser = cu;
+
+        var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
+        var stompClient = Stomp.over(socket);
+
+        stompClient.connect({ email: cu.email }, function(frame) {
+            stompClient.subscribe('/topic/messages', function(res){
+                $scope.currentRound = JSON.parse(res.body);
+                currRound = $scope.currentRound;
+                $scope.$apply();
+            });
+        });
+    });
+
+    // Force an initial refresh
+    setTimeout(function() {
+        getCurrentRound(function (res) {
             $scope.currentRound = res;
+            currRound = $scope.currentRound;
             $scope.$apply();
         });
+    }, 1000);
 
-    }, 500);
 
 });
 
+
 $(document).ready(function () {
-
-    var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
-    var stompClient = Stomp.over(socket);
-
-    stompClient.connect({}, function(frame) {
-        stompClient.subscribe('/topic/messages', function(res){
-            console.log(JSON.parse(res.body));
-        });
-    });
-
-    $('#sendBtn').click(function() {
-        stompClient.send("/topic/messages", {}, 'test message');
-    });
-
-
-
-
-
-
-    addSelfToQueue(function(res) {
-        //
-    });
-
-    $('#startNextRound').click(function() {
-        startNextRound(function(res) {
-            //
-        });
-    });
-
-    $('#stopRound').click(function() {
-        stopRound(function(res) {
-            //
-        });
-    });
 
     $('#voteChick1').click(function() {
         voteChick1(function(res) {
@@ -58,9 +46,6 @@ $(document).ready(function () {
         });
     });
 
-    getSelf(function(res) {
-        currUser = res;
-    });
 
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
@@ -124,29 +109,15 @@ function end(){
     window.ctrl.hangup();
 }
 
-function refreshChicks(callback) {
-    getChick1(function(res) {
-        chick1 = res;
-
-        getChick2(function(res2) {
-            chick2 = res2;
-            callback();
-        });
-    });
-}
-
 function attachSpotlight() {
-    refreshChicks(function() {
+    getStream(currRound.chick1.email, function (video) {
+        $('#chick1StreamContainer video').remove();
+        chick1StreamContainer.appendChild(video);
+    });
 
-        getStream(chick1.email, function (video) {
-            $('#chick1StreamContainer video').remove();
-            chick1StreamContainer.appendChild(video);
-        });
-
-        getStream(chick2.email, function (video) {
-            $('#chick2StreamContainer video').remove();
-            chick2StreamContainer.appendChild(video);
-        });
+    getStream(currRound.chick2.email, function (video) {
+        $('#chick2StreamContainer video').remove();
+        chick2StreamContainer.appendChild(video);
     });
 }
 

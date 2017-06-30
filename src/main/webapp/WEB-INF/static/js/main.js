@@ -10,32 +10,6 @@ function getUser(userId, callback) {
     });
 }
 
-function getChick1(callback) {
-    $.ajax({
-        url: "spotlight/getChick1",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        },
-        error: function (res, status, xhr) {
-            callback(null);
-        }
-    });
-}
-
-function getChick2(callback) {
-    $.ajax({
-        url: "spotlight/getChick2",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        },
-        error: function (res, status, xhr) {
-            callback(null);
-        }
-    });
-}
-
 function getSelf(callback) {
     $.ajax({
         url: "users/getSelf",
@@ -45,27 +19,6 @@ function getSelf(callback) {
         }
     });
 }
-
-function startNextRound(callback) {
-    $.ajax({
-        url: "spotlight/startNextRound",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
-
-function stopRound(callback) {
-    $.ajax({
-        url: "spotlight/stopRound",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
-
 
 function addSelfToQueue(callback) {
     $.ajax({
@@ -77,10 +30,10 @@ function addSelfToQueue(callback) {
     });
 }
 
-function getSpotlightQueue(callback) {
+function removeSelfFromQueue(callback) {
     $.ajax({
-        url: "spotlight/getQueue",
-        method: "GET",
+        url: "spotlight/removeSelfFromQueue",
+        method: "POST",
         success: function (res, status, xhr) {
             callback(res);
         }
