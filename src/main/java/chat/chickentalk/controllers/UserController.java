@@ -55,16 +55,17 @@ public class UserController {
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "passwordCheck", required = false) String passwordCheck,
 			@RequestParam(value = "isBaby", defaultValue = "false") boolean isBaby,
-			@RequestParam(value = "avatar", required = false) String avatar,
+//			@RequestParam(value = "avatar", required = false) String avatar,
 			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
 		User user = (User) request.getSession().getAttribute("user");
 		String emailTemp = (email.equals("")) ? user.getEmail() : email;
-
-		// boolean result = svc.updateUser(user, firstName, lastName, email,
-		// isBaby, password, passwordCheck, avatar, status);
-		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status); // debugging
-																														// version
+		String avatar = user.getAvatar(); 
+		
+		System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");
+		
+		boolean result = svc.updateUser(user, firstName, lastName, email,isBaby, password, passwordCheck, avatar, status);
+//		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status); 
 
 		user = result ? svc.getUserByEmail(emailTemp) : null;
 		request.getSession().setAttribute("user", user);
@@ -185,7 +186,9 @@ public class UserController {
 	public String uploadAvatar(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		String avatar = request.getParameter("avatar");
-
+		
+//		debugging purposes
+//		System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");
 		user.setAvatar(avatar);
 
 		request.getSession().setAttribute("user", user);
