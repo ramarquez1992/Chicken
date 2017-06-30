@@ -11,11 +11,7 @@ function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
 	var uStatus = document.getElementById('status').innerHTML
-	
-	
-	
-	
-	
+
 	skylink.setUserData({
 		name: userName,
 		userId : num,
