@@ -1,6 +1,7 @@
 package chat.chickentalk.controllers;
 
 import chat.chickentalk.model.User;
+import chat.chickentalk.service.SpotlightService;
 import chat.chickentalk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService svc;
+
+    @Autowired
+    private SpotlightService spotlightService;
 
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String getProfile() {
@@ -105,10 +109,12 @@ public class UserController {
      * Ends the current Session and redirects to the landing page.
      *
      * @param request HttpServletRequest
-     * @param response HttpServletResponse
      */
     @RequestMapping(value = "/logoutUser", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+        spotlightService.removeUserFromQueue(u);
+
         request.getSession().invalidate();
 
         return "landing";

@@ -15,7 +15,7 @@ app.controller('SpotlightController', function ($scope) {
                 var newRound = JSON.parse(res.body);
                 // console.log(newRound);
 
-                // refreshStreams(newRound);
+                refreshStreams(newRound);
 
                 $scope.currentRound = newRound;
                 currRound = $scope.currentRound;
@@ -29,7 +29,7 @@ app.controller('SpotlightController', function ($scope) {
         getCurrentRound(function (res) {
             var newRound = res;
 
-            // refreshStreams(newRound);
+            refreshStreams(newRound);
 
             $scope.currentRound = res;
             currRound = $scope.currentRound;
@@ -41,41 +41,31 @@ app.controller('SpotlightController', function ($scope) {
 });
 
 function refreshStreams(newRound) {
-    var firstRound = false;
-    if (currRound == null) {
-        firstRound = true;
-        currRound = newRound;
-    }
 
-    if (
-        (currRound.hasOwnProperty('chick1') && currRound.hasOwnProperty('chick2')) &&
-        (currRound.chick1 !== null && currRound.chick2 !== null) &&
-        (currRound.chick1.hasOwnProperty('id') && currRound.chick2.hasOwnProperty('id')) &&
-        (newRound.hasOwnProperty('chick1') && newRound.hasOwnProperty('chick2')) &&
-        (newRound.chick1 !== null && newRound.chick2 !== null) &&
-        (newRound.chick1.hasOwnProperty('id') && newRound.chick2.hasOwnProperty('id')) &&
+    if ( (currRound == null ) ||
+        newRound.chick1 == null || newRound.chick2 == null ||
+        currRound.chick1 == null || currRound.chick2 == null ||
 
-        (
-        (newRound.chick1.id !== currRound.chick1.id || newRound.chick2.id !== currRound.chick2.id) ||
-            firstRound
-        )
+        newRound.chick1.id !== currRound.chick1.id ||
+        newRound.chick2.id !== currRound.chick2.id
     ) {
-        // firstRound = false;
-
         try {
             endStream();
         } catch (e) {
-            console.log('coundnt end');
+            console.log('Did not close stream');
         }
-
+    } else {
+        // TODO: only stream if user not already streaming aka not a chick
         if (currRound.chick1.id === currUser.id || currRound.chick2.id === currUser.id) {
             stream(currUser.email, function (ctrl) {
+                // TODO: only attach to opposing chick
                 attachSpotlight();
             });
         } else {
             attachSpotlight();
         }
     }
+
 }
 
 
