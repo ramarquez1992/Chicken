@@ -18,6 +18,12 @@
     <script src="static/lib/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="static/js/main.js"></script>
+    
+    <!-- File input CSS -->
+	<link rel="stylesheet" href="static/lib/bootstrap-fileinput/css/fileinput.min.css">
+
+	<!--  File input JavaScript  -->
+	<script src="static/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
 </head>
 <body ng-app="mainApp">
 
