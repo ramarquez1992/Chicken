@@ -12,9 +12,7 @@ function initChat() {
 	var num = document.getElementById('idNum').innerHTML
 	var uStatus = document.getElementById('status').innerHTML
 	
-	
-	
-	
+	var games = 0;
 	
 	skylink.setUserData({
 		name: userName,
@@ -33,21 +31,6 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
-		
-		if(!userList.includes(user) && id != document.getElementById('idNum').innerHTML) {
-			var userListBox = document.getElementById('userList');
-			var userProfile = document.createElement('li');
-			userProfile.className = 'message';
-			userProfile.style.cssText = "color:orange;"
-			userProfile.textContent = user;
-			userProfile.onclick = function(){
-				$('#UserProfile').modal({}); 
-				 $("#fullName").text(user);
-				 $("#userStatus").text(user.status);
-				 $("#something").text(id);
-			};
-			userListBox.appendChild(userProfile);
-		}
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
@@ -119,23 +102,83 @@ function addMessage(user, message, className) {
 		div.textContent = censorInput;
 	}
 	else {
+		if(!userList.includes(user.name) && user.userId != document.getElementById('idNum').innerHTML) {
+			var userListBox = document.getElementById('userList');
+			var userModel = document.createElement('li');
+			userModel.className = 'message';
+			userModel.style.cssText = "color:orange;"
+			userModel.textContent = user.name;
+			userModel.onclick = updateModal(user);
+			userListBox.appendChild(userModel);
+		}
+	
 		var userProfile = document.createElement('span');
 		var userMessage = document.createElement('span');
 		userProfile.className = className;
 		userProfile.style.cssText = "color:purple;"
 		userProfile.textContent = user.name;
-		userProfile.onclick = function(){
-			$('#UserProfile').modal({}); 
-			 $("#fullName").text(user.name);
-			 $("#userStatus").text(user.status);
-			 $("#something").text(user.userId);
-		};
+		userProfile.onclick = updateModal(user);
 		userMessage.textContent = censorInput;
 		div.appendChild(userProfile);
 		div.appendChild(userMessage);
 	}
 	chatbox.appendChild(div);
 }
+
+//function updateModal(user){
+//	$('#UserProfile').modal({}); 
+//	$("#fullName").text(user.name);
+//	$("#userStatus").text("Status: " + user.status);
+//	gamesPlayed(user.userId, function(res) {
+//		$("#games").text("Total Games Played: " + res);
+//	});	 
+//		 
+//	gamesWon(user.userId, function(res) {
+//	    $("#wins").text("Total Wins: " + res);
+//	});
+//	
+//	spotlightTime(user.userId, function(res) {
+//	    $("#spotlight").text("Time in the Spotlight: " + res);
+//	});
+//	
+//	totalVotes(user.userId, function(res) {
+//	    $("#votes").text("Total Votes Recieved: " + res);
+//	});
+//	
+//	getUser(user.userId, function(res) {
+//	    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+//	    $("#avatar").attr("src", res.avatar);
+//	});		
+//	
+//}; 
+
+function updateModal(user){
+	return function(){
+		$('#UserProfile').modal({});
+		getUser(user.userId, function(res) {
+			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
+			$("#userStatus").text("Status: " + res.status.name);
+		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+		    $("#avatar").attr("src", res.avatar);
+		    
+		    gamesPlayed(res.id, function(res) {
+				$("#games").text("Total Games Played: " + res);
+			});	 
+				 
+			gamesWon(res.id, function(res) {
+			    $("#wins").text("Total Wins: " + res);
+			});
+			
+			spotlightTime(res.id, function(res) {
+			    $("#spotlight").text("Time in the Spotlight: " + res);
+			});
+			
+			totalVotes(res.id, function(res) {
+			    $("#votes").text("Total Votes Recieved: " + res);
+			});    
+		});	
+	};
+};
 
 var badWords;
 $(document).ready(function() {
