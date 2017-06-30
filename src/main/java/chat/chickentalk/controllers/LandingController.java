@@ -73,7 +73,7 @@ public class LandingController {
         u3.setFirstName("Dan");
         u3.setLastName("Demo");
         u3.setBaby(true);
-        u3.setStatus(us);
+        u3.setStatus(us2);
 
 
         Round r = new Round();

@@ -10,14 +10,22 @@ window.onload = setTimeout(initChat, 250);
 function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
+	var uStatus = document.getElementById('status').innerHTML
+	
+	
+	
+	
 	
 	skylink.setUserData({
 		name: userName,
-		userId : num
+		userId : num,
+		status : uStatus
 	});
 	
 	skylink.joinRoom();
 }
+
+var userList = [];
 
 skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	var user = 'You';
@@ -25,6 +33,21 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+		
+		if(!userList.includes(user) && id != document.getElementById('idNum').innerHTML) {
+			var userListBox = document.getElementById('userList');
+			var userProfile = document.createElement('li');
+			userProfile.className = 'message';
+			userProfile.style.cssText = "color:orange;"
+			userProfile.textContent = user;
+			userProfile.onclick = function(){
+				$('#UserProfile').modal({}); 
+				 $("#fullName").text(user);
+				 $("#userStatus").text(user.status);
+				 $("#something").text(id);
+			};
+			userListBox.appendChild(userProfile);
+		}
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
@@ -36,6 +59,21 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+		
+		var node = document.getElementById('userList');
+
+		
+		
+		var elements = document.getElementsByTagName('li')
+		for (var i = 0; i < elements.length; i++) {
+		     if (elements[i].innerHTML.indexOf(user) !== -1) {
+		         node.removeChild(elements[i]);
+		         break;
+		     }
+		}
+		
+		
+		
 	}
 	addMessage(peerInfo.userData, ' left the room', 'action');
 });
@@ -52,20 +90,33 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 
 function sendMessage() {
 	var input = document.getElementById('message');
-	var censoredInput = replaceWords(input);
-	skylink.sendP2PMessage(censoredInput);
+	var status = document.getElementById('status').innerHTML;
+	if(status == "permanent ban");
+	else skylink.sendP2PMessage(input.value);
 	input.value = '';
 	input.select();
 }
 
 function addMessage(user, message, className) {
+	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
+		return;
+	}
+	
 	var chatbox = document.getElementById('chatbox');
 	var div = document.createElement('div');
+	
+	var isBaby = document.getElementById('isBaby').innerHTML;
+	var censorInput = message;
+	
+	if(isBaby=='true') {
+		censorInput = replaceWords(message);
+	}
+	
 	div.className = className;
 	
-	if(message.substring(0,3) == "You") {
+	if(censorInput.substring(0,3) == "You") {
 		div.style.cssText = 'color:blue;';
-		div.textContent = message;
+		div.textContent = censorInput;
 	}
 	else {
 		var userProfile = document.createElement('span');
@@ -74,13 +125,12 @@ function addMessage(user, message, className) {
 		userProfile.style.cssText = "color:purple;"
 		userProfile.textContent = user.name;
 		userProfile.onclick = function(){
-			$('#UserProfile').modal({
-		  		backdrop: 'static'
-			}); 
+			$('#UserProfile').modal({}); 
 			 $("#fullName").text(user.name);
+			 $("#userStatus").text(user.status);
 			 $("#something").text(user.userId);
 		};
-		userMessage.textContent = message;
+		userMessage.textContent = censorInput;
 		div.appendChild(userProfile);
 		div.appendChild(userMessage);
 	}
@@ -103,17 +153,9 @@ function processData(allText) {
     return allBadWords;
 }
 
-function replaceWords(message) {
-    var comment = message.value;
-    var censored = censor(comment, badWords);
-    comment.value = censored;
-    return censored;
-}
-
-function censor(string, filters) {
-	
-    var regex = new RegExp(filters.join("\\b|\\b"), "gi");
-    return string.replace(regex, function (match) {
+function replaceWords(message) {	
+	var regex = new RegExp(badWords.join("\\b|\\b"), "gi");
+    return message.replace(regex, function (match) {
         var stars = '';
         for (var i = 0; i < match.length; i++) {
             stars += '*';
