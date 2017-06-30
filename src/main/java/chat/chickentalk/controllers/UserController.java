@@ -1,16 +1,33 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.model.User;
-import chat.chickentalk.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.Base64;
+
+import chat.chickentalk.model.User;
+import chat.chickentalk.service.UserService;
 
 @Controller
 public class UserController {
@@ -18,6 +35,15 @@ public class UserController {
 
     @Autowired
     private UserService svc;
+    
+	@Value("#{systemEnvironment['CHICKEN_AWS_ACCESS_KEY_ID']}")
+	private String accessKey; 
+	
+	@Value("#{systemEnvironment['CHICKEN_AWS_SECRET_ACCESS_KEY']}")
+	private String secretKey; 
+	
+	@Value("#{systemEnvironment['CHICKEN_BUCKET_NAME']}")
+	private String bucketName; 
 
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String getProfile() {
@@ -31,7 +57,7 @@ public class UserController {
 
         return u;
     }
-
+    
     @ResponseBody
     @RequestMapping(value = "/users/getSelf", method = RequestMethod.GET)
     public User getSelf(HttpServletRequest request) {
@@ -39,19 +65,10 @@ public class UserController {
 
         return u;
     }
-    
-	@RequestMapping(value = "profile", method = RequestMethod.GET)
-	public String getProfile() {
-		return "profile";
-	}
-    
     /**
-     * Retrieves User of the current session and the input from the form.
-     * Response will return a JSON string of User's new information if success -
-     * {email: " ", password: " ", firstname: " ", lastname:" ", avatar:" ", isBaby:" "}.
-     * {result:"false"} otherwise
+     * TODO: documentation 
      *
-     * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
+     * Form Parameters: 
      */
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 	public String updateUser(@RequestParam(value = "firstName", required = false) String firstName,
@@ -65,12 +82,19 @@ public class UserController {
 
 		User user = (User) request.getSession().getAttribute("user");
 		String emailTemp = (email.equals("")) ? user.getEmail() : email;
-		String avatar = user.getAvatar(); 
 		
-		System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");
+//		TODO MAYBE: instantiate aws credentials and client elsewhere as bean 
+		
+//		authenticate credentials 
+		AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+//		connect to s3 client
+		AmazonS3Client s3client = new AmazonS3Client(credentials); 
+		
+		String filename = Integer.toString(user.getId());	
+		
+		String avatar =  s3client.getUrl(bucketName, filename).toString();
 		
 		boolean result = svc.updateUser(user, firstName, lastName, email,isBaby, password, passwordCheck, avatar, status);
-//		boolean result = svc.updateUser(user, firstName, lastName, email, isBaby, password, passwordCheck, "", status); 
 
 		user = result ? svc.getUserByEmail(emailTemp) : null;
 		request.getSession().setAttribute("user", user);
@@ -181,9 +205,9 @@ public class UserController {
     }
 
 	/**
-	 * Sets the String representation of uploaded image to User of current
-	 * Session. Then sets it for the current Session's attribute. 
-	 * TODO: upload avatar to s3 bucket 
+	 * Retrievs the base64 String representation of the uploaded image and uploads it to 
+	 * AWS S3 Bucket. Then sets it for the current Session's attribute. 
+	 *  TODO: documetation stuff
 	 * 
 	 * @param request
 	 * @return
@@ -191,14 +215,39 @@ public class UserController {
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
 	public String uploadAvatar(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		String avatar = request.getParameter("avatar");
+				
+//		the base64 String representation of the uploaded avatar image
+//		split needed to skip over the "data:image/png;base64," from html src
+		String avatar = request.getParameter("avatar").split(",")[1]; 
+
+//	debugging	System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");		
 		
-//		debugging purposes
-//		System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");
-		user.setAvatar(avatar);
+//		TODO: instantiate aws credentials and client elsewhere as bean 		
+//		change this credential setup later to be more secure 
+//		authenticate credentials 
+		AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+//		connect to s3 client
+		AmazonS3Client s3client = new AmazonS3Client(credentials); 
+		
+		String filename = Integer.toString(user.getId());	
+		
+		//decode b64 string into byte array 
+		byte[] imgByteArray = Base64.decode(avatar); 		
+		
+		// create metadata for the object to be put in s3  
+		ObjectMetadata metadata = new ObjectMetadata(); 
+		long length = imgByteArray.length; 	// SET OBJECT LENGTH PLEASE 
+		metadata.setContentLength(length);
+		
+//		public PutObjectRequest(String bucketName, String key, InputStream input, ObjectMetadata metadata); 
+		s3client.putObject(new PutObjectRequest(bucketName, filename,
+				new ByteArrayInputStream(imgByteArray), metadata)
+				.withCannedAcl(CannedAccessControlList.PublicRead));
+		
+		user.setAvatar(request.getParameter("avatar"));
 		
 		request.getSession().setAttribute("user", user);
-		request.getSession().setAttribute("avatar", avatar);
+		request.getSession().setAttribute("avatar", s3client.getUrl(bucketName, filename));
 		return "profile";
 	}
 }
