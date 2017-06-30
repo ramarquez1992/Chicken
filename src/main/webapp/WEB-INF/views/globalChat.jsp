@@ -137,9 +137,14 @@ header a:first-child {
 			</div>
 			<div class="modal-body">
 				<h3>User Info</h3>
+				<img id="avatar" src=""/>
 				<p id="fullName"></p>
 				<p id="userStatus"></p>
-				<p id="something"></p>	
+				<p id="games">?</p>
+				<p id="wins"></p>
+				<p id="spotlight"></p>
+				<p id="votes"></p>
+				<p id="votesCast"></p>	
 			</div>
 		</div>
 		<!-- /.modal-content -->
