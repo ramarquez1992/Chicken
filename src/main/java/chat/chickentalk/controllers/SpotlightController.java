@@ -1,21 +1,15 @@
 package chat.chickentalk.controllers;
 
 import chat.chickentalk.model.CurrentRound;
-import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.SpotlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.util.resources.cldr.ebu.CurrencyNames_ebu;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -25,11 +19,12 @@ public class SpotlightController {
     @Autowired
     private SpotlightService svc;
 
-    @ResponseBody @RequestMapping(value = "/spotlight/getQueue", method = RequestMethod.GET)
-    public Deque<User> getSpotlightQueue() {
+    @Autowired
+    private SimpMessagingTemplate template;
 
-        return svc.getSpotlightQueue();
-    }
+    private boolean started = false;
+    private Timer timer;
+    private TimerTask spotlightTimerTask;
 
     @ResponseBody
     @RequestMapping(value = "/spotlight/addSelfToQueue", method = RequestMethod.POST)
@@ -60,41 +55,6 @@ public class SpotlightController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/spotlight/getChick1", method = RequestMethod.GET)
-    public User getChick1(HttpServletRequest request) {
-        User chick1 = svc.getChick1();
-        User currUser = (User) request.getSession().getAttribute("user");
-
-        if (chick1.getId() == currUser.getId()) chick1 = null;
-
-        return chick1;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/spotlight/getChick2", method = RequestMethod.GET)
-    public User getChick2(HttpServletRequest request) {
-        User chick2 = svc.getChick2();
-        User currUser = (User) request.getSession().getAttribute("user");
-
-        if (chick2.getId() == currUser.getId()) chick2 = null;
-
-        return chick2;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/spotlight/stopRound", method = RequestMethod.GET)
-    public Round stopRound() {
-        return svc.stopRound();
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/spotlight/startNextRound", method = RequestMethod.GET)
-    public boolean startNextRound() {
-        svc.startNextRound();
-        return true;
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/spotlight/voteChick1", method = RequestMethod.GET)
     public int voteChick1() {
         int votes = svc.voteChick1();
@@ -118,28 +78,13 @@ public class SpotlightController {
         return svc.getCurrentRound();
     }
 
-//    @MessageMapping("/topic/messages")
-//    @SendTo("/topic/messages")
-//    public String send(@DestinationVariable("topic") String topic, String message) throws Exception {
-//        System.out.println("sending " + message + " @ " + topic);
-//        return message;
-//    }
-
-
-    @Autowired
-    private SimpMessagingTemplate template;
-
-    private int roundLength = 3;
-    private Timer timer;
-
     public void sendRound(CurrentRound cr) {
         this.template.convertAndSend("/topic/messages", cr);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/spotlight/start", method = RequestMethod.GET)
     public boolean start() {
-        TimerTask task = new TimerTask() {
+        started = true;
+        spotlightTimerTask = new TimerTask() {
             @Override
             public void run() {
                 svc.stopRound();
@@ -150,10 +95,47 @@ public class SpotlightController {
         };
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(task, new Date(), TimeUnit.MILLISECONDS.convert(roundLength, TimeUnit.SECONDS)); // Starts automatically
-
+        timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
 
         return true;
+    }
+
+    public void stop() {
+        started = false;
+
+        svc.stopRound();
+        spotlightTimerTask.cancel();
+        spotlightTimerTask = null;
+    }
+
+    public void addActiveUser(String sessionId, String email) {
+        svc.addActiveUser(sessionId, email);
+
+        if (!started && svc.getSpotlightQueue().size() > 1) {
+            start();
+        }
+
+        sendRound(getCurrentRound());
+    }
+
+    public void removeActiveUser(String sessionId) {
+        User au = svc.getActiveUser(sessionId);
+        boolean currentlyPlaying = false;
+
+        if (au.getId() == svc.getChick1().getId() || au.getId() == svc.getChick2().getId()) {
+            currentlyPlaying = true;
+        }
+
+        if (currentlyPlaying || svc.getSpotlightQueue().size() <= 2) {
+            stop();
+            svc.removeActiveUser(sessionId);
+
+            if (svc.getSpotlightQueue().size() > 1) {
+                start();
+            }
+        }
+
+        sendRound(getCurrentRound());
     }
 
 }

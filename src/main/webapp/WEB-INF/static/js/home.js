@@ -1,7 +1,7 @@
 var currUser = {};
+var currRound = {};
 
 app.controller('SpotlightController', function ($scope) {
-
 
 
     getSelf(function(cu) {
@@ -10,55 +10,29 @@ app.controller('SpotlightController', function ($scope) {
         var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
         var stompClient = Stomp.over(socket);
 
-        stompClient.connect({email:cu.email}, function(frame) {
+        stompClient.connect({ email: cu.email }, function(frame) {
             stompClient.subscribe('/topic/messages', function(res){
-                var msg = JSON.parse(res.body);
-                console.log(msg);
-                $scope.currentRound = msg;
+                $scope.currentRound = JSON.parse(res.body);
+                currRound = $scope.currentRound;
                 $scope.$apply();
             });
-
-            getCurrentRound(function(res) {
-                $scope.currentRound = res;
-                $scope.$apply();
-            });
-
         });
-
     });
 
-
-
-    $('#sendBtn').click(function() {
-        // stompClient.send("/topic/messages", {}, 'test message');
-
-        getCurrentRound(function(res) {
+    // Force an initial refresh
+    setTimeout(function() {
+        getCurrentRound(function (res) {
             $scope.currentRound = res;
+            currRound = $scope.currentRound;
             $scope.$apply();
         });
-    });
+    }, 1000);
 
 
 });
 
 
 $(document).ready(function () {
-
-    addSelfToQueue(function(res) {
-        //
-    });
-
-    $('#startNextRound').click(function() {
-        startNextRound(function(res) {
-            //
-        });
-    });
-
-    $('#stopRound').click(function() {
-        stopRound(function(res) {
-            //
-        });
-    });
 
     $('#voteChick1').click(function() {
         voteChick1(function(res) {
@@ -72,9 +46,6 @@ $(document).ready(function () {
         });
     });
 
-    getSelf(function(res) {
-        currUser = res;
-    });
 
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
@@ -138,29 +109,15 @@ function end(){
     window.ctrl.hangup();
 }
 
-function refreshChicks(callback) {
-    getChick1(function(res) {
-        chick1 = res;
-
-        getChick2(function(res2) {
-            chick2 = res2;
-            callback();
-        });
-    });
-}
-
 function attachSpotlight() {
-    refreshChicks(function() {
+    getStream(currRound.chick1.email, function (video) {
+        $('#chick1StreamContainer video').remove();
+        chick1StreamContainer.appendChild(video);
+    });
 
-        getStream(chick1.email, function (video) {
-            $('#chick1StreamContainer video').remove();
-            chick1StreamContainer.appendChild(video);
-        });
-
-        getStream(chick2.email, function (video) {
-            $('#chick2StreamContainer video').remove();
-            chick2StreamContainer.appendChild(video);
-        });
+    getStream(currRound.chick2.email, function (video) {
+        $('#chick2StreamContainer video').remove();
+        chick2StreamContainer.appendChild(video);
     });
 }
 

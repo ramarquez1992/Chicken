@@ -45,14 +45,6 @@ ${user.getEmail()}
 
 
 
-<div>
-    <button id="startNextRound">start next round</button>
-    <button id="stopRound">stop round</button>
-</div>
-
-<button id="sendBtn">refresh</button>
-
-
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>

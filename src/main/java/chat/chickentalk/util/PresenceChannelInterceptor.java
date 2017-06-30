@@ -1,5 +1,6 @@
 package chat.chickentalk.util;
 
+import chat.chickentalk.controllers.SpotlightController;
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.service.SpotlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.messaging.support.ChannelInterceptorAdapter;
 public class PresenceChannelInterceptor extends ChannelInterceptorAdapter {
 
     @Autowired
-    SpotlightService svc;
+    private SpotlightController ctrl;
 
     @Override
     public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
@@ -29,7 +30,7 @@ public class PresenceChannelInterceptor extends ChannelInterceptorAdapter {
             case CONNECT:
                 String email = sha.getNativeHeader("email").get(0);
 
-                svc.addActiveUser(sessionId, email);
+                ctrl.addActiveUser(sessionId, email);
 
                 System.out.println("STOMP Connect [sessionId: " + sessionId + "]");
                 break;
@@ -37,7 +38,7 @@ public class PresenceChannelInterceptor extends ChannelInterceptorAdapter {
                 System.out.println("STOMP Connected [sessionId: " + sessionId + "]");
                 break;
             case DISCONNECT:
-                svc.removeActiveUser(sessionId);
+                ctrl.removeActiveUser(sessionId);
 
                 System.out.println("STOMP Disconnect [sessionId: " + sessionId + "]");
                 break;
