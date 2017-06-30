@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Table(name = "CHATUSERS")
 public class User implements Serializable{
     private static final long serialVersionUID = 2L;
-
+    private final String defaultAvatar = "https://s3.amazonaws.com/theresa.d.bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
     @Id
     @Column(name = "userID")
     @SequenceGenerator(name = "CHATUSERID_SEQ", sequenceName = "CHATUSERID_SEQ", allocationSize = 1)
@@ -43,7 +43,7 @@ public class User implements Serializable{
     String lastname;
 
     @Column(name = "avatar")
-    String Avatar = ""; // user profile image blob.
+    String avatar = defaultAvatar; // user profile image blob.
 
     @Column(name = "filter", nullable = false)
     int isBaby = 1; // Mature language filter setting. Default 1 for true.
@@ -69,7 +69,7 @@ public class User implements Serializable{
         this.status = status;
         this.votesCast = votesCast;
         setBaby(isBaby);
-        Avatar = avatar;
+        this.avatar = avatar;
         this.email = email;
         this.password = password;
         this.firstname = firstname;
@@ -80,7 +80,7 @@ public class User implements Serializable{
     @Override
     public String toString() {
         return "User [id=" + id + ", status=" + status + ", votesCast=" + votesCast + ", isBaby=" + isBaby + ", Avatar="
-                + Avatar + ", email=" + email + ", password=" + password + ", firstname=" + firstname + ", lastname="
+                + avatar + ", email=" + email + ", password=" + password + ", firstname=" + firstname + ", lastname="
                 + lastname + ", lastLoggedIn=" + lastLoggedIn + "]";
     }
 
@@ -136,11 +136,12 @@ public class User implements Serializable{
     }
 
     public String getAvatar() {
-        return Avatar;
+        if(avatar == null) return defaultAvatar;
+    	return avatar;
     }
 
     public void setAvatar(String avatar) {
-        Avatar = avatar;
+        this.avatar = avatar;
     }
 
     public String getEmail() {

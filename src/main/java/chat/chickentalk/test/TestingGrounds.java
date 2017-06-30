@@ -10,15 +10,17 @@ import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.Round;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
+import chat.chickentalk.service.LeaderboardService;
 
 public class TestingGrounds {
 	AbstractApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
 	Dao dao = appContext.getBean("dao", Dao.class);
 	
+	
 	public static void main(String[] args) {
 		TestingGrounds tg = new TestingGrounds();
 		//tg.createDatabase();
-		tg.createDB();
+		System.out.println("working");
 	}
   
 	public void createDB(){
@@ -131,6 +133,39 @@ public class TestingGrounds {
         System.out.println(r2.toString());
         System.out.println(r3.toString());
         System.out.println(r4.toString());
+
+        dao.createUserStatus(us);
+        dao.createUserStatus(us2);
+        dao.createUserStatus(us3);
+        dao.createUserStatus(us4);
+        dao.createUserStatus(us5);
+        dao.createUser(dummy);
+        dao.createUser(u);
+        dao.createUser(u2);
+        dao.createUser(u3);
+        dao.createRound(r);
+        dao.createRound(r2);
+        dao.createRound(r3);
+        dao.createRound(r4);
+
+        // Printing out all of the test objects to the console.
+        System.out.println("\n\n\nTEST DATA: \n\n" + us.toString());
+        System.out.println(us2.toString());
+        System.out.println(us3.toString());
+        System.out.println(us4.toString());
+        System.out.println(us5.toString());
+        System.out.println("\nDO NOT USE: " + dummy.toString() + "\n");
+        System.out.println(u.toString());
+        System.out.println(u2.toString());
+        System.out.println(u3.toString());
+        System.out.println("\n" + r.toString());
+        System.out.println(r2.toString());
+        System.out.println(r3.toString());
+        System.out.println(r4.toString());
+        
+        
+        User temp = dao.getUserByEmail("zoro@rn.com");
+        System.out.println(temp.toString());
 
 	}
 }
