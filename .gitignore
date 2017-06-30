@@ -4,6 +4,7 @@ src/main/webapp/WEB-INF/classes
 *.ini
 target/
 .classpath
+.metadata
 .project
 .settings/
 src/main/webapp/WEB-INF/static/js/webrtcKeys.js

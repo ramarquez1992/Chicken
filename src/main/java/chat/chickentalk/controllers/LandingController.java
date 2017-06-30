@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Controller
 public class LandingController {
@@ -39,7 +40,7 @@ public class LandingController {
 
         /*
          * Dummy user for the database. Required! This user is given a loss when ties occur for example.
-         * 
+         *
          * DM 6-27-17
          */
         User dummy = new User();
@@ -49,7 +50,7 @@ public class LandingController {
         dummy.setLastName("Dummy");
         dummy.setBaby(true);
         dummy.setStatus(us);
-        
+
         User u = new User();
         u.setEmail("zoro@rn.com");
         u.setPassword("password");
@@ -65,12 +66,15 @@ public class LandingController {
         u2.setLastName("Chicken");
         u2.setBaby(false);
         u2.setStatus(us5);
-        
+
         User u3 = new User();
-        u3.setEmail("gladiator@glad.arena");
+        u3.setEmail("three@email.com");
         u3.setPassword("password");
-        u3.setFirstName("Maximus");
-        u3.setLastName("Meridius");
+        u3.setFirstName("Dan");
+        u3.setLastName("Demo");
+        u3.setBaby(true);
+        u3.setStatus(us);
+
 
         Round r = new Round();
         r.setLoserId(3);
@@ -101,15 +105,15 @@ public class LandingController {
         r3.setEndDate(time);						// 2.5 minutes difference
         time = new Timestamp(System.currentTimeMillis() - 150000);
         r3.setStartDate(time);
-        
+
         Round r4 = new Round();
-        r4.setLoserId(4);
+        r4.setLoserId(1);
         r4.setWinnerId(3);
-        r4.setWinnerVotes(19);
-        r4.setLoserVotes(9);
+        r4.setWinnerVotes(8);
+        r4.setLoserVotes(5);
         time = new Timestamp(System.currentTimeMillis());
-        r4.setEndDate(time);						// 1.3 min difference
-        time = new Timestamp(System.currentTimeMillis() - 78000);
+        r4.setEndDate(time);
+        time.setTime(time.getTime()-15000);
         r4.setStartDate(time);
 
         dao.createUserStatus(us);
@@ -125,6 +129,7 @@ public class LandingController {
         dao.createRound(r2);
         dao.createRound(r3);
         dao.createRound(r4);
+
 
         // Printing out all of the test objects to the console.
         System.out.println("\n\n\nTEST DATA: \n\n" + us.toString());
