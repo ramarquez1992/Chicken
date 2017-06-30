@@ -1,34 +1,48 @@
+var currUser = {};
+
 app.controller('SpotlightController', function ($scope) {
 
-    setInterval(function() {
+
+
+    getSelf(function(cu) {
+        currUser = cu;
+
+        var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
+        var stompClient = Stomp.over(socket);
+
+        stompClient.connect({email:cu.email}, function(frame) {
+            stompClient.subscribe('/topic/messages', function(res){
+                var msg = JSON.parse(res.body);
+                console.log(msg);
+                $scope.currentRound = msg;
+                $scope.$apply();
+            });
+
+            getCurrentRound(function(res) {
+                $scope.currentRound = res;
+                $scope.$apply();
+            });
+
+        });
+
+    });
+
+
+
+    $('#sendBtn').click(function() {
+        // stompClient.send("/topic/messages", {}, 'test message');
+
         getCurrentRound(function(res) {
             $scope.currentRound = res;
             $scope.$apply();
         });
+    });
 
-    }, 500);
 
 });
 
+
 $(document).ready(function () {
-
-    var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
-    var stompClient = Stomp.over(socket);
-
-    stompClient.connect({}, function(frame) {
-        stompClient.subscribe('/topic/messages', function(res){
-            console.log(JSON.parse(res.body));
-        });
-    });
-
-    $('#sendBtn').click(function() {
-        stompClient.send("/topic/messages", {}, 'test message');
-    });
-
-
-
-
-
 
     addSelfToQueue(function(res) {
         //

@@ -97,13 +97,19 @@ public class SpotlightController {
     @ResponseBody
     @RequestMapping(value = "/spotlight/voteChick1", method = RequestMethod.GET)
     public int voteChick1() {
-        return svc.voteChick1();
+        int votes = svc.voteChick1();
+        sendRound(svc.getCurrentRound());
+
+        return votes;
     }
 
     @ResponseBody
     @RequestMapping(value = "/spotlight/voteChick2", method = RequestMethod.GET)
     public int voteChick2() {
-        return svc.voteChick2();
+        int votes = svc.voteChick2();
+        sendRound(svc.getCurrentRound());
+
+        return votes;
     }
 
     @ResponseBody

@@ -10,16 +10,26 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class SpotlightService {
     @Autowired
     Dao dao;
 
+    private Map<String, User> activeUsers = new HashMap<>();
+
+    public void addActiveUser(String sessionId, String email) {
+        activeUsers.put(sessionId, dao.getUserByEmail(email));
+        System.out.println(activeUsers.size());
+    }
+
+    public void removeActiveUser(String sessionId) {
+        activeUsers.remove(sessionId);
+        System.out.println(activeUsers.size());
+    }
+
     private Deque<User> queue = new ArrayDeque<>();
 
-    private Round currRound;
     private int roundLength = 3; // in seconds
     private LocalDateTime roundStart;
 
@@ -27,34 +37,6 @@ public class SpotlightService {
     private User chick2;
     private int chick1Votes = 0;
     private int chick2Votes = 0;
-
-    public static void main(String[] args) {
-//        int min = 1;
-//        int max = 10;
-//
-//        ss.addUserToQueue(ss.dao.getUserById(1));
-//        ss.addUserToQueue(ss.dao.getUserById(3));
-//        ss.addUserToQueue(ss.dao.getUserById(5));
-//        ss.addUserToQueue(ss.dao.getUserById(2));
-//
-//
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                ss.startNextRound();
-//                ss.chick1Votes = ThreadLocalRandom.current().nextInt(min, max + 1);
-//                ss.chick2Votes = ThreadLocalRandom.current().nextInt(min, max + 1);
-//                System.out.println(ss.chick1);
-//                System.out.println(ss.chick1Votes);
-//                System.out.println(ss.chick2);
-//                System.out.println(ss.chick2Votes);
-//
-//            }
-//        };
-//
-//        Timer timer = new Timer();
-//        timer.scheduleAtFixedRate(task, new Date(), TimeUnit.MILLISECONDS.convert(ss.roundLength, TimeUnit.SECONDS)); // Starts automatically
-    }
 
     public User getChick1() {
         return chick1;
