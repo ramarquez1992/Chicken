@@ -10,50 +10,23 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class SpotlightService {
     @Autowired
-    Dao dao;
+    private Dao dao;
 
+    private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-
-    private Round currRound;
     private int roundLength = 3; // in seconds
     private LocalDateTime roundStart;
-
     private User chick1;
     private User chick2;
     private int chick1Votes = 0;
     private int chick2Votes = 0;
 
-    public static void main(String[] args) {
-//        int min = 1;
-//        int max = 10;
-//
-//        ss.addUserToQueue(ss.dao.getUserById(1));
-//        ss.addUserToQueue(ss.dao.getUserById(3));
-//        ss.addUserToQueue(ss.dao.getUserById(5));
-//        ss.addUserToQueue(ss.dao.getUserById(2));
-//
-//
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                ss.startNextRound();
-//                ss.chick1Votes = ThreadLocalRandom.current().nextInt(min, max + 1);
-//                ss.chick2Votes = ThreadLocalRandom.current().nextInt(min, max + 1);
-//                System.out.println(ss.chick1);
-//                System.out.println(ss.chick1Votes);
-//                System.out.println(ss.chick2);
-//                System.out.println(ss.chick2Votes);
-//
-//            }
-//        };
-//
-//        Timer timer = new Timer();
-//        timer.scheduleAtFixedRate(task, new Date(), TimeUnit.MILLISECONDS.convert(ss.roundLength, TimeUnit.SECONDS)); // Starts automatically
+    public int getRoundLength() {
+        return roundLength;
     }
 
     public User getChick1() {
@@ -76,6 +49,14 @@ public class SpotlightService {
         return chick1Votes;
     }
 
+    public int voteChick1() {
+        return ++chick1Votes;
+    }
+
+    public int voteChick2() {
+        return ++chick2Votes;
+    }
+
     public int getChick2Votes() {
         return chick2Votes;
     }
@@ -90,6 +71,13 @@ public class SpotlightService {
         );
 
         return cr;
+    }
+
+    public void startNextRound() {
+        chick1 = getSpotlightQueue().removeFirst();
+        chick2 = getSpotlightQueue().removeFirst();
+
+        roundStart = LocalDateTime.now();
     }
 
     public Round stopRound() {
@@ -128,22 +116,26 @@ public class SpotlightService {
         return r;
     }
 
-    public void startNextRound() {
-        chick1 = getSpotlightQueue().removeFirst();
-        chick2 = getSpotlightQueue().removeFirst();
-
-        roundStart = LocalDateTime.now();
-    }
-
-
     public Deque<User> getSpotlightQueue() {
         return queue;
     }
 
+    public boolean isInQueue(User u) {
+        boolean result = false;
+
+        for (User v : queue) {
+            if (u.getId() == v.getId()) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
     // TODO: check if not banned
     public boolean addUserToQueue(User u) {
-        // TODO: need to check userids not instances
-        if (!queue.contains(u) && (
+        if (!isInQueue(u) && (
                 chick1 == null || chick2 == null ||
                         (chick1.getId() != u.getId() && chick2.getId() != u.getId())
         )) {
@@ -153,6 +145,29 @@ public class SpotlightService {
             return false;
         }
 
+    }
+
+    public List<User> getActiveUsers() {
+        return new ArrayList<>(activeUsers.values());
+    }
+
+    public User getActiveUser(String sessionId) {
+        return activeUsers.get(sessionId);
+    }
+
+    public void addActiveUser(String sessionId, String email) {
+        User u = dao.getUserByEmail(email);
+        activeUsers.put(sessionId, u);
+        addUserToQueue(u);
+    }
+
+    public void removeActiveUser(String sessionId) {
+        User u = activeUsers.get(sessionId);
+
+        // TODO: don't remove from queue if user has more sockets connected
+        removeUserFromQueue(u);
+
+        activeUsers.remove(sessionId);
     }
 
     public boolean removeUserFromQueue(User userToRemove) {
@@ -169,11 +184,4 @@ public class SpotlightService {
         return result;
     }
 
-    public int voteChick1() {
-        return ++chick1Votes;
-    }
-
-    public int voteChick2() {
-        return ++chick2Votes;
-    }
 }

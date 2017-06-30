@@ -19,6 +19,11 @@ public class UserController {
     @Autowired
     private UserService svc;
 
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    public String getProfile() {
+        return "profile";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public User getUser(@PathVariable int userId) {

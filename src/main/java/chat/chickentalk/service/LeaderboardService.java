@@ -1,8 +1,6 @@
 package chat.chickentalk.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.Round;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class LeaderboardService {
 	@Autowired
     Dao dao;
-	
 
 	//returns all the votes from rounds a user has won
 	public int getWinningVotes(int id) {
