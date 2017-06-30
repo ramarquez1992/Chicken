@@ -20,7 +20,7 @@
                 <button type="submit" method="post" action="uploadAvatar">Submit Avatar</button>
             </div>
         </form>
-    </div>    
+    </div>    <!-- find a way to upload image to s3 bucket --> 
    
     <form name="update" action="updateProfile" method="post">
         <!-- User Account Info -->

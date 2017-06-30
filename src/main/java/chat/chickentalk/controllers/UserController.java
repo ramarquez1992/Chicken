@@ -177,7 +177,8 @@ public class UserController {
 
 	/**
 	 * Sets the String representation of uploaded image to User of current
-	 * Session. Then sets it for the current Session's attribute.
+	 * Session. Then sets it for the current Session's attribute. 
+	 * TODO: upload avatar to s3 bucket 
 	 * 
 	 * @param request
 	 * @return
@@ -190,7 +191,7 @@ public class UserController {
 //		debugging purposes
 //		System.out.println("\n\n\n AVATAR " + avatar + "\n\n\n");
 		user.setAvatar(avatar);
-
+		
 		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("avatar", avatar);
 		return "profile";
