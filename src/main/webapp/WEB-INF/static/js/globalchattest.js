@@ -5,8 +5,17 @@ skylink.init({
 	defaultRoom: 'LGpMxj'
 });
 
-window.onload = setTimeout(initChat, 250);
+var theUser;
 var uStatus;
+$(document).ready(function(){
+	
+	getSelf(function(res){
+		theUser = res;
+	});
+	
+	initChat();
+});
+
 function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
@@ -50,7 +59,8 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 		var elements = document.getElementsByTagName('li')
 		for (var i = 0; i < elements.length; i++) {
 		     if (elements[i].innerHTML.indexOf(user) !== -1) {
-		         node.removeChild(elements[i]);
+		         userList.pop(user);
+		    	 node.removeChild(elements[i]);
 		         break;
 		     }
 		}
@@ -110,6 +120,7 @@ function addMessage(user, message, className) {
 			userModel.textContent = user.name;
 			userModel.onclick = updateModal(user);
 			userListBox.appendChild(userModel);
+			userList.push(user.name);
 		}
 	
 		var userProfile = document.createElement('span');
@@ -130,11 +141,9 @@ function updateModal(user){
 		$('#UserProfile').modal({});
 		getUser(user.userId, function(res) {
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
-			console.log(res.status);
 			$("#selectStatus").val(res.status.name);
-			console.log(res.status.name);
+			console.log("inside " + res.status.name);
 			if(uStatus != "admin" && uStatus != "Chicken") {
-				alert("Made it here");
 				$("#selectStatus").prop("disabled", true);
 			}
 		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
@@ -157,10 +166,14 @@ function updateModal(user){
 			});
 			
 			$('#statusChangeId').text(res.id);
+			console.log("inside " + res.id);
+			
+			$('#statusButton').click(updateUserStatus(res.id));
+			
+			
 		});	
 	};
 };
-
 
 var badWords;
 $(document).ready(function() {
@@ -187,4 +200,17 @@ function replaceWords(message) {
         }
         return stars;
     });
+}
+
+function updateUserStatus(id) {
+	return function() {
+		console.log("button clicked");
+		var userId = id
+		console.log("out user id " + userId);
+		var newStatus = $('#selectStatus').find(':selected').text();
+		console.log("out select status " + newStatus);
+		updateUserAjax(userId, newStatus, function(res) {
+			console.log(res);
+		});
+	}
 }

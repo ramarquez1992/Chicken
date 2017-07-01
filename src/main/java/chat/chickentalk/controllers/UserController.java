@@ -32,13 +32,20 @@ public class UserController {
         return u;
     }
 
+    /**
+     * Gets the session's user object and refreshes the information it contains before
+     * returning the User object.
+     *
+     */
     @ResponseBody
     @RequestMapping(value = "/users/getSelf", method = RequestMethod.GET)
     public User getSelf(HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-
+        u = svc.getUserById(u.getId());
+        request.getSession().setAttribute("user", u);
         return u;
     }
+    
     /**
      * Retrieves User of the current session and the input from the form.
      * Response will return a JSON string of User's new information if success -
@@ -78,12 +85,7 @@ public class UserController {
      */
 	@ResponseBody @RequestMapping(value = "/updateProfileAjax/{userId}/{status}", method = RequestMethod.GET)
 	public boolean updateUserAjax(@PathVariable int userId, @PathVariable String status){
-		User user = (User) svc.getUserById(userId);
-		
-		// boolean result = svc.updateUser(user, firstName, lastName, email,
-		// isBaby, password, passwordCheck, avatar, status);
-		boolean result = svc.updateUser(user, user.getFirstName(), user.getLastName(), user.getEmail(), user.isBaby(),
-										user.getPassword(), user.getPassword(), user.getAvatar(), status); // debugging
+		boolean result = svc.updateStatus(userId, status);
 
 		return result;
 	}

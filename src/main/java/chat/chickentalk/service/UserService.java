@@ -51,6 +51,30 @@ public class UserService {
 	}
 
 	/**
+	 * Takes in the id of a user and changes their status to match the statusName.
+	 * 
+	 * @param id
+	 *          Id of the User to be updated.  
+	 * @param statusName
+	 *            name of the status to be updated to (Not a status object)
+	 * @return true on success, false on failure to update.
+	 */
+	public boolean updateStatus(int id, String statusName){
+		User temp = dao.getUserById(id);
+		List<UserStatus> tempList = dao.getStatusList();
+		System.out.println(tempList.get(0));
+		for(int i = 0; i < tempList.size(); i++){
+			if(tempList.get(i).getName().equals(statusName)){
+				UserStatus tempStatus = tempList.get(i);
+				temp.setStatus(tempStatus);
+				dao.updateUser(temp);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Receives the User of the current session and the (new) information from
 	 * the Account Settings page. Will update only if new email is still unique
 	 * and the passwords match.
@@ -98,11 +122,7 @@ public class UserService {
 			user.setEmail(email);
 		if (!password.equals(""))
 			user.setPassword(password);
-		if(!status.equals(""))
-			user.setStatus(new UserStatus(status)); // potential problem?
-		if(!avatar.equals(""))	//no avatar results in null pointer exception 
-			user.setAvatar(avatar);	
-
+		
 		user.setBaby(isBaby);
 
 		return dao.updateUser(user);
