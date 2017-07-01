@@ -70,6 +70,23 @@ public class UserController {
 
 		return "profile";
 	}
+	
+	/**
+     * Updating user information from ajax call.
+     * 
+     * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
+     */
+	@ResponseBody @RequestMapping(value = "/updateProfileAjax/{userId}/{status}", method = RequestMethod.GET)
+	public boolean updateUserAjax(@PathVariable int userId, @PathVariable String status){
+		User user = (User) svc.getUserById(userId);
+		
+		// boolean result = svc.updateUser(user, firstName, lastName, email,
+		// isBaby, password, passwordCheck, avatar, status);
+		boolean result = svc.updateUser(user, user.getFirstName(), user.getLastName(), user.getEmail(), user.isBaby(),
+										user.getPassword(), user.getPassword(), user.getAvatar(), status); // debugging
+
+		return result;
+	}
 
     /**
      * Takes the email and password paramters and checks if a User with that email/password

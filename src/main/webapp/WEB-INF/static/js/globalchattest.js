@@ -6,11 +6,11 @@ skylink.init({
 });
 
 window.onload = setTimeout(initChat, 250);
-
+var uStatus;
 function initChat() {
 	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
 	var num = document.getElementById('idNum').innerHTML
-	var uStatus = document.getElementById('status').innerHTML
+	uStatus = document.getElementById('status').innerHTML
 	
 	var games = 0;
 	
@@ -125,39 +125,18 @@ function addMessage(user, message, className) {
 	chatbox.appendChild(div);
 }
 
-//function updateModal(user){
-//	$('#UserProfile').modal({}); 
-//	$("#fullName").text(user.name);
-//	$("#userStatus").text("Status: " + user.status);
-//	gamesPlayed(user.userId, function(res) {
-//		$("#games").text("Total Games Played: " + res);
-//	});	 
-//		 
-//	gamesWon(user.userId, function(res) {
-//	    $("#wins").text("Total Wins: " + res);
-//	});
-//	
-//	spotlightTime(user.userId, function(res) {
-//	    $("#spotlight").text("Time in the Spotlight: " + res);
-//	});
-//	
-//	totalVotes(user.userId, function(res) {
-//	    $("#votes").text("Total Votes Recieved: " + res);
-//	});
-//	
-//	getUser(user.userId, function(res) {
-//	    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
-//	    $("#avatar").attr("src", res.avatar);
-//	});		
-//	
-//}; 
-
 function updateModal(user){
 	return function(){
 		$('#UserProfile').modal({});
 		getUser(user.userId, function(res) {
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
-			$("#userStatus").text("Status: " + res.status.name);
+			console.log(res.status);
+			$("#selectStatus").val(res.status.name);
+			console.log(res.status.name);
+			if(uStatus != "admin" && uStatus != "Chicken") {
+				alert("Made it here");
+				$("#selectStatus").prop("disabled", true);
+			}
 		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
 		    $("#avatar").attr("src", res.avatar);
 		    
@@ -175,10 +154,13 @@ function updateModal(user){
 			
 			totalVotes(res.id, function(res) {
 			    $("#votes").text("Total Votes Recieved: " + res);
-			});    
+			});
+			
+			$('#statusChangeId').text(res.id);
 		});	
 	};
 };
+
 
 var badWords;
 $(document).ready(function() {
