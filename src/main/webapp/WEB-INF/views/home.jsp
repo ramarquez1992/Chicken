@@ -5,13 +5,15 @@ ${user.getEmail()}
 <div ng-controller="SpotlightController" class="container-fluid">
 
     <div id="spotlight" class="row">
-        <div id="chick1StreamContainer" class="col-xs-4">
+        <div id="chick1" class="col-xs-4">
             <h3 class="chickName">{{currentRound.chick1.email}}</h3>
+            <div id="chick1StreamContainer"></div>
             <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
         </div>
 
-        <div id="chick2StreamContainer" class="col-xs-4">
+        <div id="chick2" class="col-xs-4">
             <h3 class="chickName">{{currentRound.chick2.email}}</h3>
+            <div id="chick2StreamContainer"></div>
             <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
         </div>
 
@@ -25,12 +27,6 @@ ${user.getEmail()}
         </div>
     </div>
 
-    <div class="row">
-        <button id="chick1StreamBtn">chick1-stream</button>
-        <button id="chick2StreamBtn">chick2-stream</button>
-
-        <button onclick="attachSpotlight();">View</button>
-    </div>
 
 </div>
 

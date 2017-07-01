@@ -27,6 +27,12 @@ public class SpotlightController {
     private TimerTask spotlightTimerTask;
 
     @ResponseBody
+    @RequestMapping(value = "/spotlight/forceUpdate", method = RequestMethod.GET)
+    public void forceUpdate() {
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/spotlight/addSelfToQueue", method = RequestMethod.POST)
     public boolean addSelfToQueue(HttpServletRequest request) {
 

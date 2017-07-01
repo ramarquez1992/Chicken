@@ -10,6 +10,16 @@ function getUser(userId, callback) {
     });
 }
 
+function forceUpdate(callback) {
+    $.ajax({
+        url: "spotlight/forceUpdate",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function getSelf(callback) {
     $.ajax({
         url: "users/getSelf",
