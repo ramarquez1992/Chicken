@@ -6,20 +6,19 @@ skylink.init({
 });
 
 var theUser;
-var uStatus;
 $(document).ready(function(){
 	
 	getSelf(function(res){
 		theUser = res;
+		initChat();
 	});
-	
-	initChat();
 });
 
+var uStatus
 function initChat() {
-	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
-	var num = document.getElementById('idNum').innerHTML
-	uStatus = document.getElementById('status').innerHTML
+	var userName = theUser.firstName + " " + theUser.lastName;
+	var num = theUser.id;
+	uStatus = theUser.status.name;
 	
 	var games = 0;
 	
@@ -28,8 +27,8 @@ function initChat() {
 		userId : num,
 		status : uStatus
 	});
-	
-	skylink.joinRoom();
+	if(uStatus != "permanent ban") skylink.joinRoom();
+	else console.log(uStatus + " :D");
 }
 
 var userList = [];
@@ -91,6 +90,13 @@ function sendMessage() {
 }
 
 function addMessage(user, message, className) {
+	if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
+		var updatedId = message.split("|");
+		
+		if(updatedId[1] = user.userId) location.reload();
+		return;
+	}
+	
 	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
 		return;
 	}
@@ -142,7 +148,6 @@ function updateModal(user){
 		getUser(user.userId, function(res) {
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
 			$("#selectStatus").val(res.status.name);
-			console.log("inside " + res.status.name);
 			if(uStatus != "admin" && uStatus != "Chicken") {
 				$("#selectStatus").prop("disabled", true);
 			}
@@ -166,7 +171,6 @@ function updateModal(user){
 			});
 			
 			$('#statusChangeId').text(res.id);
-			console.log("inside " + res.id);
 			
 			$('#statusButton').click(updateUserStatus(res.id));
 			
@@ -204,13 +208,10 @@ function replaceWords(message) {
 
 function updateUserStatus(id) {
 	return function() {
-		console.log("button clicked");
 		var userId = id
-		console.log("out user id " + userId);
 		var newStatus = $('#selectStatus').find(':selected').text();
-		console.log("out select status " + newStatus);
 		updateUserAjax(userId, newStatus, function(res) {
-			console.log(res);
+			skylink.sendP2PMessage("|" + userId + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
 		});
 	}
 }
