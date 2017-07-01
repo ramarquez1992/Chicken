@@ -25,7 +25,10 @@ ${user.getEmail()}
                 </tr>
             </table>
         </div>
+
+
     </div>
+    <div id="myStreamContainer"></div>
 
 
 </div>

@@ -12,6 +12,11 @@ app.controller('SpotlightController', function ($scope) {
     getSelf(function (cu) {
         currUser = cu;
 
+        // stream(currUser.email, function (ctrl) {
+            // ctrl.addLocalStream(document.getElementById('myStreamContainer'));
+            // $('#chick2StreamContainer video').remove();
+        // });
+
         var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
         var stompClient = Stomp.over(socket);
 
@@ -20,7 +25,7 @@ app.controller('SpotlightController', function ($scope) {
                 var newRound = JSON.parse(res.body);
                 // console.log(newRound);
 
-                // refreshStreams(newRound);
+                refreshStreams(newRound);
 
                 $scope.currentRound = newRound;
                 currRound = $scope.currentRound;
@@ -34,7 +39,7 @@ app.controller('SpotlightController', function ($scope) {
         getCurrentRound(function (res) {
             var newRound = res;
 
-            // refreshStreams(newRound);
+            refreshStreams(newRound);
 
             $scope.currentRound = res;
             currRound = $scope.currentRound;
@@ -46,7 +51,6 @@ app.controller('SpotlightController', function ($scope) {
 });
 
 function refreshStreams(newRound) {
-
     if (
         // not enough ppl to populate spotlight
     currRound == null || newRound == null ||
@@ -59,11 +63,24 @@ function refreshStreams(newRound) {
     ) {
 
         // TODO: end ALL streams
-        if (newRound.chick1.id != currUser.id && newRound.chick2.id != currUser.id) {
+        // if (
+        //     currUser != null && newRound != null &&
+        //     newRound.chick1 != null && newRound.chick2 != null &&
+        //     newRound.chick1.id != currUser.id && newRound.chick2.id != currUser.id) {
             endStream(currUserStreamCtrl);
-        }
-        endStream(chick1StreamCtrl);
-        endStream(chick2StreamCtrl);
+        // }
+        // if (
+        //     currRound != null && newRound != null &&
+        //     newRound.chick1 != null && currRound.chick1 != null &&
+        //     newRound.chick1.id !== currRound.chick1.id) {
+            endStream(chick1StreamCtrl);
+        // }
+        // if (
+        //     currRound != null && newRound != null &&
+        //     newRound.chick2 != null && currRound.chick2 != null &&
+        //     newRound.chick2.id !== currRound.chick2.id) {
+            endStream(chick2StreamCtrl);
+        // }
 
         if (
             currUser != null && newRound != null &&
@@ -79,6 +96,7 @@ function refreshStreams(newRound) {
 
                 if (!isChick1Stream) {
                     stream(currUser.email, function (ctrl) {
+                    // stream('chick1', function (ctrl) {
                         $('#chick1StreamContainer video').remove();
                         // ctrl.addLocalStream(chick1StreamContainer);
                         // forceUpdate(function (res) { });
@@ -88,12 +106,13 @@ function refreshStreams(newRound) {
                 isChick1Stream = true;
                 isChick2Stream = false;
 
-                attachSpotlight();
+                // attachSpotlight();
 
             } else if (newRound.chick2.id === currUser.id) {
 
                 if (!isChick2Stream) {
                     stream(currUser.email, function (ctrl) {
+                    // stream('chick2', function (ctrl) {
                         $('#chick2StreamContainer video').remove();
                         // ctrl.addLocalStream(chick2StreamContainer);
                         // forceUpdate(function (res) { });
@@ -102,14 +121,15 @@ function refreshStreams(newRound) {
                 isChick1Stream = false;
                 isChick2Stream = true;
 
-                attachSpotlight();
+                // attachSpotlight();
 
             } else {
                 isChick1Stream = false;
                 isChick2Stream = false;
 
-                attachSpotlight();
+                // attachSpotlight();
             }
+            attachSpotlight();
 
 
         }
@@ -120,6 +140,7 @@ function refreshStreams(newRound) {
 
 
 $(document).ready(function () {
+
 
     $('#voteChick1').click(function () {
         voteChick1(function (res) {
@@ -159,7 +180,7 @@ function stream(number, callback) {
 
 function getStream(ctrl, number, callback) {
     // TODO: needed?
-    endStream(ctrl);
+    // endStream(ctrl);
 
     var phone = window.phone = PHONE({
         number: "Viewer" + Math.floor(Math.random() * 1000), // Random name
@@ -191,6 +212,7 @@ function endStream(ctrl) {
 
 function attachSpotlight() {
     if (!isChick1Stream && currRound != null && currRound.chick1 != null) {
+        // getStream(chick1StreamCtrl, 'chick1', function (video) {
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
             chick1StreamContainer.appendChild(video);
@@ -198,6 +220,7 @@ function attachSpotlight() {
     }
 
     if (!isChick2Stream && currRound != null && currRound.chick2 != null) {
+        // getStream(chick2StreamCtrl, 'chick2', function (video) {
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
             chick2StreamContainer.appendChild(video);
