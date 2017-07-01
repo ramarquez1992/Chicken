@@ -18,12 +18,30 @@ public class SpotlightService {
 
     private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-    private int roundLength = 10; // in seconds
+    private int roundLength = 5; // in seconds
     private LocalDateTime roundStart;
     private User chick1;
     private User chick2;
     private int chick1Votes = 0;
     private int chick2Votes = 0;
+    private boolean chick1Ready = false;
+    private boolean chick2Ready = false;
+
+    public boolean isChick1Ready() {
+        return chick1Ready;
+    }
+
+    public void setChick1Ready(boolean chick1Ready) {
+        this.chick1Ready = chick1Ready;
+    }
+
+    public boolean isChick2Ready() {
+        return chick2Ready;
+    }
+
+    public void setChick2Ready(boolean chick2Ready) {
+        this.chick2Ready = chick2Ready;
+    }
 
     public int getRoundLength() {
         return roundLength;
@@ -67,16 +85,23 @@ public class SpotlightService {
                 getChick2(),
                 getChick1Votes(),
                 getChick2Votes(),
-                getSpotlightQueue()
+                getSpotlightQueue(),
+                isChick1Ready(),
+                isChick2Ready()
         );
 
         return cr;
     }
 
-    public void startNextRound() {
+    public void createNextRound() {
         chick1 = getSpotlightQueue().removeFirst();
         chick2 = getSpotlightQueue().removeFirst();
 
+        chick1Ready = false;
+        chick2Ready = false;
+    }
+
+    public void startNextRound() {
         roundStart = LocalDateTime.now();
     }
 
@@ -112,6 +137,9 @@ public class SpotlightService {
         chick2 = null;
         chick1Votes = 0;
         chick2Votes = 0;
+
+        chick1Ready = false;
+        chick2Ready = false;
 
         return r;
     }

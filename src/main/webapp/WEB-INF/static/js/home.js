@@ -23,7 +23,6 @@ app.controller('SpotlightController', function ($scope) {
         stompClient.connect({email: cu.email}, function (frame) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
-                // console.log(newRound);
 
                 refreshStreams(newRound);
 
@@ -51,6 +50,7 @@ app.controller('SpotlightController', function ($scope) {
 });
 
 function refreshStreams(newRound) {
+    console.log('outside REFRESH');
     if (
         // not enough ppl to populate spotlight
     currRound == null || newRound == null ||
@@ -59,28 +59,31 @@ function refreshStreams(newRound) {
 
     // chicks have changed
     newRound.chick1.id !== currRound.chick1.id ||
-    newRound.chick2.id !== currRound.chick2.id
+    newRound.chick2.id !== currRound.chick2.id ||
+
+    newRound.chick1Ready !== currRound.chick1Ready ||
+    newRound.chick2Ready !== currRound.chick2Ready
     ) {
 
         // TODO: end ALL streams
-        // if (
-        //     currUser != null && newRound != null &&
-        //     newRound.chick1 != null && newRound.chick2 != null &&
-        //     newRound.chick1.id != currUser.id && newRound.chick2.id != currUser.id) {
+        if (
+            currUser != null && newRound != null &&
+            newRound.chick1 != null && newRound.chick2 != null &&
+            newRound.chick1.id != currUser.id && newRound.chick2.id != currUser.id) {
             endStream(currUserStreamCtrl);
-        // }
-        // if (
-        //     currRound != null && newRound != null &&
-        //     newRound.chick1 != null && currRound.chick1 != null &&
-        //     newRound.chick1.id !== currRound.chick1.id) {
+        }
+        if (
+            currRound != null && newRound != null &&
+            newRound.chick1 != null && currRound.chick1 != null &&
+            newRound.chick1.id !== currRound.chick1.id) {
             endStream(chick1StreamCtrl);
-        // }
-        // if (
-        //     currRound != null && newRound != null &&
-        //     newRound.chick2 != null && currRound.chick2 != null &&
-        //     newRound.chick2.id !== currRound.chick2.id) {
+        }
+        if (
+            currRound != null && newRound != null &&
+            newRound.chick2 != null && currRound.chick2 != null &&
+            newRound.chick2.id !== currRound.chick2.id) {
             endStream(chick2StreamCtrl);
-        // }
+        }
 
         if (
             currUser != null && newRound != null &&
@@ -89,15 +92,21 @@ function refreshStreams(newRound) {
 
             currRound = newRound;
 
+            console.log('trying to refresh streams');
 
 
             // TODO: only stream if user not already streaming aka not a chick
             if (newRound.chick1.id === currUser.id) {
 
                 if (!isChick1Stream) {
+                    console.log('about to stream chick1');
                     stream(currUser.email, function (ctrl) {
+                        console.log('streaming chick1');
                     // stream('chick1', function (ctrl) {
                         $('#chick1StreamContainer video').remove();
+                        setChick1Ready(function(res) {
+                            console.log('set chick1 ready');
+                        });
                         // ctrl.addLocalStream(chick1StreamContainer);
                         // forceUpdate(function (res) { });
                     });
@@ -111,9 +120,14 @@ function refreshStreams(newRound) {
             } else if (newRound.chick2.id === currUser.id) {
 
                 if (!isChick2Stream) {
+                    console.log('abou to stream chick2');
                     stream(currUser.email, function (ctrl) {
+                        console.log('streaming chick2');
                     // stream('chick2', function (ctrl) {
                         $('#chick2StreamContainer video').remove();
+                        setChick2Ready(function(res) {
+                            console.log('set chick2 ready');
+                        });
                         // ctrl.addLocalStream(chick2StreamContainer);
                         // forceUpdate(function (res) { });
                     });
@@ -211,6 +225,8 @@ function endStream(ctrl) {
 }
 
 function attachSpotlight() {
+    if (currRound != null && !currRound.chick1Ready || !currRound.chick2Ready) return;
+
     if (!isChick1Stream && currRound != null && currRound.chick1 != null) {
         // getStream(chick1StreamCtrl, 'chick1', function (video) {
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {

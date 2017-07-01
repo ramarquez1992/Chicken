@@ -88,22 +88,62 @@ public class SpotlightController {
         this.template.convertAndSend("/topic/messages", cr);
     }
 
+    public void attemptToStartRound() {
+        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+            sendRound(svc.getCurrentRound());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick1Ready", method = RequestMethod.GET)
+    public void setChick1Ready() {
+        svc.setChick1Ready(true);
+
+        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+            start();
+        }
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick2Ready", method = RequestMethod.GET)
+    public void setChick2Ready() {
+        svc.setChick2Ready(true);
+
+        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+            start();
+        }
+        sendRound(svc.getCurrentRound());
+    }
+
     public boolean start() {
         started = true;
-        spotlightTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                svc.stopRound();
-                svc.startNextRound();
 
-                sendRound(svc.getCurrentRound());
-            }
-        };
+        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+            started = true;
+            svc.startNextRound();
+            sendRound(svc.getCurrentRound());
+            spotlightTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    svc.stopRound();
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
+                    //TODO: create next round instead of start
+                    svc.createNextRound();
+//                    svc.startNextRound();
+                    start();
 
-        return true;
+                    sendRound(svc.getCurrentRound());
+                }
+            };
+
+            timer = new Timer();
+            timer.schedule(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS));
+//            timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
+        }
+
+//        sendRound(svc.getCurrentRound());
+        return started;
     }
 
     public void stop() {
@@ -118,6 +158,7 @@ public class SpotlightController {
         svc.addActiveUser(sessionId, email);
 
         if (!started && svc.getSpotlightQueue().size() > 1) {
+            svc.createNextRound();
             start();
         }
 
@@ -137,6 +178,7 @@ public class SpotlightController {
             svc.removeActiveUser(sessionId);
 
             if (svc.getSpotlightQueue().size() > 1) {
+                svc.createNextRound();
                 start();
             }
         }

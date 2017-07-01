@@ -8,13 +8,34 @@ public class CurrentRound {
     int chick1Votes;
     int chick2Votes;
     Deque<User> queue;
+    boolean chick1Ready = false;
+    boolean chick2Ready = false;
 
-    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes, Deque<User> queue) {
+    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes,
+                        Deque<User> queue, boolean chick1Ready, boolean chick2Ready) {
         this.chick1 = chick1;
         this.chick2 = chick2;
         this.chick1Votes = chick1Votes;
         this.chick2Votes = chick2Votes;
         this.queue = queue;
+        this.chick1Ready = chick1Ready;
+        this.chick2Ready = chick2Ready;
+    }
+
+    public boolean isChick1Ready() {
+        return chick1Ready;
+    }
+
+    public void setChick1Ready(boolean chick1Ready) {
+        this.chick1Ready = chick1Ready;
+    }
+
+    public boolean isChick2Ready() {
+        return chick2Ready;
+    }
+
+    public void setChick2Ready(boolean chick2Ready) {
+        this.chick2Ready = chick2Ready;
     }
 
     public User getChick1() {
