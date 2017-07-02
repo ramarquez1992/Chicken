@@ -11,6 +11,9 @@ $(document).ready(function(){
 	getSelf(function(res){
 		theUser = res;
 		initChat();
+		if(res.status.name == "permanent ban") {
+			window.location.replace("logoutUser");
+		}
 	});
 });
 
