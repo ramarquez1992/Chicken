@@ -27,6 +27,12 @@ public class SpotlightController {
     private TimerTask spotlightTimerTask;
 
     @ResponseBody
+    @RequestMapping(value = "/spotlight/forceUpdate", method = RequestMethod.GET)
+    public void forceUpdate() {
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/spotlight/addSelfToQueue", method = RequestMethod.POST)
     public boolean addSelfToQueue(HttpServletRequest request) {
 
@@ -82,22 +88,90 @@ public class SpotlightController {
         this.template.convertAndSend("/topic/messages", cr);
     }
 
+    public void attemptToStartRound() {
+        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+            sendRound(svc.getCurrentRound());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick1Ready", method = RequestMethod.GET)
+    public void setChick1Ready() {
+        svc.setChick1Ready(true);
+
+        if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
+            start();
+        } else {
+            sendRound(svc.getCurrentRound());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick2Ready", method = RequestMethod.GET)
+    public void setChick2Ready() {
+        svc.setChick2Ready(true);
+
+        if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
+            start();
+        } else {
+            sendRound(svc.getCurrentRound());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick1Drop", method = RequestMethod.GET)
+    public void setChick1Drop() {
+        // TODO: make sure curr user is chick1
+        User u = svc.getChick1();
+
+        svc.setChick1(svc.getSpotlightQueue().removeFirst());
+        svc.addUserToQueue(u);
+
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick2Drop", method = RequestMethod.GET)
+    public void setChick2Drop() {
+        // TODO: make sure curr user is chick2
+        User u = svc.getChick2();
+
+        svc.setChick2(svc.getSpotlightQueue().removeFirst());
+        svc.addUserToQueue(u);
+
+        sendRound(svc.getCurrentRound());
+    }
+
     public boolean start() {
+        svc.setStarted(true);
         started = true;
+
+        svc.startNextRound();
+        sendRound(svc.getCurrentRound());
+
         spotlightTimerTask = new TimerTask() {
             @Override
             public void run() {
+                started = false;
                 svc.stopRound();
-                svc.startNextRound();
+
+                //TODO: create next round instead of start
+                if (svc.getSpotlightQueue().size() > 1) {
+                    svc.createNextRound();
+                }
+//                    svc.startNextRound();
+//                    start();
 
                 sendRound(svc.getCurrentRound());
             }
         };
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
+        timer.schedule(spotlightTimerTask, TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS));
+//            timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
 
-        return true;
+//        sendRound(svc.getCurrentRound());
+        return started;
     }
 
     public void stop() {
@@ -112,7 +186,8 @@ public class SpotlightController {
         svc.addActiveUser(sessionId, email);
 
         if (!started && svc.getSpotlightQueue().size() > 1) {
-            start();
+            svc.createNextRound();
+//            start();
         }
 
         sendRound(getCurrentRound());
@@ -131,7 +206,8 @@ public class SpotlightController {
             svc.removeActiveUser(sessionId);
 
             if (svc.getSpotlightQueue().size() > 1) {
-                start();
+                svc.createNextRound();
+//                start();
             }
         }
 

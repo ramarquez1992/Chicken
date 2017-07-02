@@ -34,7 +34,7 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.0); /* Black w/ opacity */
     data-backdrop: 'static';
 }
 
@@ -83,7 +83,15 @@ header a:first-child {
 
 #chatbox {
   position: absolute;
+  width: 70%;
   bottom: 0px;
+}
+
+#userList {
+	float:left;
+	margin-left:70%;
+	border: 1px #ddd solid;
+	width:125px;
 }
 
 .action {
@@ -104,6 +112,7 @@ header a:first-child {
 <span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
 <span id="idNum" style="visibility: hidden;">${user.getId()}</span>
 <span id="isBaby" style="visibility: hidden;">${user.isBaby()}</span>
+<span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
   <header>
     <br/>
     <input type="text" id="message" placeholder="My message" />
@@ -113,6 +122,7 @@ header a:first-child {
   
   <div id="container">
     <div id="chatbox"></div>
+    <div id="userList"><p>User List</p></div>
  </div>
 
 <div class="modal fade" id="UserProfile">
@@ -127,8 +137,14 @@ header a:first-child {
 			</div>
 			<div class="modal-body">
 				<h3>User Info</h3>
+				<img id="avatar" src=""/>
 				<p id="fullName"></p>
-				<p id="something"></p>	
+				<p id="userStatus"></p>
+				<p id="games">?</p>
+				<p id="wins"></p>
+				<p id="spotlight"></p>
+				<p id="votes"></p>
+				<p id="votesCast"></p>	
 			</div>
 		</div>
 		<!-- /.modal-content -->

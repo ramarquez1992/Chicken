@@ -119,7 +119,7 @@ public class LeaderboardService {
 			totalHours += hours;
 			}
 		}
-		totalTime = ("Hours: " + totalHours + " Minutes: " + totalMinutes + " Seconds: " + totalSeconds); 
+		totalTime = (totalHours + " hrs " + totalMinutes + " mins " + totalSeconds + " secs"); 
 		return totalTime;
 	}
 	
