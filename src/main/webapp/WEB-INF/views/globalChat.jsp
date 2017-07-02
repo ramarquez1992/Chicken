@@ -139,12 +139,21 @@ header a:first-child {
 				<h3>User Info</h3>
 				<img id="avatar" src=""/>
 				<p id="fullName"></p>
-				<p id="userStatus"></p>
+				<div id="userStatus">
+						<select id="selectStatus">
+					  		<option id ="stat1" value="normal">normal</option>
+						    <option id ="stat2" value="shadow ban">shadow ban</option>
+						    <option id ="stat3" value="permanent ban">permanent ban</option>
+						    <option id ="stat4" value="admin" selected>admin</option>
+						</select>
+						<button id = "statusButton">Submit Changes</button>
+				</div>
 				<p id="games">?</p>
 				<p id="wins"></p>
 				<p id="spotlight"></p>
 				<p id="votes"></p>
 				<p id="votesCast"></p>	
+				<span id="statusChangeId" style="visibility: hidden;"></span>
 			</div>
 		</div>
 		<!-- /.modal-content -->

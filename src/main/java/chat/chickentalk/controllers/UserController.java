@@ -64,14 +64,21 @@ public class UserController {
 
         return u;
     }
-    
+
+    /**
+     * Gets the session's user object and refreshes the information it contains before
+     * returning the User object.
+     *
+     */
     @ResponseBody
     @RequestMapping(value = "/users/getSelf", method = RequestMethod.GET)
     public User getSelf(HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-
+        u = svc.getUserById(u.getId());
+        request.getSession().setAttribute("user", u);
         return u;
     }
+    
     /**
      * TODO: documentation 
      *
@@ -107,6 +114,18 @@ public class UserController {
 		request.getSession().setAttribute("user", user);
 
 		return "profile";
+	}
+	
+	/**
+     * Updating user information from ajax call.
+     * 
+     * Form Parameters: firstname, lastname, email, bebechick, password, password-check, avatar
+     */
+	@ResponseBody @RequestMapping(value = "/updateProfileAjax/{userId}/{status}", method = RequestMethod.GET)
+	public boolean updateUserAjax(@PathVariable int userId, @PathVariable String status){
+		boolean result = svc.updateStatus(userId, status);
+
+		return result;
 	}
 
     /**
