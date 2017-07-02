@@ -100,7 +100,7 @@ public class UserService {
 			user.setPassword(password);
 		if(!status.equals(""))
 			user.setStatus(new UserStatus(status)); // potential problem?
-		if(!avatar.equals(""))	//no avatar results in null pointer exception 
+		if(!avatar.equals(""))
 			user.setAvatar(avatar);	
 
 		user.setBaby(isBaby);

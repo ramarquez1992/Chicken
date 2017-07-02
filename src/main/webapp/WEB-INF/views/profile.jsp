@@ -4,27 +4,24 @@
 
 <!--  Update User Profile  -->
 <div>
-    <!-- Avatar and Update Avatar uses bootstrap-fileinput plugin -->
+    <!-- avatar and Update avatar, uses bootstrap-fileinput plugin -->
+    <div> <!-- current avatar display -->
+        <img src="${user.getAvatar()}" alt="current avatar">
+    </div>
+    <!-- Form for uploading/submitting new avatar --> 
     <div onsubmit="findImageAvatar('imageForm','img')"> <!-- calls JS method -->
-        <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar"> <!-- supposed to call uploadAvatar in Controller -->
+        <form id="imageForm" class="form-horizontal" method="post" action="uploadAvatar"> <!-- call uploadAvatar in Controller -->
             <div class="form-group">
                 <label for="receipt_input" class="control-label">Avatar</label>
                 <input name="receipt" id="receipt_input" type="file" class="file" accept="image/*" data-show-upload="false" data-allowed-file-extensions='["jpg", "png"]' required>
             </div>
-            <input id="avatar" name="avatar" hidden=hidden/> <!-- Controller not getting "avatar" parameter --> 
+            <input id="avatar" name="avatar" hidden=hidden/> <!-- shows image preview after selection --> 
             <div class="form-group"> <!-- submit avatar button --> 
-                <button type="submit">Submit Avatar</button>
+                <button type="submit" method="post" action="uploadAvatar">Submit Avatar</button>
             </div>
-            <c:if test="${ avatar != null }">   <!-- for showing all past images, iirc -->
-                <div class="form-group">
-                    <label class="control-label">Avatar</label>
-                    <input name="avatar_input" id="avatar_input" type="file" class="file" data-show-upload="false"> <!-- #avatar_input supposed to trigger JS --> 
-                    <input id="imageAvatar" value="${avatar}" hidden="hidden"/>
-                </div>
-            </c:if>
         </form>
-    </div>    
-
+    </div>
+   
     <form name="update" action="updateProfile" method="post">
         <!-- User Account Info -->
         <input name="firstName" type="text" placeholder="${user.getFirstName()}">
