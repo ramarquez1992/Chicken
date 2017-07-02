@@ -120,19 +120,26 @@ public class SpotlightController {
 
     @ResponseBody
     @RequestMapping(value = "/spotlight/setChick1Drop", method = RequestMethod.GET)
-    public void setChick1Drop() {
+    public boolean setChick1Drop() {
         // TODO: make sure curr user is chick1
+        System.out.println("11111");
         User u = svc.getChick1();
 
+        System.out.println("2222222");
         svc.setChick1(svc.getSpotlightQueue().removeFirst());
+        System.out.println("33333333");
         svc.addUserToQueue(u);
+        System.out.println("44444444");
 
         sendRound(svc.getCurrentRound());
+        System.out.println("55555555");
+
+        return true;
     }
 
     @ResponseBody
     @RequestMapping(value = "/spotlight/setChick2Drop", method = RequestMethod.GET)
-    public void setChick2Drop() {
+    public boolean setChick2Drop() {
         // TODO: make sure curr user is chick2
         User u = svc.getChick2();
 
@@ -140,6 +147,8 @@ public class SpotlightController {
         svc.addUserToQueue(u);
 
         sendRound(svc.getCurrentRound());
+
+        return true;
     }
 
     public boolean start() {

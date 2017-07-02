@@ -5,11 +5,9 @@ var isChick2Stream = false;
 var currUserStreamCtrl = {};
 var chick1StreamCtrl = {};
 var chick2StreamCtrl = {};
-var chick1IsStreaming = false;
-var chick2IsStreaming = false;
-var streaming = false;
 var chick1StreamEmail;
 var chick2StreamEmail;
+var alreadyVoted = false;
 
 app.controller('SpotlightController', function ($scope) {
 
@@ -29,15 +27,37 @@ app.controller('SpotlightController', function ($scope) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
 
+                // end YOUR stream if you are not a chick
+                if (newRound.chick1 != null && newRound.chick1.id != currUser.id &&
+                        newRound.chick2 != null && newRound.chick2.id != currUser.id) {
+                    endStream(currUserStreamCtrl);
+                }
+
+                // end other streams if they have changed
+                if (newRound.chick1 != null && newRound.chick1.email != chick1StreamEmail) {
+                    endStream(chick1StreamCtrl);
+                }
+                if (newRound.chick2 != null && newRound.chick2.email != chick2StreamEmail) {
+                    endStream(chick2StreamCtrl);
+                }
+
+
+
+                currRound = newRound;
+
+                if (newRound.chick1 == null || newRound.chick1.id != currUser.id) isChick1Stream = false;
+                if (newRound.chick2 == null || newRound.chick2.id != currUser.id) isChick2Stream = false;
+
                 if (newRound.started) {
                     console.log('round is started!!!!!!!!');
-                    currRound = newRound;
                     attachSpotlight();
 
                 } else if (!newRound.started) {
+                    alreadyVoted = false;
+
                     if (newRound.chick1 != null && newRound.chick1.id == currUser.id && !newRound.chick1Ready) {
-                        // var willing = confirm('are you willing 1?');
-                        var willing = true;
+                        var willing = confirm('are you willing 1?');
+                        // var willing = true;
                         if (willing) {
                             // refreshStreams();
                             // setChick1Ready(function(res) { console.log('c1 willing')});
@@ -46,11 +66,15 @@ app.controller('SpotlightController', function ($scope) {
                                 isChick1Stream = true;
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick1StreamContainer video').remove();
-
-                                    setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                    //
+                                    setTimeout(function() {
+                                        setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                    }, 2000);
                                 });
                             } else {
-                                setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                setTimeout(function() {
+                                    setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                }, 2000);
                             }
 
                         } else {
@@ -59,8 +83,8 @@ app.controller('SpotlightController', function ($scope) {
                     }
 
                     if (newRound.chick2 != null && newRound.chick2.id == currUser.id && !newRound.chick2Ready) {
-                        // var willing = confirm('are you willing 2?');
-                        var willing = true;
+                        var willing = confirm('are you willing 2?');
+                        // var willing = true;
                         if (willing) {
                             // refreshStreams();
                             // setChick2Ready(function (res) { console.log('c2 willing')});
@@ -69,10 +93,14 @@ app.controller('SpotlightController', function ($scope) {
                                 isChick2Stream = true;
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick2StreamContainer video').remove();
-                                    setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                    setTimeout(function() {
+                                        setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                    }, 2000);
                                 });
                             } else {
-                                setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                setTimeout(function() {
+                                    setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                }, 2000);
                             }
 
                         } else {
@@ -81,13 +109,11 @@ app.controller('SpotlightController', function ($scope) {
                     }
 
                 }
-                if (newRound.chick1 == null || newRound.chick1.id != currUser.id) isChick1Stream = false;
-                if (newRound.chick2 == null || newRound.chick2.id != currUser.id) isChick2Stream = false;
 
                 // refreshStreams(newRound);
 
                 $scope.currentRound = newRound;
-                currRound = $scope.currentRound;
+                // currRound = $scope.currentRound;
                 $scope.$apply();
             });
         });
@@ -112,17 +138,18 @@ app.controller('SpotlightController', function ($scope) {
 
 $(document).ready(function () {
 
-
     $('#voteChick1').click(function () {
-        voteChick1(function (res) {
-            //
-        });
+        if (!alreadyVoted) {
+            alreadyVoted = true;
+            voteChick1(function (res) { });
+        }
     });
 
     $('#voteChick2').click(function () {
-        voteChick2(function (res) {
-            //
-        });
+        if (!alreadyVoted) {
+            alreadyVoted = true;
+            voteChick2(function (res) { });
+        }
     });
 
 
@@ -131,12 +158,13 @@ $(document).ready(function () {
 });
 
 function stream(number, callback) {
-    endStream(currUserStreamCtrl);
+    // endStream(currUserStreamCtrl);
 
     var phone = window.phone = PHONE({
         number: number, // listen on username else random
         publish_key: WEBRTC_PUB_KEY,
         subscribe_key: WEBRTC_SUB_KEY,
+        ssl: true,
         oneway: true,	// One-Way streaming enabled
         broadcast: true	// True since you are the broadcaster
     });
@@ -150,12 +178,13 @@ function stream(number, callback) {
 }
 
 function getStream(ctrl, number, callback) {
-    endStream(ctrl);
+    // endStream(ctrl);
 
     var phone = window.phone = PHONE({
         number: "Viewer" + Math.floor(Math.random() * 1000), // Random name
         publish_key: WEBRTC_PUB_KEY,
         subscribe_key: WEBRTC_SUB_KEY,
+        ssl: true,
         oneway: true	// One way streaming enabled
     });
 
@@ -183,18 +212,25 @@ function endStream(ctrl) {
 function attachSpotlight() {
     // if (currRound != null && (!currRound.chick1Ready || !currRound.chick2Ready)) return;
 
+    // if (isChick1Stream) $('#chick1StreamContainer video').remove();
+    // if (isChick2Stream) $('#chick2StreamContainer video').remove();
+
+    // if (!currRound != null && currRound.chick1 != null && currRound.chick2.id != currUser.id && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
     if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
     // if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready) {
         chick1StreamEmail = currRound.chick1.email;
+        console.log('ATTEMpting to conect to chick1');
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
             chick1StreamContainer.appendChild(video);
         });
     }
 
+    // if (currRound != null && currRound.chick2 != null && currRound.chick2.id != currUser.id && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
     if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
     // if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready) {
         chick2StreamEmail = currRound.chick2.email;
+        console.log('ATTEMpting to conect to chick2');
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
             chick2StreamContainer.appendChild(video);
