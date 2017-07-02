@@ -1,8 +1,8 @@
 <%@ include file="header.jspf" %>
 <!-- Leaderboard container-->
  
-<div id="leaderboard">
-	<div ng-controller="mostGamesCtrl">
+<div id="leaderboard" ng-controller="leaderBoardCtrl">
+	<div>
 	<h1>Most Games</h1>
 		<table class="table">
 			<thead>
@@ -20,18 +20,18 @@
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
 				  
-					<td>{{person.gamesPlayed}}</td>
+					<td>{{person.playedGames}}</td>
 				  
-					<td>{{person.gamesWon}}</td>
+					<td>{{person.wonGames}}</td>
 					  
-					<td>{{person.gamesLost}}</td>
+					<td>{{person.lostGames}}</td>
 					
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	
-	<div ng-controller="mostWinsCtrl">
+	<div>
 	<h1>Most Wins</h1>
 		<table class="table">
 			<thead>
@@ -46,14 +46,14 @@
 				<tr ng-repeat = "person in mostWins">
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
-					<td>{{person.gamesWon}}</td>
-					<td>{{person.gamesPlayed}}</td>
+					<td>{{person.wonGames}}</td>
+					<td>{{person.playedGames}}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	
-	<div ng-controller="mostVotesCtrl">
+	<div>
 	<h1>Most Votes</h1>
 		<table class="table">
 			<thead>
@@ -68,14 +68,14 @@
 				<tr ng-repeat = "person in mostVotes">
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
-					<td>{{person.totalVotes}}</td>
-					<td>{{person.gamesPlayed}}</td>
+					<td>{{person.voteTotal}}</td>
+					<td>{{person.playedGames}}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	
-	<div ng-controller="mostTimeCtrl">
+	<div>
 	<h1>Most Time</h1>
 		<table class="table">
 			<thead>
@@ -91,7 +91,7 @@
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
 					<td>{{person.spotlightTime}}</td>
-					<td>{{person.gamesPlayed}}</td>
+					<td>{{person.playedGames}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -101,106 +101,35 @@
 
 
 <script>
-	//handles most games table information
-	app.controller("mostGamesCtrl", function($scope) {
-		
-		getMostGames(2, function(res) {
-			$scope.mostGames = res;
-			$scope.$apply();
-			
-			angular.forEach($scope.mostGames, function(item) {
-				gamesPlayed(item.id, function(gamesPlayed) {
-						item.gamesPlayed = gamesPlayed;
-						$scope.$apply();
-				});
-			});	
-			
-			angular.forEach($scope.mostGames, function(item) {
-				gamesWon(item.id, function(gamesWon) {
-						item.gamesWon = gamesWon;
-						$scope.$apply();
-				});
-			});	
-			
-			
-			angular.forEach($scope.mostGames, function(item) {
-				gamesLost(item.id, function(gamesLost) {
-						item.gamesLost = gamesLost;
-						$scope.$apply();
-				});
-			});		
-			
-		});	
+
+app.controller("leaderBoardCtrl", function($scope){
+	getLeaderBoard(2, function(res){
+		$scope.mostGames = res.mostGames;
+		$scope.mostWins = res.mostWins;
+		$scope.mostVotes = res.mostVotes;
+		$scope.mostTime = res.mostSpotlightTime;
+		$scope.$apply();
 	});
-	
-	//handles most wins table information
-	app.controller("mostWinsCtrl", function($scope) {
-		getMostGamesWon(2, function(res) {
-			$scope.mostWins = res;
-			$scope.$apply();
-			
-			angular.forEach($scope.mostWins, function(item) {
-				gamesWon(item.id, function(gamesWon) {
-						item.gamesWon = gamesWon;
-						$scope.$apply();
-				});
-			});	
-			
-			angular.forEach($scope.mostWins, function(item) {
-				gamesPlayed(item.id, function(gamesPlayed) {
-						item.gamesPlayed = gamesPlayed;
-						$scope.$apply();
-				});
-			});	
-			
-		});
-	});
-	
-	//handels most votes
-	app.controller("mostVotesCtrl", function($scope) {
-		getMostVotes(2, function(res) {
-			$scope.mostVotes = res;
-			$scope.$apply();
-			
-			angular.forEach($scope.mostVotes, function(item) {
-				totalVotes(item.id, function(totalVotes) {
-						item.totalVotes = totalVotes;
-						$scope.$apply();
-				});
-			});	
-			
-			angular.forEach($scope.mostVotes, function(item) {
-				gamesPlayed(item.id, function(gamesPlayed) {
-						item.gamesPlayed = gamesPlayed;
-						$scope.$apply();
-				});
-			});	
-			
-		});
-	});
-	
-	//handles most time 
-	app.controller("mostTimeCtrl", function ($scope) {
-		getMostSpotlightTime(2, function(res) {
-			$scope.mostTime = res;
-			$scope.$apply();
-	
-			angular.forEach($scope.mostTime, function(item) {
-				spotlightTime(item.id, function(spotlightTime) {
-						item.spotlightTime = spotlightTime;
-						$scope.$apply();
-				});
-			});	
-			
-			angular.forEach($scope.mostTime, function(item) {
-				gamesPlayed(item.id, function(gamesPlayed) {
-						item.gamesPlayed = gamesPlayed;
-						$scope.$apply();
-				});
-			});	
-			
-		});
-	});
+});
+
+// app.controller("mostGamesCtrl", function($scope) {
+// 	$scope.mostGames = leaderBoard.mostGames;
+// });
+
+// //handles most wins table information
+// app.controller("mostWinsCtrl", function($scope) {
+// 	$scope.mostWins = leaderBoard.mostWins;
+// });
+
+// //handels most votes
+// app.controller("mostVotesCtrl", function($scope) {
+// 	$scope.mostVotes = leaderBoard.mostVotes;
+// });
+
+// //handles most time 
+// app.controller("mostTimeCtrl", function ($scope) {
+// 	$scope.mostTime = leaderBoard.mostSpotlightTime;
+// });
 </script>
 
 <%@ include file="footer.jspf" %>
