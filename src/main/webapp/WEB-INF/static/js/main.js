@@ -213,6 +213,16 @@ function getCurrentRound(callback) {
     });
 }
 
+function updateUserAjax(userId, status, callback) {
+	$.ajax({
+		url: "updateProfileAjax/" + userId + "/" + status,
+		method: "GET",
+		success:function (res, status, xhr) {
+			callback(res);
+		}
+	});
+}
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';

@@ -1,18 +1,24 @@
 package chat.chickentalk.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import chat.chickentalk.dao.Dao;
-import chat.chickentalk.model.Round;
-import chat.chickentalk.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import chat.chickentalk.dao.Dao;
+import chat.chickentalk.model.LeaderBoard;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
 
 @Service
 public class LeaderboardService {
 	@Autowired
     Dao dao;
 
+	LeaderBoard leaderboard = new LeaderBoard();
+	
 	//returns all the votes from rounds a user has won
 	public int getWinningVotes(int id) {
 		int winningVotes = 0;

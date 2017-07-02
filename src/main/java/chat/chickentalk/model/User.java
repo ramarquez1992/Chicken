@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,10 @@ import org.springframework.stereotype.Component;
 @Table(name = "CHATUSERS")
 public class User implements Serializable{
     private static final long serialVersionUID = 2L;
-    private final String defaultAvatar = "https://s3.amazonaws.com/theresa.d.bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
+    
+    @Transient
+    private final String defaultAvatar = "https://s3.us-east-2.amazonaws.com/chickentalk-bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
+    
     @Id
     @Column(name = "userID")
     @SequenceGenerator(name = "CHATUSERID_SEQ", sequenceName = "CHATUSERID_SEQ", allocationSize = 1)
