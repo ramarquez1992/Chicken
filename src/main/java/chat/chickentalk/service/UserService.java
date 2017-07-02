@@ -36,16 +36,12 @@ public class UserService {
 			if (email.equals(u.getEmail()))
 				return false;
 		}
-
-		UserStatus us = new UserStatus(3,"admin");
-
 		User user = new User();
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setBaby(true);
-		user.setStatus(us);
 
 		return dao.createUser(user); 
 	}

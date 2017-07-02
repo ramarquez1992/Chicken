@@ -39,6 +39,24 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+		
+		if(!userList.includes(user.name) && peerInfo.userData.userId != document.getElementById('idNum').innerHTML) {
+			console.log("inside add message " + peerInfo.userData.name);
+			console.log("inside add message " + peerInfo.userData.userId);
+			console.log("inside add message idNum " + document.getElementById('idNum').innerHTML);
+			var userListBox = document.getElementById('userList');
+			console.log("created user list ");
+			var userModel = document.createElement('li');
+			console.log("created list elements");
+			userModel.className = 'message';
+			userModel.style.cssText = "color:orange;"
+			userModel.textContent = peerInfo.userData.name;
+			console.log("username in user list " + peerInfo.userData.name);
+			userModel.onclick = updateModal(peerInfo.userData);
+			userListBox.appendChild(userModel);
+			userList.push(peerInfo.userData.name);
+		}
+		
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
@@ -69,10 +87,11 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 	}
 	addMessage(peerInfo.userData, ' left the room', 'action');
 });
-
+		// Play with the peerId here, getting the user's name as "You" whether it is your id or not.  
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 	var user = 'You',
 	className = 'you';
+	console.log("before isSelf " + isSelf);
 	if(!isSelf) {
 		className = 'message';
 		addMessage(peerInfo.userData, ': ' + message.content, className);
@@ -92,8 +111,10 @@ function sendMessage() {
 function addMessage(user, message, className) {
 	if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
 		var updatedId = message.split("|");
+		console.log("updated id after split " + updatedId[1] + " - " + user);
 		
 		if(updatedId[1] = user.userId) location.reload();
+		console.log("user with updated id page is refreshed");
 		return;
 	}
 	
@@ -118,22 +139,12 @@ function addMessage(user, message, className) {
 		div.textContent = censorInput;
 	}
 	else {
-		if(!userList.includes(user.name) && user.userId != document.getElementById('idNum').innerHTML) {
-			var userListBox = document.getElementById('userList');
-			var userModel = document.createElement('li');
-			userModel.className = 'message';
-			userModel.style.cssText = "color:orange;"
-			userModel.textContent = user.name;
-			userModel.onclick = updateModal(user);
-			userListBox.appendChild(userModel);
-			userList.push(user.name);
-		}
-	
 		var userProfile = document.createElement('span');
 		var userMessage = document.createElement('span');
 		userProfile.className = className;
 		userProfile.style.cssText = "color:purple;"
 		userProfile.textContent = user.name;
+		console.log("else add messagew " + user.name);
 		userProfile.onclick = updateModal(user);
 		userMessage.textContent = censorInput;
 		div.appendChild(userProfile);
@@ -146,10 +157,13 @@ function updateModal(user){
 	return function(){
 		$('#UserProfile').modal({});
 		getUser(user.userId, function(res) {
+			console.log("update modal id " + user.userId);
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
+			console.log("update modal full name " + res.firstName + " " + res.lastName);
 			$("#selectStatus").val(res.status.name);
 			if(uStatus != "admin" && uStatus != "Chicken") {
 				$("#selectStatus").prop("disabled", true);
+				$("#statusButton").hide();
 			}
 		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
 		    $("#avatar").attr("src", res.avatar);
@@ -171,9 +185,13 @@ function updateModal(user){
 			});
 			
 			$('#statusChangeId').text(res.id);
+			console.log("ID FROM HIDDEN: " + res.id);
 			
-			$('#statusButton').click(updateUserStatus(res.id));
+			$('#statusButton').click(updateUserStatus);
+			console.log("in update modal.");
 			
+			//$('#statusChangeId').text(document.getElementById("idNum").innerHTML);
+			//document.getElementById("statusChangeId").innerHTML = document.getElementById("idNum").innerhtml;
 			
 		});	
 	};
@@ -206,12 +224,12 @@ function replaceWords(message) {
     });
 }
 
-function updateUserStatus(id) {
-	return function() {
-		var userId = id
+function updateUserStatus() {
+		var id = document.getElementById("statusChangeId").innerHTML;
+		console.log("user to update id " + id);
 		var newStatus = $('#selectStatus').find(':selected').text();
-		updateUserAjax(userId, newStatus, function(res) {
-			skylink.sendP2PMessage("|" + userId + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
+		console.log("the status to update " + newStatus)
+		updateUserAjax(id, newStatus, function(res) {
+			skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
 		});
-	}
 }
