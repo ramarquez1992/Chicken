@@ -46,18 +46,17 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
-		
-		if(!userList.includes(user.name) && peerInfo.userData.userId != document.getElementById('idNum').innerHTML) {
-			var userListBox = document.getElementById('userList');
-			var userModel = document.createElement('li');
-			userModel.className = 'message';
-			userModel.style.cssText = "color:orange;"
-			userModel.textContent = peerInfo.userData.name;
-			userModel.onclick = updateModal(peerInfo.userData);
-			userListBox.appendChild(userModel);
-			userList.push(peerInfo.userData.name);
-		}
-		
+	}
+	if(!userList.includes(user.name)) {
+		var userListBox = document.getElementById('userList');
+		var userModel = document.createElement('li');
+		userModel.className = 'message';
+		userModel.style.cssText = "color:purple;"
+		if(peerInfo.userData.userId == document.getElementById('idNum').innerHTML) userModel.style.cssText = "color:blue;";
+		userModel.textContent = peerInfo.userData.name;
+		userModel.onclick = updateModal(peerInfo.userData);
+		userListBox.appendChild(userModel);
+		userList.push(peerInfo.userData.name);
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });

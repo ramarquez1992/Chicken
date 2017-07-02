@@ -145,7 +145,6 @@ header a:first-child {
 						    <option id ="stat2" value="shadow ban">shadow ban</option>
 						    <option id ="stat3" value="permanent ban">permanent ban</option>
 						    <option id ="stat4" value="admin" selected>admin</option>
-						    <option id ="stat5" value="admin" selected>Chicken</option>
 						</select>
 						<button id = "statusButton">Submit Changes</button>
 				</div>
