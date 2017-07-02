@@ -5,30 +5,29 @@ ${user.getEmail()}
 <div ng-controller="SpotlightController" class="container-fluid">
 
     <div id="spotlight" class="row">
-        <div id="chick1" class="col-xs-4">
+        <div id="chick1" class="col-xs-6">
             <h3 class="chickName">{{currentRound.chick1.email}}</h3>
             <div id="chick1StreamContainer"></div>
             <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
         </div>
 
-        <div id="chick2" class="col-xs-4">
+        <div id="chick2" class="col-xs-6">
             <h3 class="chickName">{{currentRound.chick2.email}}</h3>
             <div id="chick2StreamContainer"></div>
             <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
         </div>
 
-        <div id="queueContainer" class="col-xs-4">
-            <h3>Queue</h3>
-            <table class="table table-hover">
-                <tr ng-repeat="user in currentRound.queue">
-                    <td>{{user.email}}</td>
-                </tr>
-            </table>
-        </div>
+        <%--<div id="queueContainer" class="col-xs-4">--%>
+            <%--<h3>Queue</h3>--%>
+            <%--<table class="table table-hover">--%>
+                <%--<tr ng-repeat="user in currentRound.queue">--%>
+                    <%--<td>{{user.email}}</td>--%>
+                <%--</tr>--%>
+            <%--</table>--%>
+        <%--</div>--%>
 
 
     </div>
-    <div id="myStreamContainer"></div>
 
 
 </div>
@@ -36,11 +35,6 @@ ${user.getEmail()}
 <div id="global">
     <p>global chat</p>
 </div>
-
-<div id="misc">
-    <p>misc info</p>
-</div>
-
 
 
 

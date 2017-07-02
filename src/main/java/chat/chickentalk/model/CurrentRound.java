@@ -3,6 +3,7 @@ package chat.chickentalk.model;
 import java.util.Deque;
 
 public class CurrentRound {
+    int id;
     User chick1;
     User chick2;
     int chick1Votes;
@@ -14,7 +15,7 @@ public class CurrentRound {
     boolean finished = false;
 
 
-    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes, Deque<User> queue, boolean chick1Ready, boolean chick2Ready, boolean started, boolean finished) {
+    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes, Deque<User> queue, boolean chick1Ready, boolean chick2Ready, boolean started, boolean finished, int id) {
         this.chick1 = chick1;
         this.chick2 = chick2;
         this.chick1Votes = chick1Votes;
@@ -24,6 +25,7 @@ public class CurrentRound {
         this.chick2Ready = chick2Ready;
         this.started = started;
         this.finished = finished;
+        this.id = id;
     }
 
     public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes,
