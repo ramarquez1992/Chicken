@@ -5,12 +5,33 @@ skylink.init({
 	defaultRoom: 'LGpMxj'
 });
 
-window.onload = setTimeout(initChat, 250);
+var theUser;
+var userMessageCount = 0; //amount of message sent in limit
+var messageLimit = 0; //flag for spam filter
 
+$(document).ready(function(){
+	
+	getSelf(function(res){
+		theUser = res;
+		
+		console.log(theUser);
+		console.log(res);
+		console.log("SIGH");
+		
+		initChat();
+		if(res.status.name == "permanent ban") {
+			window.location.replace("logoutUser");
+		}
+	});
+	
+	setInterval(spamFilter, 2000);
+});
+
+var uStatus
 function initChat() {
-	var userName = document.getElementById('firstName').innerHTML + " " + document.getElementById('lastName').innerHTML;
-	var num = document.getElementById('idNum').innerHTML
-	var uStatus = document.getElementById('status').innerHTML
+	var userName = theUser.firstName + " " + theUser.lastName;
+	var num = theUser.id;
+	uStatus = theUser.status.name;
 	
 	var games = 0;
 	
@@ -19,8 +40,7 @@ function initChat() {
 		userId : num,
 		status : uStatus
 	});
-	
-	skylink.joinRoom();
+	if(uStatus != "permanent ban") skylink.joinRoom();
 }
 
 var userList = [];
@@ -31,6 +51,17 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 	if(!isSelf) {
 		user = peerInfo.userData.name || peerId;
 		id = peerInfo.userData.userId || peerId;
+	}
+	if(!userList.includes(user.name)) {
+		var userListBox = document.getElementById('userList');
+		var userModel = document.createElement('li');
+		userModel.className = 'message';
+		userModel.style.cssText = "color:purple;"
+		if(peerInfo.userData.userId == document.getElementById('idNum').innerHTML) userModel.style.cssText = "color:blue;";
+		userModel.textContent = peerInfo.userData.name;
+		userModel.onclick = updateModal(peerInfo.userData);
+		userListBox.appendChild(userModel);
+		userList.push(peerInfo.userData.name);
 	}
 	addMessage(peerInfo.userData, ' joined the room', 'action');
 });
@@ -50,7 +81,8 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 		var elements = document.getElementsByTagName('li')
 		for (var i = 0; i < elements.length; i++) {
 		     if (elements[i].innerHTML.indexOf(user) !== -1) {
-		         node.removeChild(elements[i]);
+		         userList.pop(user);
+		    	 node.removeChild(elements[i]);
 		         break;
 		     }
 		}
@@ -60,10 +92,11 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 	}
 	addMessage(peerInfo.userData, ' left the room', 'action');
 });
-
+		// Play with the peerId here, getting the user's name as "You" whether it is your id or not.  
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 	var user = 'You',
 	className = 'you';
+	
 	if(!isSelf) {
 		className = 'message';
 		addMessage(peerInfo.userData, ': ' + message.content, className);
@@ -74,6 +107,20 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 function sendMessage() {
 	var input = document.getElementById('message');
 	var status = document.getElementById('status').innerHTML;
+	
+	if(messageLimit == 1) {
+		return;
+	}
+	else if(userMessageCount >= 3) {
+		messageLimit = 1;
+		setTimeout(resetLimit, 10000);
+		alert("Spam detected: please wait 10 seconds to message again.");
+		return;
+	}
+	else {
+		userMessageCount++;
+	}
+	
 	if(status == "permanent ban");
 	else skylink.sendP2PMessage(input.value);
 	input.value = '';
@@ -81,10 +128,16 @@ function sendMessage() {
 }
 
 function addMessage(user, message, className) {
-	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
+	if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
+		var updatedId = message.split("|");
+		if(updatedId[1] == theUser.id) window.location.reload();
 		return;
 	}
 	
+	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
+		return;
+	}
+
 	var chatbox = document.getElementById('chatbox');
 	var div = document.createElement('div');
 	
@@ -102,16 +155,6 @@ function addMessage(user, message, className) {
 		div.textContent = censorInput;
 	}
 	else {
-		if(!userList.includes(user.name) && user.userId != document.getElementById('idNum').innerHTML) {
-			var userListBox = document.getElementById('userList');
-			var userModel = document.createElement('li');
-			userModel.className = 'message';
-			userModel.style.cssText = "color:orange;"
-			userModel.textContent = user.name;
-			userModel.onclick = updateModal(user);
-			userListBox.appendChild(userModel);
-		}
-	
 		var userProfile = document.createElement('span');
 		var userMessage = document.createElement('span');
 		userProfile.className = className;
@@ -125,57 +168,58 @@ function addMessage(user, message, className) {
 	chatbox.appendChild(div);
 }
 
-//function updateModal(user){
-//	$('#UserProfile').modal({}); 
-//	$("#fullName").text(user.name);
-//	$("#userStatus").text("Status: " + user.status);
-//	gamesPlayed(user.userId, function(res) {
-//		$("#games").text("Total Games Played: " + res);
-//	});	 
-//		 
-//	gamesWon(user.userId, function(res) {
-//	    $("#wins").text("Total Wins: " + res);
-//	});
-//	
-//	spotlightTime(user.userId, function(res) {
-//	    $("#spotlight").text("Time in the Spotlight: " + res);
-//	});
-//	
-//	totalVotes(user.userId, function(res) {
-//	    $("#votes").text("Total Votes Recieved: " + res);
-//	});
-//	
-//	getUser(user.userId, function(res) {
-//	    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
-//	    $("#avatar").attr("src", res.avatar);
-//	});		
-//	
-//}; 
-
 function updateModal(user){
 	return function(){
 		$('#UserProfile').modal({});
 		getUser(user.userId, function(res) {
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
-			$("#userStatus").text("Status: " + res.status.name);
-		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+			$("#selectStatus").val(res.status.name);
+			if(uStatus != "admin" && uStatus != "Chicken") {
+				$("#selectStatus").prop("disabled", true);
+				$("#statusButton").hide();
+			}
+			
+			if(res > 0) $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+		    else {
+		    	$("#votesCast").text(" ");
+		    }
+		    
 		    $("#avatar").attr("src", res.avatar);
 		    
 		    gamesPlayed(res.id, function(res) {
-				$("#games").text("Total Games Played: " + res);
+				 if(res > 0) $("#games").text("Total Games Played: " + res);
+				    else {
+				    	$("#games").text(" ");
+				    }
 			});	 
 				 
 			gamesWon(res.id, function(res) {
-			    $("#wins").text("Total Wins: " + res);
+			    if(res > 0) $("#wins").text("Total Wins: " + res);
+			    else {
+			    	$("#wins").text(" ");
+			    }
 			});
 			
 			spotlightTime(res.id, function(res) {
-			    $("#spotlight").text("Time in the Spotlight: " + res);
+				console.log(res);
+				console.log(res.includes("0 hrs 0 mins 0 secs"));
+			    if(!res.includes("0 hrs 0 mins 0 secs")) $("#spotlight").text("Time in the Spotlight: " + res);
+			    else {
+			    	$("#spotlight").text("You have no stats to display!");
+			    }
 			});
 			
 			totalVotes(res.id, function(res) {
-			    $("#votes").text("Total Votes Recieved: " + res);
-			});    
+			    if(res > 0) $("#votes").text("Total Votes Recieved: " + res);
+			    else {
+			    	$("#votes").text(" ");
+			    }
+			    console.log("res = " + res);
+			});
+			
+			$('#statusChangeId').text(res.id);
+			
+			$('#statusButton').click(updateUserStatus);
 		});	
 	};
 };
@@ -205,4 +249,28 @@ function replaceWords(message) {
         }
         return stars;
     });
+}
+
+function updateUserStatus() {
+	var id = document.getElementById("statusChangeId").innerHTML;
+	console.log("in update status function id " + id);
+	var newStatus = $('#selectStatus').find(':selected').text();
+	updateUserAjax(id, newStatus, function(res) {
+		skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
+	});
+}
+
+function spamFilter() {
+	userMessageCount = 0;
+}
+
+function resetLimit() {
+	messageLimit = 0;
+}
+
+function handleKeyPress(e){
+	var key=e.keyCode || e.which;
+	if (key==13){
+		sendMessage();
+	}
 }

@@ -130,6 +130,72 @@ function getCurrentRound(callback) {
     });
 }
 
+function updateUserAjax(userId, status, callback) {
+	$.ajax({
+		url: "updateProfileAjax/" + userId + "/" + status,
+		method: "GET",
+		success:function (res, status, xhr) {
+			callback(res);
+		}
+	});
+}
+
+
+
+
+function gamesPlayed(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesPlayed/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	});
+}
+
+function gamesWon(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesWon/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function gamesLost(userId, callback) {
+	$.ajax({
+		url: "leaderboard/gamesLost/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function spotlightTime(userId, callback) {
+	$.ajax({
+		url: "leaderboard/spotlightTime/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+function totalVotes(userId, callback) {
+	$.ajax({
+		url: "leaderboard/totalVotes/" + userId,
+		method: "GET",
+		success: function (res, status, xhr) {
+			callback(res);
+		}
+	})
+}
+
+
+
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';

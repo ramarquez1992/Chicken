@@ -22,42 +22,42 @@ public class LeaderboardController {
     public String getLeaderboard() {
         return "leaderboard";
     }
-//
-//	@ResponseBody @RequestMapping(value = "/leaderboard/winningVotes/{userId}", method = RequestMethod.GET)
-//	public int getWinningVotes(@PathVariable int userId) {
-//		return svc.getWinningVotes(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/losingVotes/{userId}", method = RequestMethod.GET)
-//	public int getLosingVotes(@PathVariable int userId) {
-//		return svc.getLosingVotes(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/totalVotes/{userId}", method = RequestMethod.GET)
-//	public int getTotalVotes(@PathVariable int userId) {
-//		return svc.totalVotes(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/gamesPlayed/{userId}", method = RequestMethod.GET)
-//	public int getGamesPlayed(@PathVariable int userId) {
-//		return svc.gamesPlayed(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/gamesWon/{userId}", method = RequestMethod.GET)
-//	public int getGamesWon(@PathVariable int userId) {
-//		return svc.gamesWon(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/gamesLost/{userId}", method = RequestMethod.GET)
-//	public int getGamesLost(@PathVariable int userId) {
-//		return svc.gamesLost(userId);
-//	}
-//	
-//	@ResponseBody @RequestMapping(value = "/leaderboard/spotlightTime/{userId}", method = RequestMethod.GET)
-//	public String getSpotlightTime(@PathVariable int userId) {
-//		return svc.spotlightTime(userId);
-//	}
-//	
+
+	@ResponseBody @RequestMapping(value = "/leaderboard/winningVotes/{userId}", method = RequestMethod.GET)
+	public int getWinningVotes(@PathVariable int userId) {
+		return svc.getWinningVotes(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/losingVotes/{userId}", method = RequestMethod.GET)
+	public int getLosingVotes(@PathVariable int userId) {
+		return svc.getLosingVotes(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/totalVotes/{userId}", method = RequestMethod.GET)
+	public int getTotalVotes(@PathVariable int userId) {
+		return svc.totalVotes(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/gamesPlayed/{userId}", method = RequestMethod.GET)
+	public int getGamesPlayed(@PathVariable int userId) {
+		return svc.gamesPlayed(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/gamesWon/{userId}", method = RequestMethod.GET)
+	public int getGamesWon(@PathVariable int userId) {
+		return svc.gamesWon(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/gamesLost/{userId}", method = RequestMethod.GET)
+	public int getGamesLost(@PathVariable int userId) {
+		return svc.gamesLost(userId);
+	}
+	
+	@ResponseBody @RequestMapping(value = "/leaderboard/spotlightTime/{userId}", method = RequestMethod.GET)
+	public String getSpotlightTime(@PathVariable int userId) {
+		return svc.spotlightTime(userId);
+	}
+	
 	@ResponseBody @RequestMapping(value = "/leaderboard/LeaderBoard/{num}", method = RequestMethod.GET)
     public LeaderBoard getLeaderBoard(@PathVariable int num) {
 		return svc.getLeaderBoard(num);

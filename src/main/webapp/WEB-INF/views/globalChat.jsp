@@ -113,17 +113,12 @@ header a:first-child {
 <span id="idNum" style="visibility: hidden;">${user.getId()}</span>
 <span id="isBaby" style="visibility: hidden;">${user.isBaby()}</span>
 <span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
-  <header>
-    <br/>
-    <input type="text" id="message" placeholder="My message" />
-    <button onclick="sendMessage()">Send message</button>
-    <a href="https://codepen.io/temasys/pen/LGpMxj" target="_blank">Chat with self!</a>
-  </header>
   
   <div id="container">
     <div id="chatbox"></div>
     <div id="userList"><p>User List</p></div>
  </div>
+ <input name="keywords" type="text" id="message" size="50"  onkeypress="handleKeyPress(event)">
 
 <div class="modal fade" id="UserProfile">
 	<div class="modal-dialog">
@@ -139,12 +134,21 @@ header a:first-child {
 				<h3>User Info</h3>
 				<img id="avatar" src=""/>
 				<p id="fullName"></p>
-				<p id="userStatus"></p>
-				<p id="games">?</p>
+				<div id="userStatus">
+						<select id="selectStatus">
+					  		<option id ="stat1" value="normal">normal</option>
+						    <option id ="stat2" value="shadow ban">shadow ban</option>
+						    <option id ="stat3" value="permanent ban">permanent ban</option>
+						    <option id ="stat4" value="admin" selected>admin</option>
+						</select>
+						<button id = "statusButton">Submit Changes</button>
+				</div>
+				<p id="games"></p>
 				<p id="wins"></p>
 				<p id="spotlight"></p>
 				<p id="votes"></p>
 				<p id="votesCast"></p>	
+				<span id="statusChangeId" style="visibility: hidden;"></span>
 			</div>
 		</div>
 		<!-- /.modal-content -->

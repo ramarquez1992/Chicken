@@ -38,6 +38,8 @@ public class LeaderboardService {
 		}
 		return rounds;
 	}
+
+	LeaderBoard leaderboard = new LeaderBoard();
 	
 	//returns all the votes from rounds a user has won
 	public int getWinningVotes(int id) {

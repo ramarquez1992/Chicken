@@ -77,6 +77,21 @@ public class DaoImpl implements Dao {
     }
 
     /**
+     * Gets all User status, returns empty list if the database is not populated.
+     *
+     * @author: Darrin McIntyre
+     * @since 2017-07-01
+     **/
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public List<UserStatus> getStatusList(){
+    	if(StatusList == null){
+            StatusList = getStatus();
+        }
+    	
+    	return StatusList;
+    }
+    
+    /**
      * Admin user can promote another user. Returns a boolean, true, on success. False on failure.
      *
      * 0	normal
