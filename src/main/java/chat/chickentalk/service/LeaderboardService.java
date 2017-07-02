@@ -1,21 +1,25 @@
 package chat.chickentalk.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import chat.chickentalk.dao.Dao;
-import chat.chickentalk.model.Round;
-import chat.chickentalk.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import chat.chickentalk.dao.Dao;
+import chat.chickentalk.model.LeaderBoard;
+import chat.chickentalk.model.Round;
+import chat.chickentalk.model.User;
 
 @Service
 public class LeaderboardService {
 	@Autowired
     Dao dao;
 	
-	
 	public List<User> users;
 	public List<Round> rounds;
+	LeaderBoard leaderBoard = new LeaderBoard();
 	
 	public List<User> getUsers() {
 		if(users == null) {
@@ -35,9 +39,8 @@ public class LeaderboardService {
 		return rounds;
 	}
 	
-
 	//returns all the votes from rounds a user has won
-	public synchronized int getWinningVotes(int id) {
+	public int getWinningVotes(int id) {
 		int winningVotes = 0;
 		getRounds();
 		for(Round r : rounds) {
@@ -49,7 +52,7 @@ public class LeaderboardService {
 	}
 	
 	//returns all the votes from rounds a user has lost
-	public synchronized int getLosingVotes(int id) {
+	public int getLosingVotes(int id) {
 		int losingVotes = 0;
 		getRounds();
 		for(Round r : rounds) {
@@ -61,13 +64,13 @@ public class LeaderboardService {
 	}
 	
 	//returns all votes a user has recieved
-	public synchronized int totalVotes(int id) {
+	public int totalVotes(int id) {
 		int votesRecieved = getLosingVotes(id) + getWinningVotes(id);
 		return votesRecieved;
 	}
 	
 	//returns games played by user
-	public synchronized int gamesPlayed(int id) {
+	public int gamesPlayed(int id) {
 		int gamesPlayed = 0;
 		getRounds();
 		for(Round r : rounds) {
@@ -79,7 +82,7 @@ public class LeaderboardService {
 	}
 	
 	//returns the games won by a user
-	public synchronized int gamesWon(int id) {
+	public int gamesWon(int id) {
 		int gamesWon = 0;
 		getRounds();
 		for(Round r : rounds) {
@@ -90,13 +93,13 @@ public class LeaderboardService {
 		return gamesWon;
 	}
 	
-	public synchronized int gamesLost(int id) {
+	public int gamesLost(int id) {
 		int gamesLost = (gamesPlayed(id) - gamesWon(id)); 
 		return gamesLost;
 	}
 	
 	//returns time in spotlight !!!!LOOK INTO BETTER WAY!!!!
-	public synchronized String spotlightTime(int id) {
+	public String spotlightTime(int id) {
 		getRounds();
 		int totalSeconds = 0;
 		int totalMinutes = 0;
@@ -121,7 +124,7 @@ public class LeaderboardService {
 	}
 	
 	//gets spotlight time in milliseconds, used to find who has the most time in spotlight
-	public synchronized long slt(int id) {
+	public long slt(int id) {
 		long milliseconds = 0;
 		getRounds();
 		for(Round r : rounds) {
@@ -132,37 +135,74 @@ public class LeaderboardService {
 		return milliseconds;
 	}
 	
+	
+	public LeaderBoard getLeaderBoard(int num){
+		mostGames(num);
+		mostWins(num);
+		mostVotes(num);
+		mostSpotlightTime(num);
+		
+		System.out.println(leaderBoard.toString());
+		
+		return leaderBoard;
+	}
+	
 	//GET USER ID WITH MOST WINS, GAMES PLAYED, MOST SPOTLIGHT TIME
 	//returns id of user with most games played
-	public synchronized List<User> mostGames(int num) {
+	public synchronized void mostGames(int num) {
 		getUsers();
 		Collections.sort(users, (i1, i2) -> (gamesPlayed(i1.getId()) - (gamesPlayed(i2.getId()))));
 		Collections.reverse(users);
-		List<User> mostGamesUsers = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
-		return mostGamesUsers;
+		
+		List<User> temp = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
+		
+		for(User u : temp){
+			u.playedGames = gamesPlayed(u.getId());
+			u.lostGames = gamesLost(u.getId());
+			u.wonGames = gamesWon(u.getId());
+		}
+		leaderBoard.setMostGames(temp);
 	}
 	
-	public synchronized List<User> mostWins(int num) {
+	public synchronized void mostWins(int num) {
 		getUsers();
 		Collections.sort(users, (i1, i2) -> (gamesWon(i1.getId()) - (gamesWon(i2.getId()))));
 		Collections.reverse(users);
-		List<User> mostWinsUsers = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
-		return mostWinsUsers;
+		
+		List<User> temp = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
+
+		for(User u : temp){
+			u.playedGames = gamesPlayed(u.getId());
+			u.wonGames = gamesWon(u.getId());
+		}
+		leaderBoard.setMostWins(temp);
 	}
 	
-	public synchronized List<User> mostSpotlightTime(int num) {
-		getUsers();
-		Collections.sort(users, (i1, i2) -> Long.compare(slt(i1.getId()), slt(i2.getId())));
-		Collections.reverse(users);
-		List<User> mostTimeUsers = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
-		return mostTimeUsers;
-	}
-	
-	public synchronized List<User> mostVotes(int num) {
+	public synchronized void mostVotes(int num) {
 		getUsers();
 		Collections.sort(users, (i1, i2) -> (totalVotes(i1.getId()) - (totalVotes(i2.getId()))));
 		Collections.reverse(users);
-		List<User> mostVotesUsers = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
-		return mostVotesUsers;
+		
+		List<User> temp = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
+
+		for(User u : temp){
+			u.playedGames = gamesPlayed(u.getId());
+			u.voteTotal = totalVotes(u.getId());
+		}
+		leaderBoard.setMostVotes(temp);
+	}
+	
+	public synchronized void mostSpotlightTime(int num) {
+		getUsers();
+		Collections.sort(users, (i1, i2) -> Long.compare(slt(i1.getId()), slt(i2.getId())));
+		Collections.reverse(users);
+		
+		List<User> temp = Collections.synchronizedList(new ArrayList<User>(users.subList(0, num)));
+
+		for(User u : temp){
+			u.spotlightTime = spotlightTime(u.getId());
+			u.playedGames = gamesPlayed(u.getId());
+		}
+		leaderBoard.setMostSpotlightTime(temp);
 	}
 }
