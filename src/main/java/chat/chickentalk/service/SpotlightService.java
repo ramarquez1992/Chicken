@@ -28,6 +28,15 @@ public class SpotlightService {
     private boolean chick2Ready = false;
     private boolean started = false;
     private boolean finished = false;
+    private int id = 0;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public boolean isStarted() {
         return started;
@@ -107,7 +116,8 @@ public class SpotlightService {
                 isChick1Ready(),
                 isChick2Ready(),
                 started,
-                finished
+                finished,
+                id
         );
 
         return cr;
@@ -123,6 +133,7 @@ public class SpotlightService {
         chick2Ready = false;
         started = false;
         finished = false;
+        ++id;
     }
 
     public void startNextRound() {
