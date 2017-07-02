@@ -26,7 +26,7 @@ public class User implements Serializable{
     private static final long serialVersionUID = 2L;
     
     @Transient
-    private final String defaultAvatar = "https://s3.amazonaws.com/theresa.d.bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
+    private final String defaultAvatar = "https://s3.us-east-2.amazonaws.com/chickentalk-bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
     
     @Id
     @Column(name = "userID")

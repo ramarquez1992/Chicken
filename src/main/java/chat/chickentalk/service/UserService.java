@@ -5,12 +5,17 @@ import java.util.List;
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
+import chat.chickentalk.util.Mailer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
+	@Autowired
+	Mailer mailer;
+	
 	@Autowired
     Dao dao;
 
@@ -42,7 +47,9 @@ public class UserService {
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setBaby(true);
-
+		String emailSubject = "Chickentalk Account!";
+		String emailBody = "Hello, " + firstname + " " + lastname + "!\n\n" + " You have successfuly created an account at chickentalk.";
+		mailer.sendMail(email, emailSubject, emailBody);
 		return dao.createUser(user); 
 	}
 
