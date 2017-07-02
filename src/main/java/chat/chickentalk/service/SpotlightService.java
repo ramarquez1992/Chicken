@@ -18,7 +18,7 @@ public class SpotlightService {
 
     private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-    private int roundLength = 3; // in seconds
+    private int roundLength = 5; // in seconds
     private LocalDateTime roundStart;
     private User chick1;
     private User chick2;
@@ -130,13 +130,11 @@ public class SpotlightService {
     }
 
     public Round stopRound() {
-        chick1Votes = 0;
-        chick2Votes = 0;
-
         chick1Ready = false;
         chick2Ready = false;
         started = false;
         finished = false;
+
         if (chick1 == null || chick2 == null) return null;
 
         // set chick1 to winner
@@ -170,8 +168,8 @@ public class SpotlightService {
 
         chick1 = null;
         chick2 = null;
-//        chick1Votes = 0;
-//        chick2Votes = 0;
+        chick1Votes = 0;
+        chick2Votes = 0;
 //
 //        chick1Ready = false;
 //        chick2Ready = false;

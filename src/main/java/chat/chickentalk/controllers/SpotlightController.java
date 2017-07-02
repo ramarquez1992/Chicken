@@ -100,10 +100,10 @@ public class SpotlightController {
         svc.setChick1Ready(true);
 
         if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
-            svc.setStarted(true);
             start();
+        } else {
+            sendRound(svc.getCurrentRound());
         }
-        sendRound(svc.getCurrentRound());
     }
 
     @ResponseBody
@@ -112,10 +112,10 @@ public class SpotlightController {
         svc.setChick2Ready(true);
 
         if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
-            svc.setStarted(true);
             start();
+        } else {
+            sendRound(svc.getCurrentRound());
         }
-        sendRound(svc.getCurrentRound());
     }
 
     @ResponseBody
@@ -143,6 +143,7 @@ public class SpotlightController {
     }
 
     public boolean start() {
+        svc.setStarted(true);
         started = true;
 
         svc.startNextRound();
