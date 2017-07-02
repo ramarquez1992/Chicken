@@ -10,6 +10,56 @@ function getUser(userId, callback) {
     });
 }
 
+function setChick1Ready(callback) {
+    $.ajax({
+        url: "spotlight/setChick1Ready",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function setChick2Ready(callback) {
+    $.ajax({
+        url: "spotlight/setChick2Ready",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function setChick1Drop(callback) {
+    $.ajax({
+        url: "spotlight/setChick1Drop",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function setChick2Drop(callback) {
+    $.ajax({
+        url: "spotlight/setChick2Drop",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function forceUpdate(callback) {
+    $.ajax({
+        url: "spotlight/forceUpdate",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function getSelf(callback) {
     $.ajax({
         url: "users/getSelf",

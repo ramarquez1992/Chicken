@@ -118,7 +118,7 @@ public class UserService {
 			user.setEmail(email);
 		if (!password.equals(""))
 			user.setPassword(password);
-		
+
 		user.setBaby(isBaby);
 
 		return dao.updateUser(user);

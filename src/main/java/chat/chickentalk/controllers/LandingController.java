@@ -74,6 +74,14 @@ public class LandingController {
         u3.setLastName("Demo");
         u3.setBaby(true);
         u3.setStatus(us2);
+        
+        User u4 = new User();
+        u4.setEmail("a@a.a");
+        u4.setPassword("a");
+        u4.setFirstName("a");
+        u4.setLastName("a");
+        u4.setBaby(true);
+        u4.setStatus(us);
 
 
         Round r = new Round();
@@ -125,6 +133,7 @@ public class LandingController {
         dao.createUser(u);
         dao.createUser(u2);
         dao.createUser(u3);
+        dao.createUser(u4);
         dao.createRound(r);
         dao.createRound(r2);
         dao.createRound(r3);
@@ -141,6 +150,7 @@ public class LandingController {
         System.out.println(u.toString());
         System.out.println(u2.toString());
         System.out.println(u3.toString());
+        System.out.println(u4.toString());
         System.out.println("\n" + r.toString());
         System.out.println(r2.toString());
         System.out.println(r3.toString());
