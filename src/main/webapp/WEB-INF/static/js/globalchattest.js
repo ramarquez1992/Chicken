@@ -13,6 +13,11 @@ $(document).ready(function(){
 	
 	getSelf(function(res){
 		theUser = res;
+		
+		console.log(theUser);
+		console.log(res);
+		console.log("SIGH");
+		
 		initChat();
 		if(res.status.name == "permanent ban") {
 			window.location.replace("logoutUser");
@@ -124,8 +129,8 @@ function sendMessage() {
 
 function addMessage(user, message, className) {
 	if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
-		var updatedId = message.split("|");	
-		if(updatedId[1] = user.userId) location.reload();
+		var updatedId = message.split("|");
+		if(updatedId[1] == theUser.id) window.location.reload();
 		return;
 	}
 	
@@ -173,23 +178,43 @@ function updateModal(user){
 				$("#selectStatus").prop("disabled", true);
 				$("#statusButton").hide();
 			}
-		    $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+			
+			if(res > 0) $("#votesCast").text("Total Votes Cast: " + res.votesCast);
+		    else {
+		    	$("#votesCast").text(" ");
+		    }
+		    
 		    $("#avatar").attr("src", res.avatar);
 		    
 		    gamesPlayed(res.id, function(res) {
-				$("#games").text("Total Games Played: " + res);
+				 if(res > 0) $("#games").text("Total Games Played: " + res);
+				    else {
+				    	$("#games").text(" ");
+				    }
 			});	 
 				 
 			gamesWon(res.id, function(res) {
-			    $("#wins").text("Total Wins: " + res);
+			    if(res > 0) $("#wins").text("Total Wins: " + res);
+			    else {
+			    	$("#wins").text(" ");
+			    }
 			});
 			
 			spotlightTime(res.id, function(res) {
-			    $("#spotlight").text("Time in the Spotlight: " + res);
+				console.log(res);
+				console.log(res.includes("0 hrs 0 mins 0 secs"));
+			    if(!res.includes("0 hrs 0 mins 0 secs")) $("#spotlight").text("Time in the Spotlight: " + res);
+			    else {
+			    	$("#spotlight").text("You have no stats to display!");
+			    }
 			});
 			
 			totalVotes(res.id, function(res) {
-			    $("#votes").text("Total Votes Recieved: " + res);
+			    if(res > 0) $("#votes").text("Total Votes Recieved: " + res);
+			    else {
+			    	$("#votes").text(" ");
+			    }
+			    console.log("res = " + res);
 			});
 			
 			$('#statusChangeId').text(res.id);
@@ -227,11 +252,12 @@ function replaceWords(message) {
 }
 
 function updateUserStatus() {
-		var id = document.getElementById("statusChangeId").innerHTML;
-		var newStatus = $('#selectStatus').find(':selected').text();
-		updateUserAjax(id, newStatus, function(res) {
-			skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
-		});
+	var id = document.getElementById("statusChangeId").innerHTML;
+	console.log("in update status function id " + id);
+	var newStatus = $('#selectStatus').find(':selected').text();
+	updateUserAjax(id, newStatus, function(res) {
+		skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
+	});
 }
 
 function spamFilter() {
@@ -240,4 +266,11 @@ function spamFilter() {
 
 function resetLimit() {
 	messageLimit = 0;
+}
+
+function handleKeyPress(e){
+	var key=e.keyCode || e.which;
+	if (key==13){
+		sendMessage();
+	}
 }

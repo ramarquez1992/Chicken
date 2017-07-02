@@ -90,9 +90,9 @@ function removeSelfFromQueue(callback) {
     });
 }
 
-function getMostGames(num, callback) {
+function getLeaderBoard(num, callback) {
 	$.ajax({
-		url: "leaderboard/mostGamesPlayed/" + num,
+		url: "leaderboard/LeaderBoard/" + num,
 		method: "GET",
 		success: function (res, status, xhr) {
 			callback(res);
@@ -100,15 +100,47 @@ function getMostGames(num, callback) {
 	});
 }
 
-function getMostGamesWon(num, callback) {
+function voteChick1(callback) {
+    $.ajax({
+        url: "spotlight/voteChick1",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function voteChick2(callback) {
+    $.ajax({
+        url: "spotlight/voteChick2",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function getCurrentRound(callback) {
+    $.ajax({
+        url: "spotlight/getCurrentRound",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function updateUserAjax(userId, status, callback) {
 	$.ajax({
-		url: "leaderboard/mostGamesWon/" + num,
+		url: "updateProfileAjax/" + userId + "/" + status,
 		method: "GET",
-		success: function (res, status, xhr) {
+		success:function (res, status, xhr) {
 			callback(res);
 		}
 	});
 }
+
+
 
 
 function gamesPlayed(userId, callback) {
@@ -151,26 +183,6 @@ function spotlightTime(userId, callback) {
 	})
 }
 
-function getMostSpotlightTime(num, callback) {
-	$.ajax({
-		url: "spotlight/mostSpotlightTime/" + num,
-		method: "GET",
-		success: function (res, status, xhr) {
-			callback(res);
-		}
-	})
-}
-
-function getMostVotes(num, callback) {
-	$.ajax({
-		url: "leaderboard/mostVotes/" + num,
-		method: "GET",
-		success: function (res, status, xhr) {
-			callback(res);
-		}
-	})
-}
-
 function totalVotes(userId, callback) {
 	$.ajax({
 		url: "leaderboard/totalVotes/" + userId,
@@ -183,45 +195,6 @@ function totalVotes(userId, callback) {
 
 
 
-function voteChick1(callback) {
-    $.ajax({
-        url: "spotlight/voteChick1",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
-
-function voteChick2(callback) {
-    $.ajax({
-        url: "spotlight/voteChick2",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
-
-function getCurrentRound(callback) {
-    $.ajax({
-        url: "spotlight/getCurrentRound",
-        method: "GET",
-        success: function (res, status, xhr) {
-            callback(res);
-        }
-    });
-}
-
-function updateUserAjax(userId, status, callback) {
-	$.ajax({
-		url: "updateProfileAjax/" + userId + "/" + status,
-		method: "GET",
-		success:function (res, status, xhr) {
-			callback(res);
-		}
-	});
-}
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');

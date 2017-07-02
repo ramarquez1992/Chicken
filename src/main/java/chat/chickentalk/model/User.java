@@ -28,6 +28,17 @@ public class User implements Serializable{
     @Transient
     private final String defaultAvatar = "https://s3.us-east-2.amazonaws.com/chickentalk-bucket/c+h+i+c+k+e+n.png"; // default picture if read as null.
     
+    @Transient
+    public int playedGames = 0;
+    @Transient
+    public int wonGames = 0;
+    @Transient
+    public int lostGames = 0;  
+    @Transient
+    public int voteTotal = 0;  
+    @Transient
+    public String spotlightTime = "";  
+    
     @Id
     @Column(name = "userID")
     @SequenceGenerator(name = "CHATUSERID_SEQ", sequenceName = "CHATUSERID_SEQ", allocationSize = 1)

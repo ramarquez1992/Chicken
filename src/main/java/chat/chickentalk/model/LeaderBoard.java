@@ -56,3 +56,4 @@ public class LeaderBoard {
 		this.mostVotes = mostVotes;
 	}
 }
+
