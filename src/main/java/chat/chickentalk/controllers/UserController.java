@@ -1,5 +1,12 @@
 package chat.chickentalk.controllers;
 
+import chat.chickentalk.model.User;
+import chat.chickentalk.service.SpotlightService;
+import chat.chickentalk.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,9 +33,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.Base64;
 
-import chat.chickentalk.model.User;
-import chat.chickentalk.service.UserService;
-
 @Controller
 public class UserController {
 
@@ -44,6 +48,9 @@ public class UserController {
 	
 	@Value("#{systemEnvironment['CHICKEN_BUCKET_NAME']}")
 	private String bucketName; 
+
+    @Autowired
+    private SpotlightService spotlightService;
 
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String getProfile() {
@@ -136,10 +143,12 @@ public class UserController {
      * Ends the current Session and redirects to the landing page.
      *
      * @param request HttpServletRequest
-     * @param response HttpServletResponse
      */
     @RequestMapping(value = "/logoutUser", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
+        User u = (User) request.getSession().getAttribute("user");
+        spotlightService.removeUserFromQueue(u);
+
         request.getSession().invalidate();
 
         return "landing";
