@@ -28,7 +28,6 @@ ${user.getEmail()}
 
 
     </div>
-    <div id="myStreamContainer"></div>
 
 
 </div>
@@ -36,11 +35,6 @@ ${user.getEmail()}
 <div id="global">
     <p>global chat</p>
 </div>
-
-<div id="misc">
-    <p>misc info</p>
-</div>
-
 
 
 

@@ -2,14 +2,17 @@
 
 <main>
     <section id="main-desc">
-        <video muted loop autoplay poster="static/img/chicken-bg.jpeg">
-            <source src="static/img/pupper.mp4"/>
-        </video>
-
+        <div id="bg-img">
+            <img src="static/img/chicken-bg.jpeg">
+        </div>
 
 
         <div id="desc" class="container-fluid">
-            <h1>Talk like a #Chicken.</h1>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Talk like a <a href="#">#Chicken</a>.</h1>
+                </div>
+            </div>
 
             <div class="row">
 

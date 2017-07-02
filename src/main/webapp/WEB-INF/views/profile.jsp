@@ -20,7 +20,7 @@
                 </div>
                 <input id="avatar" name="avatar" hidden=hidden/> <!-- shows image preview after selection -->
                 <div class="form-group"> <!-- submit avatar button -->
-                    <button class="form-control btn btn-primary" type="submit" method="post" action="uploadAvatar">Submit Avatar</button>
+                    <button class="form-control btn btn-primary" type="submit" method="post" action="uploadAvatar">Upload</button>
                 </div>
             </form>
         </div>
@@ -57,14 +57,14 @@
                 <tr>
                     <td>Confirm password</td>
                     <td>
-                        <input class="form-control" name="passwordCheck" type="password" placeholder="Confirm new password">
+                        <input class="form-control" name="passwordCheck" type="password" placeholder="Confirm password">
                     </td>
                 </tr>
 
                 <tr>
                     <td>Maturity filter</td>
                     <td>
-                        <input data-toggle="toggle" data-on="Yes" data-off="No" class="form-control" name="isBaby" type="checkbox" <c:if test="${user.isBaby()}">checked </c:if>>
+                        <input data-toggle="toggle" data-on="On" data-off="Off" class="form-control" name="isBaby" type="checkbox" <c:if test="${user.isBaby()}">checked </c:if>>
                     </td>
                 </tr>
 
