@@ -6,6 +6,9 @@ skylink.init({
 });
 
 var theUser;
+var userMessageCount = 0; //amount of message sent in limit
+var messageLimit = 0; //flag for spam filter
+
 $(document).ready(function(){
 	
 	getSelf(function(res){
@@ -15,6 +18,8 @@ $(document).ready(function(){
 			window.location.replace("logoutUser");
 		}
 	});
+	
+	setInterval(spamFilter, 2000);
 });
 
 var uStatus
@@ -31,7 +36,6 @@ function initChat() {
 		status : uStatus
 	});
 	if(uStatus != "permanent ban") skylink.joinRoom();
-	else console.log(uStatus + " :D");
 }
 
 var userList = [];
@@ -44,17 +48,11 @@ skylink.on('peerJoined', function(peerId, peerInfo, isSelf) {
 		id = peerInfo.userData.userId || peerId;
 		
 		if(!userList.includes(user.name) && peerInfo.userData.userId != document.getElementById('idNum').innerHTML) {
-			console.log("inside add message " + peerInfo.userData.name);
-			console.log("inside add message " + peerInfo.userData.userId);
-			console.log("inside add message idNum " + document.getElementById('idNum').innerHTML);
 			var userListBox = document.getElementById('userList');
-			console.log("created user list ");
 			var userModel = document.createElement('li');
-			console.log("created list elements");
 			userModel.className = 'message';
 			userModel.style.cssText = "color:orange;"
 			userModel.textContent = peerInfo.userData.name;
-			console.log("username in user list " + peerInfo.userData.name);
 			userModel.onclick = updateModal(peerInfo.userData);
 			userListBox.appendChild(userModel);
 			userList.push(peerInfo.userData.name);
@@ -94,7 +92,7 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 	var user = 'You',
 	className = 'you';
-	console.log("before isSelf " + isSelf);
+	
 	if(!isSelf) {
 		className = 'message';
 		addMessage(peerInfo.userData, ': ' + message.content, className);
@@ -105,6 +103,20 @@ skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
 function sendMessage() {
 	var input = document.getElementById('message');
 	var status = document.getElementById('status').innerHTML;
+	
+	if(messageLimit == 1) {
+		return;
+	}
+	else if(userMessageCount >= 3) {
+		messageLimit = 1;
+		setTimeout(resetLimit, 10000);
+		alert("Spam detected: please wait 10 seconds to message again.");
+		return;
+	}
+	else {
+		userMessageCount++;
+	}
+	
 	if(status == "permanent ban");
 	else skylink.sendP2PMessage(input.value);
 	input.value = '';
@@ -113,18 +125,15 @@ function sendMessage() {
 
 function addMessage(user, message, className) {
 	if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
-		var updatedId = message.split("|");
-		console.log("updated id after split " + updatedId[1] + " - " + user);
-		
+		var updatedId = message.split("|");	
 		if(updatedId[1] = user.userId) location.reload();
-		console.log("user with updated id page is refreshed");
 		return;
 	}
 	
 	if(user.status == "shadow ban") { // don't add the message if the user is shadow ban!
 		return;
 	}
-	
+
 	var chatbox = document.getElementById('chatbox');
 	var div = document.createElement('div');
 	
@@ -147,7 +156,6 @@ function addMessage(user, message, className) {
 		userProfile.className = className;
 		userProfile.style.cssText = "color:purple;"
 		userProfile.textContent = user.name;
-		console.log("else add messagew " + user.name);
 		userProfile.onclick = updateModal(user);
 		userMessage.textContent = censorInput;
 		div.appendChild(userProfile);
@@ -160,9 +168,7 @@ function updateModal(user){
 	return function(){
 		$('#UserProfile').modal({});
 		getUser(user.userId, function(res) {
-			console.log("update modal id " + user.userId);
 			$("#fullName").text("Name: " + res.firstName + " " + res.lastName);
-			console.log("update modal full name " + res.firstName + " " + res.lastName);
 			$("#selectStatus").val(res.status.name);
 			if(uStatus != "admin" && uStatus != "Chicken") {
 				$("#selectStatus").prop("disabled", true);
@@ -188,14 +194,8 @@ function updateModal(user){
 			});
 			
 			$('#statusChangeId').text(res.id);
-			console.log("ID FROM HIDDEN: " + res.id);
 			
 			$('#statusButton').click(updateUserStatus);
-			console.log("in update modal.");
-			
-			//$('#statusChangeId').text(document.getElementById("idNum").innerHTML);
-			//document.getElementById("statusChangeId").innerHTML = document.getElementById("idNum").innerhtml;
-			
 		});	
 	};
 };
@@ -229,10 +229,16 @@ function replaceWords(message) {
 
 function updateUserStatus() {
 		var id = document.getElementById("statusChangeId").innerHTML;
-		console.log("user to update id " + id);
 		var newStatus = $('#selectStatus').find(':selected').text();
-		console.log("the status to update " + newStatus)
 		updateUserAjax(id, newStatus, function(res) {
 			skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
 		});
+}
+
+function spamFilter() {
+	userMessageCount = 0;
+}
+
+function resetLimit() {
+	messageLimit = 0;
 }
