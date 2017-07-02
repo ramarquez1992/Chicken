@@ -3,6 +3,8 @@
 <!-- !!! lets a User update their own account details, doesn't work to let a User view other people's accounts -->
 
 <!--  Update User Profile  -->
+<h1 id="profilePageHeader">Update Information</h1>
+
 <div class="container-fluid row">
     <div class="col-xs-2 col-xs-offset-2">
         <!-- avatar and Update avatar, uses bootstrap-fileinput plugin -->

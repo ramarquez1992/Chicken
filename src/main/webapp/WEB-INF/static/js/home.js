@@ -87,12 +87,12 @@ app.controller('SpotlightController', function ($scope) {
 
                             if (!isChick1Stream) {
                                 isChick1Stream = true;
-                                stream(currUser.email, function (ctrl) {
-                                    $('#chick1StreamContainer video').remove();
-                                    setTimeout(function() {
-                                        setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                    }, 2000);
-                                });
+                                // stream(currUser.email, function (ctrl) {
+                                //     $('#chick1StreamContainer video').remove();
+                                //     setTimeout(function() {
+                                //         setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                //     }, 2000);
+                                // });
                             } else {
                                 setTimeout(function() {
                                     setChick1Ready(function (res) { console.log('set chick1 ready'); });
@@ -114,12 +114,12 @@ app.controller('SpotlightController', function ($scope) {
 
                             if (!isChick2Stream) {
                                 isChick2Stream = true;
-                                stream(currUser.email, function (ctrl) {
-                                    $('#chick2StreamContainer video').remove();
-                                    setTimeout(function() {
-                                        setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                    }, 2000);
-                                });
+                                // stream(currUser.email, function (ctrl) {
+                                //     $('#chick2StreamContainer video').remove();
+                                //     setTimeout(function() {
+                                //         setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                //     }, 2000);
+                                // });
                             } else {
                                 setTimeout(function() {
                                     setChick2Ready(function (res) { console.log('set chick2 ready'); });

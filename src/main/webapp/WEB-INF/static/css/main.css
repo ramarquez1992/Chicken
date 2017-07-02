@@ -81,7 +81,18 @@ nav {
   padding: 5em; }
 
 #currentAvatar {
+  text-align: center; }
+  #currentAvatar img {
+    padding: 3px;
+    border: 1px solid #777;
+    max-width: 100%; }
+
+.file-preview {
+  display: none; }
+
+#profilePageHeader {
   text-align: center;
-  max-width: 100%; }
+  margin-top: 1em;
+  margin-bottom: 1.5em; }
 
 /*# sourceMappingURL=main.css.map */
