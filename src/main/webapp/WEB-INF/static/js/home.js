@@ -24,7 +24,30 @@ app.controller('SpotlightController', function ($scope) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
 
-                refreshStreams(newRound);
+                if (newRound.started) {
+                    console.log('round is started!!!!!!!!');
+
+                } else if (!newRound.started && newRound.chick1 != null && newRound.chick2 != null) {
+                    if (newRound.chick1.id == currUser.id && !newRound.chick1Ready) {
+                        var willing = confirm('are you willing 1?');
+                        // var willing = true;
+                        if (willing) {
+                            setChick1Ready(function(res) { console.log('c1 willing')});
+                        } else {
+                            setChick1Drop(function(res) { console.log('c1 NOT willing')});
+                        }
+                    } else if (newRound.chick2.id == currUser.id && !newRound.chick2Ready) {
+                        var willing = confirm('are you willing 2?');
+                        // var willing = true;
+                        if (willing) {
+                            setChick2Ready(function (res) { console.log('c2 willing')});
+                        } else {
+                            setChick2Drop(function(res) { console.log('c2 NOT willing')});
+                        }
+                    }
+                }
+
+                // refreshStreams(newRound);
 
                 $scope.currentRound = newRound;
                 currRound = $scope.currentRound;
@@ -38,7 +61,7 @@ app.controller('SpotlightController', function ($scope) {
         getCurrentRound(function (res) {
             var newRound = res;
 
-            refreshStreams(newRound);
+            // refreshStreams(newRound);
 
             $scope.currentRound = res;
             currRound = $scope.currentRound;
@@ -50,7 +73,6 @@ app.controller('SpotlightController', function ($scope) {
 });
 
 function refreshStreams(newRound) {
-    console.log('outside REFRESH');
     if (
         // not enough ppl to populate spotlight
     currRound == null || newRound == null ||
@@ -85,6 +107,7 @@ function refreshStreams(newRound) {
             endStream(chick2StreamCtrl);
         }
 
+
         if (
             currUser != null && newRound != null &&
             newRound.chick1 != null && newRound.chick2 != null
@@ -92,60 +115,40 @@ function refreshStreams(newRound) {
 
             currRound = newRound;
 
-            console.log('trying to refresh streams');
-
 
             // TODO: only stream if user not already streaming aka not a chick
             if (newRound.chick1.id === currUser.id) {
 
                 if (!isChick1Stream) {
-                    console.log('about to stream chick1');
                     stream(currUser.email, function (ctrl) {
-                        console.log('streaming chick1');
-                    // stream('chick1', function (ctrl) {
                         $('#chick1StreamContainer video').remove();
-                        setChick1Ready(function(res) {
-                            console.log('set chick1 ready');
-                        });
-                        // ctrl.addLocalStream(chick1StreamContainer);
-                        // forceUpdate(function (res) { });
+
+                        setChick1Ready(function(res) { });
                     });
                 }
 
                 isChick1Stream = true;
                 isChick2Stream = false;
 
-                // attachSpotlight();
-
             } else if (newRound.chick2.id === currUser.id) {
 
                 if (!isChick2Stream) {
-                    console.log('abou to stream chick2');
                     stream(currUser.email, function (ctrl) {
-                        console.log('streaming chick2');
-                    // stream('chick2', function (ctrl) {
                         $('#chick2StreamContainer video').remove();
-                        setChick2Ready(function(res) {
-                            console.log('set chick2 ready');
-                        });
-                        // ctrl.addLocalStream(chick2StreamContainer);
-                        // forceUpdate(function (res) { });
+
+                        setChick2Ready(function(res) { });
                     });
                 }
                 isChick1Stream = false;
                 isChick2Stream = true;
 
-                // attachSpotlight();
-
             } else {
                 isChick1Stream = false;
                 isChick2Stream = false;
 
-                // attachSpotlight();
             }
+
             attachSpotlight();
-
-
         }
 
     }
@@ -174,6 +177,7 @@ $(document).ready(function () {
 });
 
 function stream(number, callback) {
+    endStream(currUserStreamCtrl);
 
     var phone = window.phone = PHONE({
         number: number, // listen on username else random
@@ -183,7 +187,6 @@ function stream(number, callback) {
         broadcast: true	// True since you are the broadcaster
     });
 
-    // var ctrl = window.ctrl = CONTROLLER(phone);
     currUserStreamCtrl = CONTROLLER(phone);
 
     currUserStreamCtrl.ready(function () {
@@ -193,7 +196,6 @@ function stream(number, callback) {
 }
 
 function getStream(ctrl, number, callback) {
-    // TODO: needed?
     // endStream(ctrl);
 
     var phone = window.phone = PHONE({
@@ -225,18 +227,16 @@ function endStream(ctrl) {
 }
 
 function attachSpotlight() {
-    if (currRound != null && !currRound.chick1Ready || !currRound.chick2Ready) return;
+    // if (currRound != null && (!currRound.chick1Ready || !currRound.chick2Ready)) return;
 
-    if (!isChick1Stream && currRound != null && currRound.chick1 != null) {
-        // getStream(chick1StreamCtrl, 'chick1', function (video) {
+    if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready) {
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
             chick1StreamContainer.appendChild(video);
         });
     }
 
-    if (!isChick2Stream && currRound != null && currRound.chick2 != null) {
-        // getStream(chick2StreamCtrl, 'chick2', function (video) {
+    if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready) {
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
             chick2StreamContainer.appendChild(video);

@@ -30,6 +30,26 @@ function setChick2Ready(callback) {
     });
 }
 
+function setChick1Drop(callback) {
+    $.ajax({
+        url: "spotlight/setChick1Drop",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
+function setChick2Drop(callback) {
+    $.ajax({
+        url: "spotlight/setChick2Drop",
+        method: "GET",
+        success: function (res, status, xhr) {
+            callback(res);
+        }
+    });
+}
+
 function forceUpdate(callback) {
     $.ajax({
         url: "spotlight/forceUpdate",

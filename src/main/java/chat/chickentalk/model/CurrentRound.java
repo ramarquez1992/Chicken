@@ -10,6 +10,21 @@ public class CurrentRound {
     Deque<User> queue;
     boolean chick1Ready = false;
     boolean chick2Ready = false;
+    boolean started = false;
+    boolean finished = false;
+
+
+    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes, Deque<User> queue, boolean chick1Ready, boolean chick2Ready, boolean started, boolean finished) {
+        this.chick1 = chick1;
+        this.chick2 = chick2;
+        this.chick1Votes = chick1Votes;
+        this.chick2Votes = chick2Votes;
+        this.queue = queue;
+        this.chick1Ready = chick1Ready;
+        this.chick2Ready = chick2Ready;
+        this.started = started;
+        this.finished = finished;
+    }
 
     public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes,
                         Deque<User> queue, boolean chick1Ready, boolean chick2Ready) {
@@ -20,6 +35,22 @@ public class CurrentRound {
         this.queue = queue;
         this.chick1Ready = chick1Ready;
         this.chick2Ready = chick2Ready;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 
     public boolean isChick1Ready() {

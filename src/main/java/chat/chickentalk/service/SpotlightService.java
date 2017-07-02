@@ -18,7 +18,7 @@ public class SpotlightService {
 
     private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-    private int roundLength = 5; // in seconds
+    private int roundLength = 3; // in seconds
     private LocalDateTime roundStart;
     private User chick1;
     private User chick2;
@@ -26,6 +26,24 @@ public class SpotlightService {
     private int chick2Votes = 0;
     private boolean chick1Ready = false;
     private boolean chick2Ready = false;
+    private boolean started = false;
+    private boolean finished = false;
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 
     public boolean isChick1Ready() {
         return chick1Ready;
@@ -87,18 +105,24 @@ public class SpotlightService {
                 getChick2Votes(),
                 getSpotlightQueue(),
                 isChick1Ready(),
-                isChick2Ready()
+                isChick2Ready(),
+                started,
+                finished
         );
 
         return cr;
     }
 
     public void createNextRound() {
-        chick1 = getSpotlightQueue().removeFirst();
-        chick2 = getSpotlightQueue().removeFirst();
+        if (getSpotlightQueue().size() > 1) {
+            chick1 = getSpotlightQueue().removeFirst();
+            chick2 = getSpotlightQueue().removeFirst();
+        }
 
         chick1Ready = false;
         chick2Ready = false;
+        started = false;
+        finished = false;
     }
 
     public void startNextRound() {
@@ -106,6 +130,13 @@ public class SpotlightService {
     }
 
     public Round stopRound() {
+        chick1Votes = 0;
+        chick2Votes = 0;
+
+        chick1Ready = false;
+        chick2Ready = false;
+        started = false;
+        finished = false;
         if (chick1 == null || chick2 == null) return null;
 
         // set chick1 to winner
@@ -130,16 +161,20 @@ public class SpotlightService {
         r.setEndDate(Timestamp.valueOf(LocalDateTime.now()));
 
         // add winner to front of queue
-        getSpotlightQueue().addFirst(chick1);
-        getSpotlightQueue().addLast(chick2);
+        try {
+            getSpotlightQueue().addFirst(chick1);
+            getSpotlightQueue().addLast(chick2);
+        } catch (Exception e) {
+            System.out.println("no chicks to add to q from stop()");
+        }
 
         chick1 = null;
         chick2 = null;
-        chick1Votes = 0;
-        chick2Votes = 0;
-
-        chick1Ready = false;
-        chick2Ready = false;
+//        chick1Votes = 0;
+//        chick2Votes = 0;
+//
+//        chick1Ready = false;
+//        chick2Ready = false;
 
         return r;
     }

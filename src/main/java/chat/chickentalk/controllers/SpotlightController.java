@@ -99,7 +99,8 @@ public class SpotlightController {
     public void setChick1Ready() {
         svc.setChick1Ready(true);
 
-        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+        if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
+            svc.setStarted(true);
             start();
         }
         sendRound(svc.getCurrentRound());
@@ -110,37 +111,63 @@ public class SpotlightController {
     public void setChick2Ready() {
         svc.setChick2Ready(true);
 
-        if (svc.isChick1Ready() && svc.isChick2Ready()) {
+        if (svc.isChick1Ready() && svc.isChick2Ready() && !started) {
+            svc.setStarted(true);
             start();
         }
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick1Drop", method = RequestMethod.GET)
+    public void setChick1Drop() {
+        // TODO: make sure curr user is chick1
+        User u = svc.getChick1();
+
+        svc.setChick1(svc.getSpotlightQueue().removeFirst());
+        svc.addUserToQueue(u);
+
+        sendRound(svc.getCurrentRound());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/spotlight/setChick2Drop", method = RequestMethod.GET)
+    public void setChick2Drop() {
+        // TODO: make sure curr user is chick2
+        User u = svc.getChick2();
+
+        svc.setChick2(svc.getSpotlightQueue().removeFirst());
+        svc.addUserToQueue(u);
+
         sendRound(svc.getCurrentRound());
     }
 
     public boolean start() {
         started = true;
 
-        if (svc.isChick1Ready() && svc.isChick2Ready()) {
-            started = true;
-            svc.startNextRound();
-            sendRound(svc.getCurrentRound());
-            spotlightTimerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    svc.stopRound();
+        svc.startNextRound();
+        sendRound(svc.getCurrentRound());
 
-                    //TODO: create next round instead of start
+        spotlightTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                started = false;
+                svc.stopRound();
+
+                //TODO: create next round instead of start
+                if (svc.getSpotlightQueue().size() > 1) {
                     svc.createNextRound();
-//                    svc.startNextRound();
-                    start();
-
-                    sendRound(svc.getCurrentRound());
                 }
-            };
+//                    svc.startNextRound();
+//                    start();
 
-            timer = new Timer();
-            timer.schedule(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS));
+                sendRound(svc.getCurrentRound());
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(spotlightTimerTask, TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS));
 //            timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
-        }
 
 //        sendRound(svc.getCurrentRound());
         return started;
@@ -159,7 +186,7 @@ public class SpotlightController {
 
         if (!started && svc.getSpotlightQueue().size() > 1) {
             svc.createNextRound();
-            start();
+//            start();
         }
 
         sendRound(getCurrentRound());
@@ -179,7 +206,7 @@ public class SpotlightController {
 
             if (svc.getSpotlightQueue().size() > 1) {
                 svc.createNextRound();
-                start();
+//                start();
             }
         }
 
