@@ -6,9 +6,8 @@
 		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>Rank</th>
-					<th >First Name </th>
-					<th>Last Name </th>
+					<th width="5%">Rank</th>
+					<th style = "text-align: left; padding-left: 5em" width="20%">Name </th>
 					<th>Games Played </th>
 					<th>Games Won </th>
 					<th>Games Lost </th>
@@ -16,9 +15,8 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostGames">
-				    <td>{{$index +1}}</td>
-					<td>{{person.firstName}}</td>
-					<td>{{person.lastName}}</td>
+				    <td width="5%">{{$index +1}}</td>
+					<td style = "text-align: left; padding-left: 5em" width="20%">{{person.lastName}}, {{person.firstName}}</td>
 				  
 					<td>{{person.playedGames}}</td>
 				  
@@ -36,18 +34,16 @@
 		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>Rank</th>
-					<th>First Name </th>
-					<th>Last Name </th>
+					<th width="5%">Rank</th>
+					<th style = "text-align: left; padding-left: 5em" width="20%">Name </th>
 					<th>Games Won </th>
 					<th>Games Played </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostWins">
-					<td>{{$index +1}}</td>
-					<td>{{person.firstName}}</td>
-					<td>{{person.lastName}}</td>
+					<td width="5%">{{$index +1}}</td>
+					<td style = "text-align: left; padding-left: 5em" width="20%">{{person.lastName}}, {{person.firstName}}</td>
 					<td>{{person.wonGames}}</td>
 					<td>{{person.playedGames}}</td>
 				</tr>
@@ -60,17 +56,16 @@
 		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>Rank</th>
-					<th>Name </th>
-					<th>Total Votes </th>
-					<th>Games Played </th>
+					<th width="5%">Rank</th>
+					<th style = "text-align: left; padding-left: 5em" width="20%">Name </th>
+					<th>Total Votes</th>
+					<th>Games Played</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostVotes">
-					<td>{{$index +1}}</td>
-					<td>{{person.firstName + " " + person.lastName}}</td>
-					<td>{{person.lastName}}</td>
+					<td width="5%">{{$index +1}}</td>
+					<td style = "text-align: left; padding-left: 5em" width="20%">{{person.lastName}}, {{person.firstName}}</td>
 					<td>{{person.voteTotal}}</td>
 					<td>{{person.playedGames}}</td>
 				</tr>
@@ -83,18 +78,16 @@
 		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>Rank</th>
-					<th>First Name </th>
-					<th>Last Name </th>
+					<th width="5%">Rank</th>
+					<th style = "text-align: left; padding-left: 5em" width="20%">Name </th>
 					<th>Total Time </th>
 					<th>Games Played </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostTime">
-					<td>{{$index +1}}</td>
-					<td>{{person.firstName}}</td>
-					<td>{{person.lastName}}</td>
+					<td width="5%">{{$index +1}}</td>
+					<td style = "text-align: left; padding-left: 5em" width="20%">{{person.lastName}}, {{person.firstName}}</td>
 					<td>{{person.spotlightTime}}</td>
 					<td>{{person.playedGames}}</td>
 				</tr>
