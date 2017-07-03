@@ -47,8 +47,12 @@ public class UserService {
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setBaby(true);
-		String emailSubject = "Chickentalk Account!";
-		String emailBody = "Hello, " + firstname + " " + lastname + "!\n\n" + " You have successfuly created an account at chickentalk.";
+		String emailSubject = "ChickenTalk Account!";
+		String emailBody = "Hi There, " + firstname + " " + lastname + "!\n\n" + " Thank you for creating a ChickenTalk account, you're all ready to go! "
+				+ " You are now ready to log in to chat and play at any time. ChickenTalk is a unique chatroom where you can compete for the stage. "
+				+ " We look forward to seeing you soon and good luck climbing the ranks."
+				+ "\n\nThank you for joining our growing community!"
+				+ "\nThe #Chicken Team";
 		mailer.sendMail(email, emailSubject, emailBody);
 		return dao.createUser(user); 
 	}
