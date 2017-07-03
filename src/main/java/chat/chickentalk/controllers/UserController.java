@@ -158,7 +158,7 @@ public class UserController {
                 return "landing";
             }
         } catch(Exception e){
-            e.printStackTrace();
+        	map.addAttribute("errorMsg", "Your login information was incorrect. Please try again.");
             return "landing";
         }
     }
