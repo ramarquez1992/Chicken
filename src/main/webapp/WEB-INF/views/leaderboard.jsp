@@ -3,10 +3,11 @@
 <div id="leaderboard" class="container-fluid" ng-controller="leaderBoardCtrl">
 	<div id="mostGamesContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Games</em></h1>
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>First Name </th>
+					<th>Rank</th>
+					<th >First Name </th>
 					<th>Last Name </th>
 					<th>Games Played </th>
 					<th>Games Won </th>
@@ -15,7 +16,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostGames">
-				   
+				    <td>{{$index +1}}</td>
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
 				  
@@ -32,9 +33,10 @@
 	
 	<div id="mostWinsContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Wins</em></h1>
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
+					<th>Rank</th>
 					<th>First Name </th>
 					<th>Last Name </th>
 					<th>Games Won </th>
@@ -43,6 +45,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostWins">
+					<td>{{$index +1}}</td>
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
 					<td>{{person.wonGames}}</td>
@@ -54,18 +57,19 @@
 	
 	<div id="mostVotesContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Votes</em></h1>
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
-					<th>First Name </th>
-					<th>Last Name </th>
+					<th>Rank</th>
+					<th>Name </th>
 					<th>Total Votes </th>
 					<th>Games Played </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostVotes">
-					<td>{{person.firstName}}</td>
+					<td>{{$index +1}}</td>
+					<td>{{person.firstName + " " + person.lastName}}</td>
 					<td>{{person.lastName}}</td>
 					<td>{{person.voteTotal}}</td>
 					<td>{{person.playedGames}}</td>
@@ -76,9 +80,10 @@
 	
 	<div id="mostTimeContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Time</em></h1>
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped text-center text-center">
 			<thead>
 				<tr>
+					<th>Rank</th>
 					<th>First Name </th>
 					<th>Last Name </th>
 					<th>Total Time </th>
@@ -87,6 +92,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat = "person in mostTime">
+					<td>{{$index +1}}</td>
 					<td>{{person.firstName}}</td>
 					<td>{{person.lastName}}</td>
 					<td>{{person.spotlightTime}}</td>
