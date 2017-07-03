@@ -13,9 +13,12 @@ public class CurrentRound {
     boolean chick2Ready = false;
     boolean started = false;
     boolean finished = false;
+    long secondsRemaining;
 
 
-    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes, Deque<User> queue, boolean chick1Ready, boolean chick2Ready, boolean started, boolean finished, int id) {
+    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes,
+                        Deque<User> queue, boolean chick1Ready, boolean chick2Ready,
+                        boolean started, boolean finished, int id, long secondsRemaining) {
         this.chick1 = chick1;
         this.chick2 = chick2;
         this.chick1Votes = chick1Votes;
@@ -26,21 +29,19 @@ public class CurrentRound {
         this.started = started;
         this.finished = finished;
         this.id = id;
-    }
-
-    public CurrentRound(User chick1, User chick2, int chick1Votes, int chick2Votes,
-                        Deque<User> queue, boolean chick1Ready, boolean chick2Ready) {
-        this.chick1 = chick1;
-        this.chick2 = chick2;
-        this.chick1Votes = chick1Votes;
-        this.chick2Votes = chick2Votes;
-        this.queue = queue;
-        this.chick1Ready = chick1Ready;
-        this.chick2Ready = chick2Ready;
+        this.secondsRemaining = secondsRemaining;
     }
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public long getSecondsRemaining() {
+        return secondsRemaining;
+    }
+
+    public void setSecondsRemaining(long secondsRemaining) {
+        this.secondsRemaining = secondsRemaining;
     }
 
     public void setFinished(boolean finished) {

@@ -88,12 +88,6 @@ public class SpotlightController {
         this.template.convertAndSend("/topic/messages", cr);
     }
 
-    public void attemptToStartRound() {
-        if (svc.isChick1Ready() && svc.isChick2Ready()) {
-            sendRound(svc.getCurrentRound());
-        }
-    }
-
     @ResponseBody
     @RequestMapping(value = "/spotlight/setChick1Ready", method = RequestMethod.GET)
     public void setChick1Ready() {
@@ -168,8 +162,6 @@ public class SpotlightController {
                 if (svc.getSpotlightQueue().size() > 1) {
                     svc.createNextRound();
                 }
-//                    svc.startNextRound();
-//                    start();
 
                 sendRound(svc.getCurrentRound());
             }
@@ -177,9 +169,7 @@ public class SpotlightController {
 
         timer = new Timer();
         timer.schedule(spotlightTimerTask, TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS));
-//            timer.scheduleAtFixedRate(spotlightTimerTask, new Date(), TimeUnit.MILLISECONDS.convert(svc.getRoundLength(), TimeUnit.SECONDS)); // Starts automatically
 
-//        sendRound(svc.getCurrentRound());
         return started;
     }
 
@@ -196,7 +186,6 @@ public class SpotlightController {
 
         if (!started && svc.getSpotlightQueue().size() > 1) {
             svc.createNextRound();
-//            start();
         }
 
         sendRound(getCurrentRound());
@@ -219,7 +208,6 @@ public class SpotlightController {
 
             if (svc.getSpotlightQueue().size() > 1) {
                 svc.createNextRound();
-//                start();
             }
         }
 

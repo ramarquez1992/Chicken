@@ -7,25 +7,32 @@ var chick1StreamCtrl = {};
 var chick2StreamCtrl = {};
 var chick1StreamEmail;
 var chick2StreamEmail;
+var chick1StreamContainer;
+var chick2StreamContainer;
 var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
 var qAble = false;
+var setReadyDelay = 1500;
+
+function resetTimer(secondsRemaining) {
+    console.log('TIME REMAINING: ' + secondsRemaining);
+}
 
 app.controller('SpotlightController', function ($scope) {
 
 
     getSelf(function (cu) {
         currUser = cu;
+
+        // Handle user playing/not playing
         $('#qAble').change(function() {
             console.log($(this).val() + ' qqqqqq');
         });
 
-        // stream(currUser.email, function (ctrl) {
-            // ctrl.addLocalStream(document.getElementById('myStreamContainer'));
-            // $('#chick2StreamContainer video').remove();
-        // });
 
+
+        // Init socket; handle messages
         var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
         var stompClient = Stomp.over(socket);
 
@@ -33,30 +40,35 @@ app.controller('SpotlightController', function ($scope) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
 
-                // if (newRound.chick1 != null) {
-                //     if ( currUser.id == newRound.chick1.id) {
-                //         $('#chick1').hide();
-                //     } else {
-                //         $('#chick1').show();
-                //     }
-                // }
-                // if (newRound.chick2 != null) {
-                //     if (currUser.id == newRound.chick2.id) {
-                //         $('#chick2').hide();
-                //     } else {
-                //         $('#chick2').show();
-                //     }
-                // }
+                resetTimer(newRound.secondsRemaining);
 
+
+                // Don't show your own stream
+                if (newRound.chick1 != null) {
+                    if ( currUser.id == newRound.chick1.id) {
+                        $('#chick1').hide();
+                    } else {
+                        $('#chick1').show();
+                    }
+                }
+                if (newRound.chick2 != null) {
+                    if (currUser.id == newRound.chick2.id) {
+                        $('#chick2').hide();
+                    } else {
+                        $('#chick2').show();
+                    }
+                }
+
+                // End YOUR stream if you are not a chick
                 if (newRound.chick1 == null || newRound.chick1.id != currUser.id) isChick1Stream = false;
                 if (newRound.chick2 == null || newRound.chick2.id != currUser.id) isChick2Stream = false;
-                // end YOUR stream if you are not a chick
+
                 if (newRound.chick1 != null && newRound.chick1.id != currUser.id &&
                         newRound.chick2 != null && newRound.chick2.id != currUser.id) {
                     endStream(currUserStreamCtrl);
                 }
 
-                // end other streams if they have changed
+                // End OTHER streams if they have changed
                 if (newRound.chick1 != null && newRound.chick1.email != chick1StreamEmail) {
                     endStream(chick1StreamCtrl);
                 }
@@ -69,38 +81,40 @@ app.controller('SpotlightController', function ($scope) {
                 currRound = newRound;
 
 
+                // Handle confirmation
                 if (newRound.chick1 != null && newRound.chick2 != null &&
                 newRound.chick1.id != currUser.id && newRound.chick2.id != currUser.id) {
                     confirmed = false;
                 }
 
+                // Attach spotlight streams on new round
                 if (newRound.started) {
-                    console.log('round is started!!!!!!!!');
+                    console.log('New round starting!');
                     attachSpotlight();
 
                 } else if (!newRound.started) {
                     alreadyVoted = false;
 
+                    // Start chick1 stream if chick1
                     if (!confirmed && newRound.chick1 != null && newRound.chick1.id == currUser.id && !newRound.chick1Ready) {
                         // confirmed = true;
                         // var willing = confirm('are you willing 1?');
                         var willing = true;
+
                         if (willing) {
-                            // refreshStreams();
-                            // setChick1Ready(function(res) { console.log('c1 willing')});
 
                             if (!isChick1Stream) {
                                 isChick1Stream = true;
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick1StreamContainer video').remove();
                                     setTimeout(function() {
-                                        setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                    }, 2000);
+                                        setChick1Ready(function (res) { console.log('Set chick1 ready'); });
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
-                                    setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                }, 2000);
+                                    setChick1Ready(function (res) { console.log('Set chick1 ready'); });
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -108,26 +122,26 @@ app.controller('SpotlightController', function ($scope) {
                         }
                     }
 
+                    // Start chick2 stream if chick2
                     if (!confirmed && newRound.chick2 != null && newRound.chick2.id == currUser.id && !newRound.chick2Ready) {
                         // confirmed = true;
                         // var willing = confirm('are you willing 2?');
                         var willing = true;
+
                         if (willing) {
-                            // refreshStreams();
-                            // setChick2Ready(function (res) { console.log('c2 willing')});
 
                             if (!isChick2Stream) {
                                 isChick2Stream = true;
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick2StreamContainer video').remove();
                                     setTimeout(function() {
-                                        setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                    }, 2000);
+                                        setChick2Ready(function (res) { console.log('Set chick2 ready'); });
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
-                                    setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                }, 2000);
+                                    setChick2Ready(function (res) { console.log('Set chick2 ready'); });
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -137,11 +151,11 @@ app.controller('SpotlightController', function ($scope) {
 
                 }
 
-                // refreshStreams(newRound);
 
                 $scope.currentRound = newRound;
-                // currRound = $scope.currentRound;
                 $scope.$apply();
+
+                refreshSpotlightDisplay();
             });
         });
     });
@@ -152,16 +166,28 @@ app.controller('SpotlightController', function ($scope) {
             $scope.currentRound = res;
             currRound = $scope.currentRound;
             $scope.$apply();
+
+            refreshSpotlightDisplay();
         });
-    }, 2000);
+    }, setReadyDelay);
 
 
 });
 
+function refreshSpotlightDisplay() {
+    if (currRound == null || !currRound.started) {
+        $('#waitingContainer').show();
+        $('#spotlightContainer').hide();
+    } else {
+        $('#waitingContainer').hide();
+        $('#spotlightContainer').show();
+    }
+}
 
 $(document).ready(function () {
+    refreshSpotlightDisplay();
 
-    // init chat
+    // Init chat
     getSelf(function(res){
         theUser = res;
 
@@ -173,9 +199,10 @@ $(document).ready(function () {
 
     setInterval(spamFilter, 2000);
 
+
+    // Set chatbox sizes
     var navHeight = $('nav').outerHeight();
     var docHeight = $(document).outerHeight();
-    var bodyPadding = parseInt($('body').css('padding-top'));
     var globalChatContainerHeight = docHeight - navHeight;
     $('#globalChatContainer').css('height', globalChatContainerHeight);
     $('#globalChatContainer').css('margin-top', navHeight);
@@ -190,6 +217,7 @@ $(document).ready(function () {
 
 
 
+    // Init vote buttons
     $('#voteChick1').click(function () {
         if (!alreadyVoted) {
             alreadyVoted = true;
@@ -205,6 +233,7 @@ $(document).ready(function () {
     });
 
 
+    // Init stream container vars
     chick1StreamContainer = document.getElementById('chick1StreamContainer');
     chick2StreamContainer = document.getElementById('chick2StreamContainer');
 });
@@ -262,19 +291,11 @@ function endStream(ctrl) {
 }
 
 function attachSpotlight() {
-    // if (currRound != null && currRoundId == currRound.id) return null;
+    var c1HasVid = $('#chick1StreamContainer video').length > 0;
+    var c2HasVid = $('#chick2StreamContainer video').length > 0;
 
-    // currRoundId = currRound.id;
-    // if (currRound != null && (!currRound.chick1Ready || !currRound.chick2Ready)) return;
-
-    // if (isChick1Stream) $('#chick1StreamContainer video').remove();
-    // if (isChick2Stream) $('#chick2StreamContainer video').remove();
-
-    // if (!currRound != null && currRound.chick1 != null && currRound.chick1.id != currUser.id && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
-    if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
-    // if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready) {
+    if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && (currRound.chick1.email != chick1StreamEmail || !c1HasVid)) {
         chick1StreamEmail = currRound.chick1.email;
-        console.log('ATTEMpting to conect to chick1');
         endStream(chick1StreamCtrl);
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
@@ -282,12 +303,8 @@ function attachSpotlight() {
         });
     }
 
-    // if (currRound != null && currRound.chick2 != null && currRound.chick2.id != currUser.id && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
-    if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
-    // if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready) {
-    // if (!isChick2Stream && currRound != null && $('#chick2StreamContainer').attr('data-number') != currRound.chick2.email) {
+    if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && (currRound.chick2.email != chick2StreamEmail || !c2HasVid)) {
         chick2StreamEmail = currRound.chick2.email;
-        console.log('ATTEMpting to conect to chick2');
         endStream(chick2StreamCtrl);
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
