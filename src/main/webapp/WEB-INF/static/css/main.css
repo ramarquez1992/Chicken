@@ -125,8 +125,7 @@ nav {
   border: 1px solid #999;
   margin-bottom: 5em;
   padding: 2em;
-  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
-  border-radius: 0.3em; }
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25); }
 
 #leaderboard, #profile-container {
   margin-top: 5em; }
@@ -138,17 +137,17 @@ nav {
 
 #globalChatContainer {
   position: relative;
-  background-color: #c6c6c6;
-  border-left: 1px solid #484c55; }
+  background-color: #dadada;
+  border-left: 1px solid #c6c6c6; }
   #globalChatContainer #chatboxContainer #chatbox {
+    padding: 1em;
     overflow: scroll; }
   #globalChatContainer #messageContainer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #b0b0b0;
-    border-top: 1px solid #484c55;
+    background-color: #c6c6c6;
     padding: 14px; }
     #globalChatContainer #messageContainer input {
       height: 40px;
