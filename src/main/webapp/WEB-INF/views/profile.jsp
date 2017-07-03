@@ -7,7 +7,7 @@
     <h1 id="profilePageHeader"><em>Update</em> Information</h1>
 
     <div class="container-fluid row">
-        <div class="col-xs-4 col-xs-offset-1">
+        <div class="col-xs-3 col-xs-offset-1">
             <!-- avatar and Update avatar, uses bootstrap-fileinput plugin -->
             <div id="currentAvatar"> <!-- current avatar display -->
                 <img src="${user.getAvatar()}" alt="current avatar">
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="col-xs-5 col-xs-offset-1">
+        <div class="col-xs-6 col-xs-offset-1">
             <form name="update" action="updateProfile" method="post">
                 <!-- User Account Info -->
                 <table class="table">
