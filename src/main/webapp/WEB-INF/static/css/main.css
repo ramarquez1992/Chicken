@@ -2,14 +2,17 @@ body {
   background-color: #dfdfdf;
   color: #474c55;
   overflow-x: hidden;
-  font-family: "Poppins", calibri, helvetica-neue, helvetica, arial, sans-serif;
-  padding-top: 5em; }
+  font-family: "Poppins", calibri, helvetica-neue, helvetica, arial, sans-serif; }
 
 h1, h2, h3, h4 {
   font-family: "Montserrat", calibri, helvetica-neue, helvetica, arial, sans-serif; }
 
 video {
   width: 100%; }
+
+em {
+  font-style: normal !important;
+  font-weight: bold !important; }
 
 nav {
   z-index: 100;
@@ -20,7 +23,7 @@ nav {
   background-color: #484c55;
   border-bottom: 1px solid #707070; }
   nav ul {
-    margin-left: 20%;
+    margin-left: 25%;
     list-style-type: none;
     padding: 0; }
     nav ul a {
@@ -101,5 +104,62 @@ nav {
   text-align: center;
   margin-top: 1em;
   margin-bottom: 1.5em; }
+
+#leaderboard {
+  padding: 5em;
+  padding-top: 1em; }
+  #leaderboard .leaderboardContainer {
+    width: 80%;
+    margin-left: 10%;
+    padding: 2em;
+    margin-bottom: 2em; }
+    #leaderboard .leaderboardContainer h1 {
+      text-align: center;
+      margin-bottom: 1em; }
+    #leaderboard .leaderboardContainer table th {
+      font-weight: bold !important;
+      text-transform: uppercase; }
+
+.white-container {
+  background-color: #fff;
+  border: 1px solid #999;
+  margin-bottom: 5em;
+  padding: 2em;
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25); }
+
+#leaderboard, #profile-container {
+  margin-top: 5em; }
+
+#profile-container {
+  width: 70%;
+  margin-left: 15%;
+  padding: 4em; }
+
+#globalChatContainer {
+  position: relative;
+  background-color: #dadada;
+  border-left: 1px solid #c6c6c6; }
+  #globalChatContainer #chatboxContainer #chatbox {
+    padding: 1em;
+    overflow: scroll; }
+  #globalChatContainer #messageContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #c6c6c6;
+    padding: 14px; }
+    #globalChatContainer #messageContainer input {
+      height: 40px;
+      padding: 5px;
+      width: 100%; }
+  #globalChatContainer #userList {
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    background-color: #f00; }
+
+#spotlight-col {
+  margin-top: 5em; }
 
 /*# sourceMappingURL=main.css.map */

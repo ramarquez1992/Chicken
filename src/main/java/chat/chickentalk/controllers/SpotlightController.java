@@ -187,7 +187,7 @@ public class SpotlightController {
         started = false;
 
         svc.stopRound();
-        spotlightTimerTask.cancel();
+        if (spotlightTimerTask != null) spotlightTimerTask.cancel();
         spotlightTimerTask = null;
     }
 
@@ -208,7 +208,10 @@ public class SpotlightController {
 
         if (au.getId() == svc.getChick1().getId() || au.getId() == svc.getChick2().getId()) {
             currentlyPlaying = true;
+            if (au.getId() == svc.getChick1().getId()) svc.setChick1(null);
+            if (au.getId() == svc.getChick2().getId()) svc.setChick2(null);
         }
+
 
         if (currentlyPlaying || svc.getSpotlightQueue().size() <= 2) {
             stop();

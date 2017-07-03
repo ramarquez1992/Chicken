@@ -1,10 +1,9 @@
 <%@ include file="header.jspf" %>
-<!-- Leaderboard container-->
- 
-<div id="leaderboard" ng-controller="leaderBoardCtrl">
-	<div>
-	<h1>Most Games</h1>
-		<table class="table">
+
+<div id="leaderboard" class="container-fluid" ng-controller="leaderBoardCtrl">
+	<div id="mostGamesContainer" class="leaderboardContainer white-container">
+		<h1>Most <em>Games</em></h1>
+		<table class="table table-inverse">
 			<thead>
 				<tr>
 					<th>First Name </th>
@@ -31,8 +30,8 @@
 		</table>
 	</div>
 	
-	<div>
-	<h1>Most Wins</h1>
+	<div id="mostWinsContainer" class="leaderboardContainer white-container">
+		<h1>Most <em>Wins</em></h1>
 		<table class="table">
 			<thead>
 				<tr>
@@ -53,8 +52,8 @@
 		</table>
 	</div>
 	
-	<div>
-	<h1>Most Votes</h1>
+	<div id="mostVotesContainer" class="leaderboardContainer white-container">
+		<h1>Most <em>Votes</em></h1>
 		<table class="table">
 			<thead>
 				<tr>
@@ -75,8 +74,8 @@
 		</table>
 	</div>
 	
-	<div>
-	<h1>Most Time</h1>
+	<div id="mostTimeContainer" class="leaderboardContainer white-container">
+		<h1>Most <em>Time</em></h1>
 		<table class="table">
 			<thead>
 				<tr>
@@ -103,7 +102,7 @@
 <script>
 
 app.controller("leaderBoardCtrl", function($scope){
-	getLeaderBoard(2, function(res){
+	getLeaderBoard(5, function(res){
 		$scope.mostGames = res.mostGames;
 		$scope.mostWins = res.mostWins;
 		$scope.mostVotes = res.mostVotes;
@@ -112,24 +111,6 @@ app.controller("leaderBoardCtrl", function($scope){
 	});
 });
 
-// app.controller("mostGamesCtrl", function($scope) {
-// 	$scope.mostGames = leaderBoard.mostGames;
-// });
-
-// //handles most wins table information
-// app.controller("mostWinsCtrl", function($scope) {
-// 	$scope.mostWins = leaderBoard.mostWins;
-// });
-
-// //handels most votes
-// app.controller("mostVotesCtrl", function($scope) {
-// 	$scope.mostVotes = leaderBoard.mostVotes;
-// });
-
-// //handles most time 
-// app.controller("mostTimeCtrl", function ($scope) {
-// 	$scope.mostTime = leaderBoard.mostSpotlightTime;
-// });
 </script>
 
 <%@ include file="footer.jspf" %>
