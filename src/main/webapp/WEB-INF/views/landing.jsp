@@ -2,9 +2,6 @@
 
 <main>
     <section id="main-desc">
-        <div id="bg-img">
-            <img src="static/img/chicken-bg.jpeg">
-        </div>
 
 
         <div id="desc" class="container-fluid">
@@ -16,7 +13,7 @@
 
             <div class="row">
 
-                <div class="col-xs-4">
+                <div class="col-xs-4 col-xs-offset-2">
                     <h3>Sign up</h3>
                     <form id="registration" name="register" action="createUser" method="post">
                         <input class="form-control" name="firstName" type="text" placeholder="First name">
@@ -29,7 +26,7 @@
 
                 </div>
 
-                <div id="login" class="col-xs-4 col-xs-offset-1">
+                <div id="login" class="col-xs-3 col-xs-offset-1">
                     <h3>Login</h3>
                     <form name="login" action="loginUser" method="post">
                         <input class="form-control" autofocus type="email" name="email" placeholder="Email">
@@ -46,23 +43,11 @@
     </section>
 
 
-    <%--<section id="about" class="container-fluid">--%>
-        <%--<h2>How do you #Chicken?</h2>--%>
-
-        <%--<p>--%>
-            <%--#Chicken is an online community space where users compete for time in the Spotlight.--%>
-        <%--</p>--%>
-        <%--<p>--%>
-            <%--The Spotlight holds a 1-on-1 conversation in front of an audience that may chat among themselves. After a set period of time the audience votes on who they think should remain on the stage. One user gets voted off the stage and another is pulled at random from the audience.--%>
-        <%--</p>--%>
-
-    <%--</section>--%>
-
 </main>
 
 
 
 <script src="static/js/landing.js"></script>
-
+<link rel="stylesheet" type="text/css" href="static/css/landing.css">
 
 <%@ include file="footer.jspf" %>

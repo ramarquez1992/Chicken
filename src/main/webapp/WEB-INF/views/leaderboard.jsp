@@ -3,7 +3,7 @@
 <div id="leaderboard" class="container-fluid" ng-controller="leaderBoardCtrl">
 	<div id="mostGamesContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Games</em></h1>
-		<table class="table table-inverse">
+		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
 					<th>First Name </th>
@@ -32,7 +32,7 @@
 	
 	<div id="mostWinsContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Wins</em></h1>
-		<table class="table">
+		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
 					<th>First Name </th>
@@ -54,7 +54,7 @@
 	
 	<div id="mostVotesContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Votes</em></h1>
-		<table class="table">
+		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
 					<th>First Name </th>
@@ -76,7 +76,7 @@
 	
 	<div id="mostTimeContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Time</em></h1>
-		<table class="table">
+		<table class="table table-hover table-striped">
 			<thead>
 				<tr>
 					<th>First Name </th>
