@@ -50,14 +50,14 @@
                     </h3>
                 </div>
 
-                <div id="queueContainer" class="col-xs-4">
-                    <h3>Queue</h3>
-                    <table class="table table-hover">
-                        <tr ng-repeat="user in currentRound.queue">
-                            <td>{{user.email}}</td>
-                        </tr>
-                    </table>
-                </div>
+                <%--<div id="queueContainer" class="col-xs-4">--%>
+                    <%--<h3>Queue</h3>--%>
+                    <%--<table class="table table-hover">--%>
+                        <%--<tr ng-repeat="user in currentRound.queue">--%>
+                            <%--<td>{{user.email}}</td>--%>
+                        <%--</tr>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
 
             </div>
         </div>
