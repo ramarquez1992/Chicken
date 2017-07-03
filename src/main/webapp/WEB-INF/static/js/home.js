@@ -262,6 +262,9 @@ function endStream(ctrl) {
 }
 
 function attachSpotlight() {
+    var c1HasVid = $('#chick1StreamContainer video').length > 0;
+    var c2HasVid = $('#chick2StreamContainer video').length > 0;
+
     // if (currRound != null && currRoundId == currRound.id) return null;
 
     // currRoundId = currRound.id;
@@ -271,7 +274,7 @@ function attachSpotlight() {
     // if (isChick2Stream) $('#chick2StreamContainer video').remove();
 
     // if (!currRound != null && currRound.chick1 != null && currRound.chick1.id != currUser.id && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
-    if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && currRound.chick1.email != chick1StreamEmail) {
+    if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && (currRound.chick1.email != chick1StreamEmail || !c1HasVid)) {
     // if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready) {
         chick1StreamEmail = currRound.chick1.email;
         console.log('ATTEMpting to conect to chick1');
@@ -283,7 +286,7 @@ function attachSpotlight() {
     }
 
     // if (currRound != null && currRound.chick2 != null && currRound.chick2.id != currUser.id && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
-    if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && currRound.chick2.email != chick2StreamEmail) {
+    if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && (currRound.chick2.email != chick2StreamEmail || !c2HasVid)) {
     // if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready) {
     // if (!isChick2Stream && currRound != null && $('#chick2StreamContainer').attr('data-number') != currRound.chick2.email) {
         chick2StreamEmail = currRound.chick2.email;

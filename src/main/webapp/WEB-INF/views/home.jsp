@@ -18,6 +18,7 @@
         <div ng-controller="SpotlightController" class="container-fluid">
 
             <input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
+            <p>${user.getEmail()}</p>
 
             <div id="spotlightContainer" class="row">
                 <div id="chick1" class="col-xs-6">
