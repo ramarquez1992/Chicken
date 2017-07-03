@@ -19,7 +19,7 @@ public interface Dao {
     boolean createUserStatus(UserStatus us);
     
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public List<UserStatus> getStatusList();
+    List<UserStatus> getStatusList();
 
 
     // User Methods

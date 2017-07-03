@@ -19,7 +19,7 @@ public class SpotlightService {
 
     private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-    private int roundLength = 10; // in seconds
+    private int roundLength = 15; // in seconds
     private LocalDateTime roundStart;
     private LocalDateTime projectedRoundFinish;
     private User chick1;

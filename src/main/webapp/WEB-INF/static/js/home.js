@@ -13,7 +13,7 @@ var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
 var qAble = false;
-var setReadyDelay = 1500;
+var setReadyDelay = 2000;
 
 var timeRemaining = 0;
 var timerInterval;
@@ -74,15 +74,27 @@ app.controller('SpotlightController', function ($scope) {
                 if (newRound.chick1 != null) {
                     if ( currUser.id == newRound.chick1.id) {
                         $('#chick1').hide();
+                        $('#chick2').removeClass('col-xs-6');
+                        $('#chick2').addClass('col-xs-8');
+                        $('#chick2').addClass('col-xs-offset-2');
                     } else {
                         $('#chick1').show();
+                        $('#chick2').addClass('col-xs-6');
+                        $('#chick2').removeClass('col-xs-8');
+                        $('#chick2').removeClass('col-xs-offset-2');
                     }
                 }
                 if (newRound.chick2 != null) {
                     if (currUser.id == newRound.chick2.id) {
                         $('#chick2').hide();
+                        $('#chick1').removeClass('col-xs-6');
+                        $('#chick1').addClass('col-xs-8');
+                        $('#chick1').addClass('col-xs-offset-2');
                     } else {
                         $('#chick2').show();
+                        $('#chick1').addClass('col-xs-6');
+                        $('#chick1').removeClass('col-xs-8');
+                        $('#chick1').removeClass('col-xs-offset-2');
                     }
                 }
 
@@ -97,10 +109,10 @@ app.controller('SpotlightController', function ($scope) {
 
                 // End OTHER streams if they have changed
                 if (newRound.chick1 != null && newRound.chick1.email != chick1StreamEmail) {
-                    endStream(chick1StreamCtrl);
+                    // endStream(chick1StreamCtrl);
                 }
                 if (newRound.chick2 != null && newRound.chick2.email != chick2StreamEmail) {
-                    endStream(chick2StreamCtrl);
+                    // endStream(chick2StreamCtrl);
                 }
 
 
@@ -218,13 +230,13 @@ $(document).ready(function () {
     getSelf(function(res){
         theUser = res;
 
-        initChat();
+        // initChat();
         if(res.status.name == "permanent ban") {
             window.location.replace("logoutUser");
         }
     });
 
-    setInterval(spamFilter, 2000);
+    // setInterval(spamFilter, 2000);
 
 
     // Set chatbox sizes
@@ -266,7 +278,7 @@ $(document).ready(function () {
 });
 
 function stream(number, callback) {
-    endStream(currUserStreamCtrl);
+    // endStream(currUserStreamCtrl);
 
     var phone = window.phone = PHONE({
         number: number, // listen on username else random
@@ -323,7 +335,7 @@ function attachSpotlight() {
 
     if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && (currRound.chick1.email != chick1StreamEmail || !c1HasVid)) {
         chick1StreamEmail = currRound.chick1.email;
-        endStream(chick1StreamCtrl);
+        // endStream(chick1StreamCtrl);
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
             chick1StreamContainer.appendChild(video);
@@ -332,7 +344,7 @@ function attachSpotlight() {
 
     if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && (currRound.chick2.email != chick2StreamEmail || !c2HasVid)) {
         chick2StreamEmail = currRound.chick2.email;
-        endStream(chick2StreamCtrl);
+        // endStream(chick2StreamCtrl);
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
             chick2StreamContainer.appendChild(video);

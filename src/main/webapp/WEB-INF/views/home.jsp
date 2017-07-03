@@ -1,7 +1,6 @@
 <%@ include file="header.jspf" %>
 
 <%-- For accessing current user w/o a getSelf call--%>
-<%--${user.getEmail()}--%>
 <div style="display: none;">
     <span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
     <span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
@@ -16,6 +15,8 @@
     <div id="spotlight-col" class="col-xs-9">
 
 
+        <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
+
         <div ng-controller="SpotlightController" class="container-fluid">
 
             <div id="waitingContainer">
@@ -23,34 +24,40 @@
                 <img src="static/img/loading.gif"/>
             </div>
 
-            <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
+
+            <p> I am: ${user.getEmail()} </p>
 
             <div id="spotlightContainer" class="row">
+
                 <h2 id="timerContainer">
                     <span id="seconds"></span> seconds remain!
                 </h2>
 
 
-                <div id="chick1" class="col-xs-6">
-                    <h3 class="chickName">{{currentRound.chick1.email}}</h3>
-                    <div id="chick1StreamContainer"></div>
-                    <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
+                <div id="chick1" class="col-xs-6 chick">
+                    <div id="chick1StreamContainer" class="chickVideoContainer white-container"></div>
+                    <h3 class="chickName">
+                        <button id="voteChick1" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick1Votes}}</button>
+                        {{currentRound.chick1.firstName}}
+                    </h3>
                 </div>
 
-                <div id="chick2" class="col-xs-6">
-                    <h3 class="chickName">{{currentRound.chick2.email}}</h3>
-                    <div id="chick2StreamContainer"></div>
-                    <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
+                <div id="chick2" class="col-xs-6 chick">
+                    <div id="chick2StreamContainer" class="chickVideoContainer white-container"></div>
+                    <h3 class="chickName">
+                        <button id="voteChick2" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick2Votes}}</button>
+                        {{currentRound.chick2.firstName}}
+                    </h3>
                 </div>
 
-                <%--<div id="queueContainer" class="col-xs-4">--%>
-                    <%--<h3>Queue</h3>--%>
-                    <%--<table class="table table-hover">--%>
-                        <%--<tr ng-repeat="user in currentRound.queue">--%>
-                            <%--<td>{{user.email}}</td>--%>
-                        <%--</tr>--%>
-                    <%--</table>--%>
-                <%--</div>--%>
+                <div id="queueContainer" class="col-xs-4">
+                    <h3>Queue</h3>
+                    <table class="table table-hover">
+                        <tr ng-repeat="user in currentRound.queue">
+                            <td>{{user.email}}</td>
+                        </tr>
+                    </table>
+                </div>
 
             </div>
         </div>
