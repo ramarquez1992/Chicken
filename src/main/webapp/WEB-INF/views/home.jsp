@@ -1,17 +1,19 @@
 <%@ include file="header.jspf" %>
 
 <%-- For accessing current user w/o a getSelf call--%>
-${user.getEmail()}
-<span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
-<span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
-<span id="idNum" style="visibility: hidden;">${user.getId()}</span>
-<span id="isBaby" style="visibility: hidden;">${user.isBaby()}</span>
-<span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
+<%--${user.getEmail()}--%>
+<div style="display: none;">
+    <span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
+    <span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
+    <span id="idNum" style="visibility: hidden;">${user.getId()}</span>
+    <span id="isBaby" style="visibility: hidden;">${user.isBaby()}</span>
+    <span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
+</div>
 
 
 <div id="home-container" class="container-fluid row">
 
-    <div class="col-xs-7">
+    <div id="spotlight-col" class="col-xs-9">
 
         <div ng-controller="SpotlightController" class="container-fluid">
 
@@ -44,14 +46,20 @@ ${user.getEmail()}
     </div>
 
 
-    <div class="col-xs-5" id="globalChatContainer">
+    <div class="col-xs-3" id="globalChatContainer">
 
         <%-- Global chat--%>
         <div id="container">
-            <div id="chatbox"></div>
+            <div id="chatboxContainer">
+                <div id="chatbox"></div>
+            </div>
             <div id="userList"><p>User List</p></div>
         </div>
-        <input name="keywords" type="text" id="message" size="50" onkeypress="handleKeyPress(event)">
+
+
+        <div id="messageContainer">
+            <input class="form-control" name="keywords" type="text" id="message" size="50" placeholder="Say something!" onkeypress="handleKeyPress(event)">
+        </div>
 
         <div class="modal fade" id="UserProfile">
             <div class="modal-dialog">

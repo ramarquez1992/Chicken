@@ -165,10 +165,6 @@ $(document).ready(function () {
     getSelf(function(res){
         theUser = res;
 
-        console.log(theUser);
-        console.log(res);
-        console.log("SIGH");
-
         initChat();
         if(res.status.name == "permanent ban") {
             window.location.replace("logoutUser");
@@ -176,6 +172,21 @@ $(document).ready(function () {
     });
 
     setInterval(spamFilter, 2000);
+
+    var navHeight = $('nav').outerHeight();
+    var docHeight = $(document).outerHeight();
+    var bodyPadding = parseInt($('body').css('padding-top'));
+    var globalChatContainerHeight = docHeight - navHeight;
+    $('#globalChatContainer').css('height', globalChatContainerHeight);
+    $('#globalChatContainer').css('margin-top', navHeight);
+
+
+    var messageContainerHeight = $('#messageContainer').outerHeight();
+    var chatboxHeight = globalChatContainerHeight - messageContainerHeight;
+    $('#chatbox').css('height', chatboxHeight);
+
+
+
 
 
 
