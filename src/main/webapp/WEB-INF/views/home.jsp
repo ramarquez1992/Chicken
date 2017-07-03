@@ -18,7 +18,10 @@
 
         <div ng-controller="SpotlightController" class="container-fluid">
 
-            <h2 id="waitingContainer">Waiting for round to start</h2>
+            <div id="waitingContainer">
+                <h2>Waiting for round to start...</h2>
+                <img src="static/img/loading.gif"/>
+            </div>
 
             <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 

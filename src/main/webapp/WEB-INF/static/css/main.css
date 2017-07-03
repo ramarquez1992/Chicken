@@ -134,6 +134,7 @@ nav {
       padding: 5px;
       width: 100%; }
   #globalChatContainer #userList {
+    display: none;
     position: fixed;
     top: 100px;
     right: 100px;
@@ -141,5 +142,11 @@ nav {
 
 #spotlight-col {
   margin-top: 5em; }
+
+#waitingContainer {
+  text-align: center;
+  padding-top: 5em; }
+  #waitingContainer h2 {
+    margin-bottom: 1em; }
 
 /*# sourceMappingURL=main.css.map */

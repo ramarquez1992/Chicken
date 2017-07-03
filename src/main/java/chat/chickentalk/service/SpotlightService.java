@@ -114,7 +114,6 @@ public class SpotlightService {
         try {
             secondsRemaining = LocalDateTime.now().until(projectedRoundFinish, ChronoUnit.SECONDS);
         } catch (Exception e) {
-            System.out.println("Failed to set secondsRemaining");
             secondsRemaining = -1;
         }
 
@@ -122,7 +121,6 @@ public class SpotlightService {
     }
 
     public CurrentRound getCurrentRound() {
-        System.out.println("Time remainging" + getTimeRemaining());
         CurrentRound cr = new CurrentRound(
                 getChick1(),
                 getChick2(),
