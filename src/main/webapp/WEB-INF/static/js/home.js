@@ -10,12 +10,16 @@ var chick2StreamEmail;
 var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
+var qAble = false;
 
 app.controller('SpotlightController', function ($scope) {
 
 
     getSelf(function (cu) {
         currUser = cu;
+        $('#qAble').change(function() {
+            console.log($(this).val() + ' qqqqqq');
+        });
 
         // stream(currUser.email, function (ctrl) {
             // ctrl.addLocalStream(document.getElementById('myStreamContainer'));
@@ -29,20 +33,20 @@ app.controller('SpotlightController', function ($scope) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
 
-                if (newRound.chick1 != null) {
-                    if ( currUser.id == newRound.chick1.id) {
-                        $('#chick1').hide();
-                    } else {
-                        $('#chick1').show();
-                    }
-                }
-                if (newRound.chick2 != null) {
-                    if (currUser.id == newRound.chick2.id) {
-                        $('#chick2').hide();
-                    } else {
-                        $('#chick2').show();
-                    }
-                }
+                // if (newRound.chick1 != null) {
+                //     if ( currUser.id == newRound.chick1.id) {
+                //         $('#chick1').hide();
+                //     } else {
+                //         $('#chick1').show();
+                //     }
+                // }
+                // if (newRound.chick2 != null) {
+                //     if (currUser.id == newRound.chick2.id) {
+                //         $('#chick2').hide();
+                //     } else {
+                //         $('#chick2').show();
+                //     }
+                // }
 
                 if (newRound.chick1 == null || newRound.chick1.id != currUser.id) isChick1Stream = false;
                 if (newRound.chick2 == null || newRound.chick2.id != currUser.id) isChick2Stream = false;
@@ -87,12 +91,12 @@ app.controller('SpotlightController', function ($scope) {
 
                             if (!isChick1Stream) {
                                 isChick1Stream = true;
-                                // stream(currUser.email, function (ctrl) {
-                                //     $('#chick1StreamContainer video').remove();
-                                //     setTimeout(function() {
-                                //         setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                //     }, 2000);
-                                // });
+                                stream(currUser.email, function (ctrl) {
+                                    $('#chick1StreamContainer video').remove();
+                                    setTimeout(function() {
+                                        setChick1Ready(function (res) { console.log('set chick1 ready'); });
+                                    }, 2000);
+                                });
                             } else {
                                 setTimeout(function() {
                                     setChick1Ready(function (res) { console.log('set chick1 ready'); });
@@ -114,12 +118,12 @@ app.controller('SpotlightController', function ($scope) {
 
                             if (!isChick2Stream) {
                                 isChick2Stream = true;
-                                // stream(currUser.email, function (ctrl) {
-                                //     $('#chick2StreamContainer video').remove();
-                                //     setTimeout(function() {
-                                //         setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                //     }, 2000);
-                                // });
+                                stream(currUser.email, function (ctrl) {
+                                    $('#chick2StreamContainer video').remove();
+                                    setTimeout(function() {
+                                        setChick2Ready(function (res) { console.log('set chick2 ready'); });
+                                    }, 2000);
+                                });
                             } else {
                                 setTimeout(function() {
                                     setChick2Ready(function (res) { console.log('set chick2 ready'); });

@@ -7,6 +7,7 @@ $tertiary-color: #08BDBD
 $quaternary-color: #FF9914
 
 $darkGrey: rgb(72,76,85)
+$border-color: #999
 
 $bg-color: #dfdfdf
 
@@ -36,7 +37,7 @@ nav
   background-color: $darkGrey
   border-bottom: 1px solid #707070
   ul
-    margin-left: 20%
+    margin-left: 25%
     list-style-type: none
     padding: 0
     a
@@ -121,3 +122,48 @@ nav
   text-align: center
   margin-top: 1em
   margin-bottom: 1.5em
+
+#leaderboard
+  padding: 5em
+  padding-top: 1em
+
+  .leaderboardContainer
+    width: 80%
+    margin-left: 10%
+    padding: 2em
+    margin-bottom: 2em
+
+    h1
+      em
+        font-style: normal
+        font-weight: bold
+      text-align: center
+      margin-bottom: 1em
+    table
+      th
+        font-weight: bold !important
+        text-transform: uppercase
+
+
+  #mostGamesContainer
+    //background-color: rgba(255, 250, 250, 1)
+  #mostWinsContainer
+    //background-color: rgba(250, 255, 250, 1)
+  #mostVotesContainer
+    //background-color: rgba(250, 250, 255, 1)
+  #mostTimeContainer
+    //background-color: rgba(255, 250, 250, 1)
+
+
+.white-container
+  background-color: #fff
+  border: 1px solid $border-color
+  margin-bottom: 5em
+  padding: 2em
+  box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25)
+  border-radius: .3em
+
+#profile-container
+  width: 70%
+  margin-left: 15%
+  padding: 4em

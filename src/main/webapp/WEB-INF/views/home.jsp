@@ -4,6 +4,8 @@ ${user.getEmail()}
 
 <div ng-controller="SpotlightController" class="container-fluid">
 
+    <input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
+
     <div id="spotlight" class="row">
         <div id="chick1" class="col-xs-6">
             <h3 class="chickName">{{currentRound.chick1.email}}</h3>
@@ -17,14 +19,14 @@ ${user.getEmail()}
             <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
         </div>
 
-        <%--<div id="queueContainer" class="col-xs-4">--%>
-            <%--<h3>Queue</h3>--%>
-            <%--<table class="table table-hover">--%>
-                <%--<tr ng-repeat="user in currentRound.queue">--%>
-                    <%--<td>{{user.email}}</td>--%>
-                <%--</tr>--%>
-            <%--</table>--%>
-        <%--</div>--%>
+        <div id="queueContainer" class="col-xs-4">
+            <h3>Queue</h3>
+            <table class="table table-hover">
+                <tr ng-repeat="user in currentRound.queue">
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+        </div>
 
 
     </div>
