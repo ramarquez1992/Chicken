@@ -13,6 +13,11 @@ var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
 var qAble = false;
+var setReadyDelay = 1500;
+
+function resetTimer(secondsRemaining) {
+    console.log('TIME REMAINING: ' + secondsRemaining);
+}
 
 app.controller('SpotlightController', function ($scope) {
 
@@ -34,6 +39,8 @@ app.controller('SpotlightController', function ($scope) {
         stompClient.connect({email: cu.email}, function (frame) {
             stompClient.subscribe('/topic/messages', function (res) {
                 var newRound = JSON.parse(res.body);
+
+                resetTimer(newRound.secondsRemaining);
 
 
                 // Don't show your own stream
@@ -102,12 +109,12 @@ app.controller('SpotlightController', function ($scope) {
                                     $('#chick1StreamContainer video').remove();
                                     setTimeout(function() {
                                         setChick1Ready(function (res) { console.log('Set chick1 ready'); });
-                                    }, 1000);
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
                                     setChick1Ready(function (res) { console.log('Set chick1 ready'); });
-                                }, 1000);
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -129,12 +136,12 @@ app.controller('SpotlightController', function ($scope) {
                                     $('#chick2StreamContainer video').remove();
                                     setTimeout(function() {
                                         setChick2Ready(function (res) { console.log('Set chick2 ready'); });
-                                    }, 1000);
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
                                     setChick2Ready(function (res) { console.log('Set chick2 ready'); });
-                                }, 1000);
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -147,6 +154,8 @@ app.controller('SpotlightController', function ($scope) {
 
                 $scope.currentRound = newRound;
                 $scope.$apply();
+
+                refreshSpotlightDisplay();
             });
         });
     });
@@ -157,14 +166,26 @@ app.controller('SpotlightController', function ($scope) {
             $scope.currentRound = res;
             currRound = $scope.currentRound;
             $scope.$apply();
+
+            refreshSpotlightDisplay();
         });
-    }, 2000);
+    }, setReadyDelay);
 
 
 });
 
+function refreshSpotlightDisplay() {
+    if (currRound == null || !currRound.started) {
+        $('#waitingContainer').show();
+        $('#spotlightContainer').hide();
+    } else {
+        $('#waitingContainer').hide();
+        $('#spotlightContainer').show();
+    }
+}
 
 $(document).ready(function () {
+    refreshSpotlightDisplay();
 
     // Init chat
     getSelf(function(res){

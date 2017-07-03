@@ -94,6 +94,8 @@ nav {
     #leaderboard .leaderboardContainer h1 {
       text-align: center;
       margin-bottom: 1em; }
+    #leaderboard .leaderboardContainer table td {
+      cursor: pointer; }
     #leaderboard .leaderboardContainer table th {
       font-weight: bold !important;
       text-transform: uppercase; }
@@ -134,7 +136,7 @@ nav {
   #globalChatContainer #userList {
     position: fixed;
     top: 100px;
-    left: 100px;
+    right: 100px;
     background-color: #f00; }
 
 #spotlight-col {

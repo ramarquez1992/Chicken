@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -18,8 +19,9 @@ public class SpotlightService {
 
     private Map<String, User> activeUsers = new HashMap<>();
     private Deque<User> queue = new ArrayDeque<>();
-    private int roundLength = 5; // in seconds
+    private int roundLength = 10; // in seconds
     private LocalDateTime roundStart;
+    private LocalDateTime projectedRoundFinish;
     private User chick1;
     private User chick2;
     private int chick1Votes = 0;
@@ -106,7 +108,21 @@ public class SpotlightService {
         return chick2Votes;
     }
 
+    public long getTimeRemaining() {
+        long secondsRemaining;
+
+        try {
+            secondsRemaining = LocalDateTime.now().until(projectedRoundFinish, ChronoUnit.SECONDS);
+        } catch (Exception e) {
+            System.out.println("Failed to set secondsRemaining");
+            secondsRemaining = -1;
+        }
+
+        return secondsRemaining;
+    }
+
     public CurrentRound getCurrentRound() {
+        System.out.println("Time remainging" + getTimeRemaining());
         CurrentRound cr = new CurrentRound(
                 getChick1(),
                 getChick2(),
@@ -117,7 +133,8 @@ public class SpotlightService {
                 isChick2Ready(),
                 started,
                 finished,
-                id
+                id,
+                getTimeRemaining()
         );
 
         return cr;
@@ -138,6 +155,7 @@ public class SpotlightService {
 
     public void startNextRound() {
         roundStart = LocalDateTime.now();
+        projectedRoundFinish = roundStart.plusSeconds(roundLength);
     }
 
     public Round stopRound() {
@@ -181,9 +199,6 @@ public class SpotlightService {
         chick2 = null;
         chick1Votes = 0;
         chick2Votes = 0;
-//
-//        chick1Ready = false;
-//        chick2Ready = false;
 
         return r;
     }

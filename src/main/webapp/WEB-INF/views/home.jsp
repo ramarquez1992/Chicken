@@ -15,10 +15,12 @@
 
     <div id="spotlight-col" class="col-xs-9">
 
+
         <div ng-controller="SpotlightController" class="container-fluid">
 
-            <input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
-            <p>${user.getEmail()}</p>
+            <h2 id="waitingContainer">Waiting for round to start</h2>
+
+            <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 
             <div id="spotlightContainer" class="row">
                 <div id="chick1" class="col-xs-6">
