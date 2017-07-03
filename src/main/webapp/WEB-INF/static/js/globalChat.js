@@ -1,11 +1,10 @@
 var skylink = new Skylink();
 
-skylink.init({
-    appKey: SKYLINK_KEY_ID,
-    defaultRoom: 'LGpMxj'
-});
+//skylink.init({
+//    appKey: SKYLINK_KEY_ID,
+//    defaultRoom: 'LGpMxj'
+//});
 
-var theUser;
 var userMessageCount = 0; //amount of message sent in limit
 var messageLimit = 0; //flag for spam filter
 
@@ -113,6 +112,9 @@ function sendMessage() {
 function addMessage(user, message, className) {
     if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
         var updatedId = message.split("|");
+        console.log(updateId[1]);
+        console.log(theUser.id);
+        console.log(updatedId[1] == theUser.id);
         if(updatedId[1] == theUser.id) window.location.reload();
         return;
     }
@@ -158,49 +160,37 @@ function addMessage(user, message, className) {
 function updateModal(user){
     return function(){
         $('#UserProfile').modal({});
+        
         getUser(user.userId, function(res) {
-            $("#fullName").text("Name: " + res.firstName + " " + res.lastName);
-            $("#selectStatus").val(res.status.name);
-            if(uStatus != "admin" && uStatus != "Chicken") {
-                $("#selectStatus").prop("disabled", true);
-                $("#statusButton").hide();
-            }
+            $("#fullName").text(res.firstName + " " + res.lastName);
 
-            if(res > 0) $("#votesCast").text("Total Votes Cast: " + res.votesCast);
-            else {
-                $("#votesCast").text(" ");
-            }
+            $("#userStatus").text(res.status.name);
+            
+            $("#votesCast").text(res.votesCast);
 
             $("#avatar").attr("src", res.avatar);
 
             gamesPlayed(res.id, function(res) {
-                if(res > 0) $("#games").text("Total Games Played: " + res);
-                else {
-                    $("#games").text(" ");
-                }
+                $("#games").text(res);
             });
 
             gamesWon(res.id, function(res) {
-                if(res > 0) $("#wins").text("Total Wins: " + res);
-                else {
-                    $("#wins").text(" ");
-                }
+                $("#wins").text(res);
             });
 
             spotlightTime(res.id, function(res) {
-                if(!res.includes("0 hrs 0 mins 0 secs")) $("#spotlight").text("Time in the Spotlight: " + res);
-                else {
-                    $("#spotlight").text("You have no stats to display!");
-                }
+                $("#spotlight").text(res);
             });
 
             totalVotes(res.id, function(res) {
-                if(res > 0) $("#votes").text("Total Votes Recieved: " + res);
-                else {
-                    $("#votes").text(" ");
-                }
+                $("#votes").text(res);
             });
-
+            
+            if(uStatus != "admin" && uStatus != "Chicken") {
+            	$("#selectStatus").text(res.status.name);
+                $("#selectStatus").hide();
+                $("#statusButton").hide();
+            }
             $('#statusChangeId').text(res.id);
 
             $('#statusButton').click(updateUserStatus);

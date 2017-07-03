@@ -114,16 +114,33 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">User Profile</h4>
+                <h4 class="modal-title" style="text-align:center;" id="fullName">User Profile</h4>
             </div>
             <div class="modal-body">
                 <img id="avatar" src=""/>
-                <p id="fullName"></p>
-                <p id="games"></p>
-                <p id="wins"></p>
-                <p id="spotlight"></p>
-                <p id="votes"></p>
-                <p id="votesCast"></p>
+                
+                <table class="table">
+                <tr>
+                	<td>Games Played</td>
+                	<td id="games"></td>
+                </tr>
+                <tr>
+                	<td>Games Won</td>
+                	<td id="wins"></td>
+                </tr>
+                <tr>
+                	<td>Time in the Spotlight</td>
+                	<td id="spotlight"></td>
+                </tr>
+                <tr>
+                	<td>Votes Received</td>
+                	<td id="votes"></td>
+                </tr>
+                <tr>
+                	<td>Votes Cast</td>
+                	<td id="votesCast"></td>
+                </tr>
+                </table>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -149,27 +166,27 @@ app.controller("leaderBoardCtrl", function($scope){
 		var selectId = person.id;
 		
 		getUser(selectId, function(res) {
-            $("#fullName").text("Name: " + res.firstName + " " + res.lastName);
+            $("#fullName").text(res.firstName + " " + res.lastName);
 
-            $("#votesCast").text("Total Votes Cast: " + res.votesCast);
-           
+            $("#votesCast").text(res.votesCast);
+          
 
             $("#avatar").attr("src", res.avatar);
 
             gamesPlayed(res.id, function(res) {
-                $("#games").text("Total Games Played: " + res);
+                $("#games").text(res);
             });
 
             gamesWon(res.id, function(res) {
-                $("#wins").text("Total Wins: " + res);
+                $("#wins").text(res);
             });
 
             spotlightTime(res.id, function(res) {
-                $("#spotlight").text("Time in the Spotlight: " + res);
+                $("#spotlight").text(res);
             });
 
             totalVotes(res.id, function(res) {
-                $("#votes").text("Total Votes Recieved: " + res);
+                $("#votes").text(res);
             });
         });
 	};

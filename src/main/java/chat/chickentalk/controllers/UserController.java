@@ -3,6 +3,8 @@ package chat.chickentalk.controllers;
 import chat.chickentalk.model.User;
 import chat.chickentalk.service.SpotlightService;
 import chat.chickentalk.service.UserService;
+import chat.chickentalk.util.PasswordStorage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -145,7 +147,10 @@ public class UserController {
             ModelMap map){
         User user = svc.getUserByEmail(email);
         try {
-            if (user != null && user.getPassword().equals(password)) {
+        	boolean correctPassword = PasswordStorage.verifyPassword(password, user.getPassword());
+        	
+        	
+            if (user != null && correctPassword) {
                 session.setAttribute("user", user);
                 return "home";
             } else {

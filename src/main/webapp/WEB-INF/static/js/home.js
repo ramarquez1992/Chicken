@@ -184,6 +184,7 @@ function refreshSpotlightDisplay() {
     }
 }
 
+var theUser;
 $(document).ready(function () {
     refreshSpotlightDisplay();
 
