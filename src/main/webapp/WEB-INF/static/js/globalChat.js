@@ -1,7 +1,7 @@
 var skylink = new Skylink();
 
 skylink.init({
-	appKey: '0d7c624d-c264-4d1b-8e19-69de8680bb2d',
+	appKey: SKYLINK_KEY_ID,
 	defaultRoom: 'LGpMxj'
 });
 
@@ -9,23 +9,6 @@ var theUser;
 var userMessageCount = 0; //amount of message sent in limit
 var messageLimit = 0; //flag for spam filter
 
-$(document).ready(function(){
-	
-	getSelf(function(res){
-		theUser = res;
-		
-		console.log(theUser);
-		console.log(res);
-		console.log("SIGH");
-		
-		initChat();
-		if(res.status.name == "permanent ban") {
-			window.location.replace("logoutUser");
-		}
-	});
-	
-	setInterval(spamFilter, 2000);
-});
 
 var uStatus
 function initChat() {

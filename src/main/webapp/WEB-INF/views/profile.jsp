@@ -4,7 +4,7 @@
 
 <!--  Update User Profile  -->
 <div id="profile-container" class="white-container">
-    <h1 id="profilePageHeader">Update Information</h1>
+    <h1 id="profilePageHeader"><em>Update</em> Information</h1>
 
     <div class="container-fluid row">
         <div class="col-xs-4 col-xs-offset-1">

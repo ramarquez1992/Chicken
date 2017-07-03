@@ -11,6 +11,10 @@ h1, h2, h3, h4 {
 video {
   width: 100%; }
 
+em {
+  font-style: normal !important;
+  font-weight: bold !important; }
+
 nav {
   z-index: 100;
   position: fixed;
@@ -113,9 +117,6 @@ nav {
     #leaderboard .leaderboardContainer h1 {
       text-align: center;
       margin-bottom: 1em; }
-      #leaderboard .leaderboardContainer h1 em {
-        font-style: normal;
-        font-weight: bold; }
     #leaderboard .leaderboardContainer table th {
       font-weight: bold !important;
       text-transform: uppercase; }
@@ -132,5 +133,8 @@ nav {
   width: 70%;
   margin-left: 15%;
   padding: 4em; }
+
+#globalChatContainer {
+  background-color: #f00; }
 
 /*# sourceMappingURL=main.css.map */

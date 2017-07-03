@@ -161,6 +161,24 @@ app.controller('SpotlightController', function ($scope) {
 
 $(document).ready(function () {
 
+    // init chat
+    getSelf(function(res){
+        theUser = res;
+
+        console.log(theUser);
+        console.log(res);
+        console.log("SIGH");
+
+        initChat();
+        if(res.status.name == "permanent ban") {
+            window.location.replace("logoutUser");
+        }
+    });
+
+    setInterval(spamFilter, 2000);
+
+
+
     $('#voteChick1').click(function () {
         if (!alreadyVoted) {
             alreadyVoted = true;
