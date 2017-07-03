@@ -1,15 +1,7 @@
 package chat.chickentalk.controllers;
 
-import chat.chickentalk.model.User;
-import chat.chickentalk.service.SpotlightService;
-import chat.chickentalk.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +25,10 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.Base64;
 
+import chat.chickentalk.model.User;
+import chat.chickentalk.service.SpotlightService;
+import chat.chickentalk.service.UserService;
+
 @Controller
 public class UserController {
 
@@ -55,6 +51,11 @@ public class UserController {
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public String getProfile() {
         return "profile";
+    }
+    
+    @RequestMapping(value = "403", method = RequestMethod.GET)
+    public String get403(){
+    	return "403"; 
     }
 
     @ResponseBody
@@ -272,7 +273,7 @@ public class UserController {
 				new ByteArrayInputStream(imgByteArray), metadata)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 		
-		user.setAvatar(request.getParameter("avatar"));
+		user.setAvatar(s3client.getUrl(bucketName, filename).toString());
 		
 		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("avatar", s3client.getUrl(bucketName, filename));

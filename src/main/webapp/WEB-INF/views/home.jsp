@@ -10,7 +10,8 @@
     <span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
 </div>
 
-
+<c:choose>
+<c:when test="${session.getAttribute('user') != null}">
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
@@ -107,7 +108,11 @@
 
 
 </div>
-
+    </c:when>
+    <c:otherwise>
+        <% response.sendRedirect("403"); %>
+    </c:otherwise>
+</c:choose>
 
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>

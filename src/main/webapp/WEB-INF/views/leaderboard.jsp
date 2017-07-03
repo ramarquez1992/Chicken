@@ -1,5 +1,8 @@
 <%@ include file="header.jspf" %>
 
+<c:choose>
+<c:when test="${session.getAttribute('user') != null}">
+
 <div id="leaderboard" class="container-fluid" ng-controller="leaderBoardCtrl">
 	<div id="mostGamesContainer" class="leaderboardContainer white-container">
 		<h1>Most <em>Games</em></h1>
@@ -97,6 +100,11 @@
 	
 </div>
 
+    </c:when>
+    <c:otherwise>
+        <% response.sendRedirect("403"); %>
+    </c:otherwise>
+</c:choose>
 
 <script>
 
