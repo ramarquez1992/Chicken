@@ -149,4 +149,9 @@ nav {
   #waitingContainer h2 {
     margin-bottom: 1em; }
 
+#timerContainer {
+  text-align: center; }
+  #timerContainer #seconds {
+    font-weight: bold !important; }
+
 /*# sourceMappingURL=main.css.map */

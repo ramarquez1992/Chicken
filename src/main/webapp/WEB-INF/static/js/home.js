@@ -15,8 +15,35 @@ var currRoundId = 0;
 var qAble = false;
 var setReadyDelay = 1500;
 
+var timeRemaining = 0;
+var timerInterval;
+
+
 function resetTimer(secondsRemaining) {
-    console.log('TIME REMAINING: ' + secondsRemaining);
+    timeRemaining = secondsRemaining;
+
+    try {
+        clearInterval(timerInterval);
+    } catch (e) {
+        //
+    }
+
+    timerInterval = setInterval(function() {
+        updateTimer();
+    }, 1000);
+
+    console.log('TIME REMAINING: ' + timeRemaining);
+}
+
+function updateTimer() {
+    var secondsEl = $('#timerContainer #seconds');
+
+    if (timeRemaining > 0) {
+        secondsEl.text(timeRemaining);
+        timeRemaining--;
+    } else {
+        secondsEl.text('---');
+    }
 }
 
 app.controller('SpotlightController', function ($scope) {

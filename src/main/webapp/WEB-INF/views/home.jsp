@@ -19,13 +19,18 @@
         <div ng-controller="SpotlightController" class="container-fluid">
 
             <div id="waitingContainer">
-                <h2>Waiting for round to start...</h2>
+                <h2><em>Waiting</em> for round to start...</h2>
                 <img src="static/img/loading.gif"/>
             </div>
 
             <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 
             <div id="spotlightContainer" class="row">
+                <h2 id="timerContainer">
+                    <span id="seconds"></span> seconds remain!
+                </h2>
+
+
                 <div id="chick1" class="col-xs-6">
                     <h3 class="chickName">{{currentRound.chick1.email}}</h3>
                     <div id="chick1StreamContainer"></div>
@@ -38,14 +43,14 @@
                     <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
                 </div>
 
-                <div id="queueContainer" class="col-xs-4">
-                    <h3>Queue</h3>
-                    <table class="table table-hover">
-                        <tr ng-repeat="user in currentRound.queue">
-                            <td>{{user.email}}</td>
-                        </tr>
-                    </table>
-                </div>
+                <%--<div id="queueContainer" class="col-xs-4">--%>
+                    <%--<h3>Queue</h3>--%>
+                    <%--<table class="table table-hover">--%>
+                        <%--<tr ng-repeat="user in currentRound.queue">--%>
+                            <%--<td>{{user.email}}</td>--%>
+                        <%--</tr>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
 
             </div>
         </div>
