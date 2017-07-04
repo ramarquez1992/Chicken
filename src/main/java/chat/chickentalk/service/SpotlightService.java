@@ -196,6 +196,12 @@ public class SpotlightService {
         r.setLoserVotes(chick2Votes);
         r.setStartDate(Timestamp.valueOf(roundStart));
         r.setEndDate(Timestamp.valueOf(LocalDateTime.now()));
+        try {
+            dao.createRound(r);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Unable to create new round");
+        }
 
         // add winner to front of queue
         try {
