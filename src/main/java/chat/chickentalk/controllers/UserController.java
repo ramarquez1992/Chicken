@@ -277,7 +277,8 @@ public class UserController {
 				new ByteArrayInputStream(imgByteArray), metadata)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 		
-		user.setAvatar(request.getParameter("avatar"));
+//		user.setAvatar(request.getParameter("avatar"));
+        user.setAvatar(s3client.getUrl(bucketName, filename).toString());
 		
 		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("avatar", s3client.getUrl(bucketName, filename));
