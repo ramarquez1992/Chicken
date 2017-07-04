@@ -15,10 +15,6 @@
 </div>
 
 
-
-
-
-
 <div id="userOptions">
     <label for="qAble">${user.getEmail()} queueing: &nbsp;</label>
     <input name="qAble" id="qAble" type="checkbox">
@@ -29,11 +25,6 @@
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
-
-
-
-
-
 
         <div ng-controller="SpotlightController" class="container-fluid">
 
