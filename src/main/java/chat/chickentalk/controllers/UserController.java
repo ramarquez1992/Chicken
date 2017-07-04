@@ -1,5 +1,16 @@
 package chat.chickentalk.controllers;
 
+
+import chat.chickentalk.model.User;
+import chat.chickentalk.service.SpotlightService;
+import chat.chickentalk.service.UserService;
+import chat.chickentalk.util.PasswordStorage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -146,7 +157,10 @@ public class UserController {
             ModelMap map){
         User user = svc.getUserByEmail(email);
         try {
-            if (user != null && user.getPassword().equals(password)) {
+        	boolean correctPassword = PasswordStorage.verifyPassword(password, user.getPassword());
+        	
+        	
+            if (user != null && correctPassword) {
                 session.setAttribute("user", user);
                 return "home";
             } else {
@@ -154,7 +168,7 @@ public class UserController {
                 return "landing";
             }
         } catch(Exception e){
-            e.printStackTrace();
+        	map.addAttribute("errorMsg", "Your login information was incorrect. Please try again.");
             return "landing";
         }
     }
@@ -273,7 +287,9 @@ public class UserController {
 				new ByteArrayInputStream(imgByteArray), metadata)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 		
+
 		user.setAvatar(s3client.getUrl(bucketName, filename).toString());
+
 		
 		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("avatar", s3client.getUrl(bucketName, filename));

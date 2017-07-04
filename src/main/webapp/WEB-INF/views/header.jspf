@@ -29,6 +29,14 @@
     <style>
     	th {
     		text-align: center;
+    	}
+    	
+    	.modal-body {
+    		padding-left: 7em;
+    		padding-right: 7em;
+    		padding-bottom: 4em;
+    		padding-top: 2em;
+    		
     	}	
     </style>
 
@@ -36,13 +44,16 @@
 <body ng-app="mainApp">
 
 <c:if test="${not empty errorMsg}">
-<div id="errorMsg">
-        ${errorMsg}
+<div style="margin-top: 5em; width: 40%; margin-left: 30%" class="alert alert-danger alert-dismissable fade in" role="alert" id="errorMsg">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	${errorMsg}
 </div>
+
 </c:if>
 
 <c:if test="${not empty successMsg}">
-<div id="successMsg">
+<div class="alert alert-warning"  role="alert" id="successMsg">
+<strong>SUCCESS</strong>
         ${successMsg}
 </div>
 </c:if>
