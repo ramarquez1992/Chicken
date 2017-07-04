@@ -1,9 +1,9 @@
 var skylink = new Skylink();
 
-skylink.init({
-    appKey: SKYLINK_KEY_ID,
-    defaultRoom: 'LGpMxj'
-});
+//skylink.init({
+//    appKey: SKYLINK_KEY_ID,
+//    defaultRoom: 'LGpMxj'
+//});
 
 var userMessageCount = 0; //amount of message sent in limit
 var messageLimit = 0; //flag for spam filter

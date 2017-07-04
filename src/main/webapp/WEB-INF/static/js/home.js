@@ -192,13 +192,13 @@ $(document).ready(function () {
     getSelf(function(res){
         theUser = res;
 
-        initChat();
+       // initChat();
         if(res.status.name == "permanent ban") {
             window.location.replace("logoutUser");
         }
     });
 
-    setInterval(spamFilter, 2000);
+    //setInterval(spamFilter, 2000);
 
 
     // Set chatbox sizes
