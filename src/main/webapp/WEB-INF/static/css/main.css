@@ -15,7 +15,6 @@ em {
   font-weight: bold !important; }
 
 nav {
-  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;
@@ -33,7 +32,7 @@ nav {
       float: left;
       text-align: center;
       font-size: 0.8em;
-      min-height: 3em;
+      min-height: 3.5em;
       padding: 1em 0 1em 0;
       text-decoration: none;
       font-weight: bold;
@@ -148,5 +147,28 @@ nav {
   padding-top: 5em; }
   #waitingContainer h2 {
     margin-bottom: 1em; }
+
+#timerContainer {
+  text-align: center;
+  margin-bottom: 1.2em; }
+  #timerContainer #seconds {
+    font-weight: bold !important; }
+
+.chick {
+  text-align: center; }
+  .chick .chickVideoContainer {
+    padding: 0.5em;
+    margin-bottom: 1.5em; }
+  .chick .vote-btn {
+    margin-right: 2em; }
+
+#userOptions {
+  z-index: 200;
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  font-size: x-small; }
+  #userOptions span {
+    color: #ccc; }
 
 /*# sourceMappingURL=main.css.map */

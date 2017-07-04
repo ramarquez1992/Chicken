@@ -1,7 +1,6 @@
 <%@ include file="header.jspf" %>
 
 <%-- For accessing current user w/o a getSelf call--%>
-<%--${user.getEmail()}--%>
 <div style="display: none;">
     <span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
     <span id="lastName" style="visibility: hidden;">${user.getLastName()}</span>
@@ -11,6 +10,11 @@
 </div>
 
 
+<div id="userOptions">
+    <span>${user.getEmail()} queueing: </span>
+    <input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
+</div>
+
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
@@ -19,23 +23,33 @@
         <div ng-controller="SpotlightController" class="container-fluid">
 
             <div id="waitingContainer">
-                <h2>Waiting for round to start...</h2>
+                <h2><em>Waiting</em> for round to start...</h2>
                 <img src="static/img/loading.gif"/>
             </div>
 
-            <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
+
 
             <div id="spotlightContainer" class="row">
-                <div id="chick1" class="col-xs-6">
-                    <h3 class="chickName">{{currentRound.chick1.email}}</h3>
-                    <div id="chick1StreamContainer"></div>
-                    <button id="voteChick1">vote ({{currentRound.chick1Votes}})</button>
+
+                <h2 id="timerContainer">
+                    <span id="seconds"></span> seconds remain!
+                </h2>
+
+
+                <div id="chick1" class="col-xs-6 chick">
+                    <div id="chick1StreamContainer" class="chickVideoContainer white-container"></div>
+                    <h3 class="chickName">
+                        <button id="voteChick1" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick1Votes}}</button>
+                        {{currentRound.chick1.firstName}}
+                    </h3>
                 </div>
 
-                <div id="chick2" class="col-xs-6">
-                    <h3 class="chickName">{{currentRound.chick2.email}}</h3>
-                    <div id="chick2StreamContainer"></div>
-                    <button id="voteChick2">vote ({{currentRound.chick2Votes}})</button>
+                <div id="chick2" class="col-xs-6 chick">
+                    <div id="chick2StreamContainer" class="chickVideoContainer white-container"></div>
+                    <h3 class="chickName">
+                        <button id="voteChick2" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick2Votes}}</button>
+                        {{currentRound.chick2.firstName}}
+                    </h3>
                 </div>
 
                 <div id="queueContainer" class="col-xs-4">
