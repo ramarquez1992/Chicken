@@ -34,17 +34,24 @@
 <c:if test="${not empty errorMsg}">
 <div style="margin-top: 5em; width: 40%; margin-left: 30%" class="alert alert-danger alert-dismissable fade in" role="alert" id="errorMsg">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	${errorMsg}
-</div>
-
-</c:if>
-
-<c:if test="${not empty successMsg}">
-<div class="alert alert-warning"  role="alert" id="successMsg">
-<strong>SUCCESS</strong>
-        ${successMsg}
+	<span class="glyphicon glyphicon-warning-sign"></span>&nbsp;&nbsp;${errorMsg}
+	<script>
+		${errorMsg}.text("");
+	</script>
 </div>
 </c:if>
+
+<%-- <c:if test="${not empty successMsg}"> --%>
+<!-- <div style="margin-top: 5em; width: 40%; margin-left: 30%" class="alert alert-success alert-dismissable fade in" role="alert" id="successMsg"> -->
+<!-- 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> -->
+<%--     <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;${successMsg} --%>
+<!--     <script>   -->
+// 		${successMsg}.text("");
+// 		alert("THIS IS BULLSHIT");
+// 		console.log("hai");
+<!-- 	</script> -->
+<!-- </div> -->
+<%-- </c:if> --%>
 
 
 <!-- Navigation bar/menu-->

@@ -121,7 +121,24 @@ public class LeaderboardService {
 			totalHours += hours;
 			}
 		}
+		
+		for(;;){
+			if(totalSeconds > 60) {
+				totalSeconds -= 60;
+				totalMinutes += 1;
+			}
+			else break;
+		}
+		for(;;){
+			if(totalMinutes > 60) {
+				totalMinutes -= 60;
+				totalHours += 1;
+			}
+			else break;
+		}
+		
 		totalTime = (totalHours + " hrs " + totalMinutes + " mins " + totalSeconds + " secs"); 
+		System.out.println(totalTime);
 		return totalTime;
 	}
 	
@@ -146,8 +163,6 @@ public class LeaderboardService {
 		mostWins(num);
 		mostVotes(num);
 		mostSpotlightTime(num);
-		
-		System.out.println(leaderBoard.toString());
 		
 		return leaderBoard;
 	}

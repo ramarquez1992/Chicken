@@ -33,8 +33,6 @@
                 <img src="static/img/loading.gif"/>
             </div>
 
-
-
             <div id="spotlightContainer" class="row">
 
                 <div id="youAreAChickContainer" class="alert-success">
