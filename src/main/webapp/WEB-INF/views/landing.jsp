@@ -42,7 +42,7 @@
 
     </section>
     
-    <div class="modal fade" id="About" style="margin-top: 8em;">
+    <div class="modal fade" id="About">
             <div class="modal-dialog">
                 <div class="modal-content" style="padding-bottom:2em; padding-top:2em;">
                     <div class="modal-header">
@@ -50,7 +50,7 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h3 class="modal-title" style = "text-align: center;">About <em>#Chicken</em></h4>
+                        <h3 class="modal-title" style = "text-align: center;">About <em>#Chicken</em></h3>
                     </div>
                     <div class="modal-body" style="font-size:0.9em;">
                     	</br>

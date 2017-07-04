@@ -133,7 +133,6 @@ nav {
       padding: 5px;
       width: 100%; }
   #globalChatContainer #userList {
-    display: none;
     position: fixed;
     top: 100px;
     right: 100px;
@@ -170,5 +169,24 @@ nav {
   font-size: x-small; }
   #userOptions label {
     color: #ccc; }
+
+#leaderboardProfile #avatarContainer {
+  text-align: center;
+  padding-top: 2em; }
+  #leaderboardProfile #avatarContainer img {
+    max-height: 200px;
+    max-width: 90%; }
+#leaderboardProfile td:first-child {
+  font-weight: bold !important; }
+
+th {
+  text-align: center; }
+
+.modal {
+  margin-top: 8em; }
+
+.modal-body {
+  padding-bottom: 3em;
+  padding-top: 3em; }
 
 /*# sourceMappingURL=main.css.map */

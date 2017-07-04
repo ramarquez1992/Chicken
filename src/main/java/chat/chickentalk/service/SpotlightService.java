@@ -255,7 +255,6 @@ public class SpotlightService {
     public void addActiveUser(String sessionId, String email) {
         User u = dao.getUserByEmail(email);
         activeUsers.put(sessionId, u);
-//        addUserToQueue(u);
     }
 
     public void removeActiveUser(String sessionId) {
