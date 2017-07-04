@@ -9,11 +9,15 @@
     <span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
 </div>
 
+<c:choose>
+<c:when test="${session.getAttribute('user') != null}">
+
 
 <div id="userOptions">
     <span>${user.getEmail()} queueing: </span>
     <input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
 </div>
+
 
 <div id="home-container" class="container-fluid row">
 
@@ -139,7 +143,11 @@
 
 
 </div>
-
+    </c:when>
+    <c:otherwise>
+        <% response.sendRedirect("403"); %>
+    </c:otherwise>
+</c:choose>
 
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
