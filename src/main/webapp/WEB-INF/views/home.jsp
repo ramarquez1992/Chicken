@@ -15,6 +15,10 @@
 </div>
 
 
+
+
+
+
 <div id="userOptions">
     <label for="qAble">${user.getEmail()} queueing: &nbsp;</label>
     <input name="qAble" id="qAble" type="checkbox">
@@ -25,6 +29,10 @@
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
+
+
+
+
 
 
         <div ng-controller="SpotlightController" class="container-fluid">
@@ -79,12 +87,14 @@
 
     <div class="col-xs-3" id="globalChatContainer">
 
+        <a id="userListBtn" href="#userList" data-toggle="collapse"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+        <ul id="userList" class="collapse"></ul>
+
         <%-- Global chat--%>
         <div id="container">
             <div id="chatboxContainer">
                 <div id="chatbox"></div>
             </div>
-            <div id="userList"><p>User List</p></div>
         </div>
 
 
@@ -102,43 +112,47 @@
                         </button>
                         <h4 class="modal-title">User Profile</h4>
                     </div>
-                    <div class="modal-body">
-                        <img id="avatar" src=""/>
-                
-		                <table class="table">
-		                <tr>
-		                	<td>Status</td>
-		                	<td id="userStatus"></td>
-		                </tr>
-		                <tr>
-		                	<td>Games Played</td>
-		                	<td id="games"></td>
-		                </tr>
-		                <tr>
-		                	<td>Games Won</td>
-		                	<td id="wins"></td>
-		                </tr>
-		                <tr>
-		                	<td>Time in the Spotlight</td>
-		                	<td id="spotlight"></td>
-		                </tr>
-		                <tr>
-		                	<td>Votes Received</td>
-		                	<td id="votes"></td>
-		                </tr>
-		                <tr>
-		                	<td>Votes Cast</td>
-		                	<td id="votesCast"></td>
-		                </tr>
-		                </table>
-                        <select id="selectStatus">
-                            <option id="stat1" value="normal">normal</option>
-                            <option id="stat2" value="shadow ban">shadow ban</option>
-                            <option id="stat3" value="permanent ban">permanent ban</option>
-                            <option id="stat4" value="admin" selected>admin</option>
-                        </select>
-                        <button id="statusButton">Submit Changes</button>
-                        <span id="statusChangeId" style="visibility: hidden;"></span>
+                    <div class="modal-body container-fluid row">
+                        <div id="avatarContainer" class="col-xs-3">
+                            <img id="avatar" src=""/>
+                        </div>
+
+                        <div class="col-xs-8">
+                            <table class="table">
+                                <tr>
+                                    <td>Status</td>
+                                    <td id="userStatus"></td>
+                                </tr>
+                                <tr>
+                                    <td>Games Played</td>
+                                    <td id="games"></td>
+                                </tr>
+                                <tr>
+                                    <td>Games Won</td>
+                                    <td id="wins"></td>
+                                </tr>
+                                <tr>
+                                    <td>Time in the Spotlight</td>
+                                    <td id="spotlight"></td>
+                                </tr>
+                                <tr>
+                                    <td>Votes Received</td>
+                                    <td id="votes"></td>
+                                </tr>
+                                <tr>
+                                    <td>Votes Cast</td>
+                                    <td id="votesCast"></td>
+                                </tr>
+                            </table>
+                            <select id="selectStatus">
+                                <option id="stat1" value="normal">normal</option>
+                                <option id="stat2" value="shadow ban">shadow ban</option>
+                                <option id="stat3" value="permanent ban">permanent ban</option>
+                                <option id="stat4" value="admin" selected>admin</option>
+                            </select>
+                            <button id="statusButton">Submit Changes</button>
+                            <span id="statusChangeId" style="visibility: hidden;"></span>
+                        </div>
                     </div>
                 </div>
                 <!-- /.modal-content -->
