@@ -74,7 +74,7 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
     }
     addMessage(peerInfo.userData, ' left the room', 'action');
 });
-// Play with the peerId here, getting the user's name as "You" whether it is your id or not.
+
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
     var user = 'You',
         className = 'you';
@@ -112,9 +112,6 @@ function sendMessage() {
 function addMessage(user, message, className) {
     if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
         var updatedId = message.split("|");
-        console.log(updateId[1]);
-        console.log(theUser.id);
-        console.log(updatedId[1] == theUser.id);
         if(updatedId[1] == theUser.id) window.location.reload();
         return;
     }
@@ -190,6 +187,9 @@ function updateModal(user){
             	$("#selectStatus").text(res.status.name);
                 $("#selectStatus").hide();
                 $("#statusButton").hide();
+            }
+            else {
+            	$("#selectStatus").val(res.status.name);
             }
             $('#statusChangeId').text(res.id);
 

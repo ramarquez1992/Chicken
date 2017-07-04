@@ -138,7 +138,10 @@ public class LeaderboardService {
 	}
 	
 	
+	
 	public LeaderBoard getLeaderBoard(int num){
+		users = dao.getAllUsers();
+		rounds = dao.getAllRounds();
 		mostGames(num);
 		mostWins(num);
 		mostVotes(num);
