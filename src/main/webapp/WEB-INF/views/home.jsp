@@ -110,7 +110,7 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">User Profile</h4>
+                        <h4 id="fullNameUserModal" style="text-align:center;" class="modal-title">User Profile</h4>
                     </div>
                     <div class="modal-body container-fluid row">
                         <div id="avatarContainer" class="col-xs-3">

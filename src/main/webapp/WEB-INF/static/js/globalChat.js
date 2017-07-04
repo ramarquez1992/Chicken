@@ -159,7 +159,7 @@ function updateModal(user){
         $('#UserProfile').modal({});
         
         getUser(user.userId, function(res) {
-            $("#fullName").text(res.firstName + " " + res.lastName);
+            $("#fullNameUserModal").text(res.firstName + " " + res.lastName);
 
             $("#userStatus").text(res.status.name);
             
