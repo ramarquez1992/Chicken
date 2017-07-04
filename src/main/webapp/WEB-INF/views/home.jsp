@@ -1,5 +1,10 @@
 <%@ include file="header.jspf" %>
 
+<c:if test="${empty user}">
+    <% response.sendRedirect("403"); %>
+</c:if>
+
+
 <%-- For accessing current user w/o a getSelf call--%>
 <div style="display: none;">
     <span id="firstName" style="visibility: hidden;">${user.getFirstName()}</span>
@@ -9,13 +14,11 @@
     <span id="status" style="visibility: hidden;">${user.getStatus().getName()}</span>
 </div>
 
-<c:choose>
-<c:when test="${session.getAttribute('user') != null}">
-
 
 <div id="userOptions">
-    <span>${user.getEmail()} queueing: </span>
-    <input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
+    <label for="qAble">${user.getEmail()} queueing: &nbsp;</label>
+    <input name="qAble" id="qAble" checked type="checkbox">
+    <%--<input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 </div>
 
 
@@ -143,11 +146,7 @@
 
 
 </div>
-    </c:when>
-    <c:otherwise>
-        <% response.sendRedirect("403"); %>
-    </c:otherwise>
-</c:choose>
+
 
 <script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>

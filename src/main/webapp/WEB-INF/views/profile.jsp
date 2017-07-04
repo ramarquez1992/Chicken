@@ -1,8 +1,10 @@
 <%@ include file="header.jspf" %>
 
-<!-- !!! lets a User update their own account details, doesn't work to let a User view other people's accounts -->
-<c:choose>
-<c:when test="${session.getAttribute('user') != null}">
+<c:if test="${empty user}">
+    <% response.sendRedirect("403"); %>
+</c:if>
+
+
 
 <!--  Update User Profile  -->
 <div id="profile-container" class="white-container">
@@ -77,11 +79,7 @@
         </div>
     </div>
 </div>
-    </c:when>
-    <c:otherwise>
-        <% response.sendRedirect("403"); %>
-    </c:otherwise>
-</c:choose>
+
 
 <script src="static/js/profile.js"></script>
 
