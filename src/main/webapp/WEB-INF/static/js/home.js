@@ -364,6 +364,7 @@ var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
 var qAble = false;
+var setReadyDelay = 2000;
 
 
 
@@ -494,13 +495,13 @@ app.controller('SpotlightController', function ($scope) {
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick1StreamContainer video').remove();
                                     setTimeout(function() {
-                                        setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                    }, 2000);
+                                        setChick1Ready(function (res) { console.log('Set chick1 ready'); });
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
-                                    setChick1Ready(function (res) { console.log('set chick1 ready'); });
-                                }, 2000);
+                                    setChick1Ready(function (res) { console.log('Set chick1 ready'); });
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -518,13 +519,13 @@ app.controller('SpotlightController', function ($scope) {
                                 stream(currUser.email, function (ctrl) {
                                     $('#chick2StreamContainer video').remove();
                                     setTimeout(function() {
-                                        setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                    }, 2000);
+                                        setChick2Ready(function (res) { console.log('Set chick2 ready'); });
+                                    }, setReadyDelay);
                                 });
                             } else {
                                 setTimeout(function() {
-                                    setChick2Ready(function (res) { console.log('set chick2 ready'); });
-                                }, 2000);
+                                    setChick2Ready(function (res) { console.log('Set chick2 ready'); });
+                                }, setReadyDelay);
                             }
 
                         } else {
@@ -552,7 +553,7 @@ app.controller('SpotlightController', function ($scope) {
 
             refreshSpotlightDisplay();
         });
-    }, 2000);
+    }, setReadyDelay);
 
 
 });
@@ -563,13 +564,16 @@ $(document).ready(function () {
 
     // Handle user playing/not playing
     $('#qAble').change(function() {
-        var willingToQueue = !($(this).parent().hasClass('off'));
+        // var willingToQueue = !($(this).parent().hasClass('off'));
+        var willingToQueue = $(this).is(":checked");
+
         console.log('Willing to queue: ' + willingToQueue);
 
         if (willingToQueue) {
             addSelfToQueue(function(res) { console.log('Added self to queue'); });
         } else {
-            addSelfToQueue(function(res) { console.log('Removed self from queue'); });
+            removeSelfFromQueue(function(res) { console.log('Removed self from queue'); });
+            endStream(currUserStreamCtrl);
         }
     });
 

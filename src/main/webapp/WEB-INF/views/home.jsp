@@ -17,7 +17,7 @@
 
 <div id="userOptions">
     <label for="qAble">${user.getEmail()} queueing: &nbsp;</label>
-    <input name="qAble" id="qAble" checked type="checkbox">
+    <input name="qAble" id="qAble" type="checkbox">
     <%--<input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 </div>
 
@@ -59,16 +59,20 @@
                     </h3>
                 </div>
 
-                <div id="queueContainer" class="col-xs-4">
-                    <h3>Queue</h3>
-                    <table class="table table-hover">
-                        <tr ng-repeat="user in currentRound.queue">
-                            <td>{{user.email}}</td>
-                        </tr>
-                    </table>
-                </div>
 
             </div>
+
+
+            <div id="queueContainer" class="col-xs-4">
+                <h3>Queue</h3>
+                <table class="table table-hover">
+                    <tr ng-repeat="user in currentRound.queue">
+                        <td>{{user.email}}</td>
+                    </tr>
+                </table>
+            </div>
+
+
         </div>
     </div>
 
