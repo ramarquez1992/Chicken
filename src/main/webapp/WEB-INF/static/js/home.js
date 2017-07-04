@@ -558,6 +558,7 @@ app.controller('SpotlightController', function ($scope) {
 });
 
 
+var theUser;
 $(document).ready(function () {
 
     // Handle user playing/not playing
@@ -579,14 +580,14 @@ $(document).ready(function () {
     // init chat
     getSelf(function(res){
         theUser = res;
-
         // initChat();
+
         if(res.status.name == "permanent ban") {
             window.location.replace("logoutUser");
         }
     });
-
     // setInterval(spamFilter, 2000);
+
 
     var navHeight = $('nav').outerHeight();
     var docHeight = $(document).outerHeight();

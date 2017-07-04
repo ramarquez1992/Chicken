@@ -2,13 +2,15 @@ package chat.chickentalk.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import chat.chickentalk.dao.Dao;
 import chat.chickentalk.model.User;
 import chat.chickentalk.model.UserStatus;
 import chat.chickentalk.util.Mailer;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import chat.chickentalk.util.PasswordStorage;
+import chat.chickentalk.util.PasswordStorage.CannotPerformOperationException;
 
 @Service
 public class UserService {
@@ -42,19 +44,28 @@ public class UserService {
 				return false;
 		}
 		User user = new User();
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setBaby(true);
-		String emailSubject = "ChickenTalk Account!";
-		String emailBody = "Hi There, " + firstname + " " + lastname + "!\n\n" + " Thank you for creating a ChickenTalk account, you're all ready to go! "
-				+ " You are now ready to log in to chat and play at any time. ChickenTalk is a unique chatroom where you can compete for the stage. "
-				+ " We look forward to seeing you soon and good luck climbing the ranks."
-				+ "\n\nThank you for joining our growing community!"
-				+ "\nThe #Chicken Team";
-		mailer.sendMail(email, emailSubject, emailBody);
-		return dao.createUser(user); 
+		
+		try {
+			String hashedPassword = PasswordStorage.createHash(password);
+			user.setPassword(hashedPassword);
+			
+			user.setFirstName(firstname);
+			user.setLastName(lastname);
+			user.setEmail(email);
+			user.setBaby(true);
+			String emailSubject = "ChickenTalk Account!";
+			String emailBody = "Hi There, " + firstname + " " + lastname + "!\n\n" + " Thank you for creating a ChickenTalk account, you're all ready to go! "
+					+ " You are now ready to log in to chat and play at any time. ChickenTalk is a unique chatroom where you can compete for the stage. "
+					+ " We look forward to seeing you soon and good luck climbing the ranks."
+					+ "\n\nThank you for joining our growing community!"
+					+ "\nThe #Chicken Team";
+			mailer.sendMail(email, emailSubject, emailBody);
+			return dao.createUser(user); 
+		} catch (CannotPerformOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**

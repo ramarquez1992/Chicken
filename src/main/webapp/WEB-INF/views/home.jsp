@@ -92,23 +92,41 @@
                         <h4 class="modal-title">User Profile</h4>
                     </div>
                     <div class="modal-body">
-                        <h3>User Info</h3>
                         <img id="avatar" src=""/>
-                        <p id="fullName"></p>
-                        <div id="userStatus">
-                            <select id="selectStatus">
-                                <option id="stat1" value="normal">normal</option>
-                                <option id="stat2" value="shadow ban">shadow ban</option>
-                                <option id="stat3" value="permanent ban">permanent ban</option>
-                                <option id="stat4" value="admin" selected>admin</option>
-                            </select>
-                            <button id="statusButton">Submit Changes</button>
-                        </div>
-                        <p id="games"></p>
-                        <p id="wins"></p>
-                        <p id="spotlight"></p>
-                        <p id="votes"></p>
-                        <p id="votesCast"></p>
+                
+		                <table class="table">
+		                <tr>
+		                	<td>Status</td>
+		                	<td id="userStatus"></td>
+		                </tr>
+		                <tr>
+		                	<td>Games Played</td>
+		                	<td id="games"></td>
+		                </tr>
+		                <tr>
+		                	<td>Games Won</td>
+		                	<td id="wins"></td>
+		                </tr>
+		                <tr>
+		                	<td>Time in the Spotlight</td>
+		                	<td id="spotlight"></td>
+		                </tr>
+		                <tr>
+		                	<td>Votes Received</td>
+		                	<td id="votes"></td>
+		                </tr>
+		                <tr>
+		                	<td>Votes Cast</td>
+		                	<td id="votesCast"></td>
+		                </tr>
+		                </table>
+                        <select id="selectStatus">
+                            <option id="stat1" value="normal">normal</option>
+                            <option id="stat2" value="shadow ban">shadow ban</option>
+                            <option id="stat3" value="permanent ban">permanent ban</option>
+                            <option id="stat4" value="admin" selected>admin</option>
+                        </select>
+                        <button id="statusButton">Submit Changes</button>
                         <span id="statusChangeId" style="visibility: hidden;"></span>
                     </div>
                 </div>
@@ -129,11 +147,10 @@
 <script src="static/js/webrtcKeys.js"></script>
 
 <script src="//cdn.temasys.io/skylink/skylinkjs/0.6.x/skylink.complete.min.js"></script>
-<script src="static/js/globalChat.js"></script>
 
 <script src="static/lib/stomp.min.js"></script>
 <script src="static/js/home.js"></script>
-
+<script src="static/js/globalChat.js"></script>
 
 <%@ include file="footer.jspf" %>
 
