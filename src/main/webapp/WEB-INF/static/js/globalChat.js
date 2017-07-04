@@ -1,9 +1,9 @@
 var skylink = new Skylink();
 
-//skylink.init({
-//    appKey: SKYLINK_KEY_ID,
-//    defaultRoom: 'LGpMxj'
-//});
+skylink.init({
+    appKey: SKYLINK_KEY_ID,
+    defaultRoom: 'LGpMxj'
+});
 
 var userMessageCount = 0; //amount of message sent in limit
 var messageLimit = 0; //flag for spam filter
@@ -112,9 +112,6 @@ function sendMessage() {
 function addMessage(user, message, className) {
     if(message.includes("SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E")){
         var updatedId = message.split("|");
-        console.log(updateId[1]);
-        console.log(theUser.id);
-        console.log(updatedId[1] == theUser.id);
         if(updatedId[1] == theUser.id) window.location.reload();
         return;
     }
