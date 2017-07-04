@@ -1,9 +1,9 @@
 var skylink = new Skylink();
 
-skylink.init({
-    appKey: SKYLINK_KEY_ID,
-    defaultRoom: 'LGpMxj'
-});
+//skylink.init({
+//   appKey: SKYLINK_KEY_ID,
+//   defaultRoom: 'LGpMxj'
+//});
 
 var userMessageCount = 0; //amount of message sent in limit
 var messageLimit = 0; //flag for spam filter
@@ -74,7 +74,7 @@ skylink.on('peerLeft', function(peerId, peerInfo, isSelf) {
     }
     addMessage(peerInfo.userData, ' left the room', 'action');
 });
-// Play with the peerId here, getting the user's name as "You" whether it is your id or not.
+
 skylink.on('incomingMessage', function(message, peerId, peerInfo, isSelf) {
     var user = 'You',
         className = 'you';
@@ -187,6 +187,9 @@ function updateModal(user){
             	$("#selectStatus").text(res.status.name);
                 $("#selectStatus").hide();
                 $("#statusButton").hide();
+            }
+            else {
+            	$("#selectStatus").val(res.status.name);
             }
             $('#statusChangeId').text(res.id);
 

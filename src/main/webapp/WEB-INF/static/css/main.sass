@@ -158,12 +158,26 @@ nav
       padding: 5px
       width: 100%
 
+  #userListBtn
+    position: absolute
+    left: -2em
+    top: .5em
+    font-size: 2em
   #userList
-    //display: none
-    position: fixed
-    top: 100px
-    right: 100px
-    background-color: #f00
+    position: absolute
+    top: 4em
+    left: -15em
+    width: 15em
+    background-color: #d3d3d3
+    border: 1px solid #c6c6c6
+    padding: 0em
+    list-style-type: none
+    li
+      padding: .2em .4em
+      //margin-bottom: .1em
+      cursor: pointer
+      &:hover
+        background-color: #dfdfdf
 
 
 #spotlight-col
@@ -200,7 +214,7 @@ nav
   label
     color: #ccc
 
-#leaderboardProfile
+#leaderboardProfile, #UserProfile
   #avatarContainer
     text-align: center
     padding-top: 2em
