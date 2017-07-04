@@ -1,7 +1,8 @@
 <%@ include file="header.jspf" %>
 
-<c:choose>
-<c:when test="${session.getAttribute('user') != null}">
+<c:if test="${empty user}">
+	<% response.sendRedirect("403"); %>
+</c:if>
 
 <div id="leaderboard" class="container-fluid" ng-controller="leaderBoardCtrl">
 	<div id="mostGamesContainer" class="leaderboardContainer white-container">
@@ -153,11 +154,6 @@
 </div>
 <!-- /.modal -->
 </div>
-    </c:when>
-    <c:otherwise>
-        <% response.sendRedirect("403"); %>
-    </c:otherwise>
-</c:choose>
 
 
 <script>
@@ -200,7 +196,6 @@ app.controller("leaderBoardCtrl", function($scope){
         });
 	};
 });
-
 
 
 

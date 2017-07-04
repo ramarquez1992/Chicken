@@ -32,7 +32,7 @@ nav {
       float: left;
       text-align: center;
       font-size: 0.8em;
-      min-height: 3.5em;
+      min-height: 3.3em;
       padding: 1em 0 1em 0;
       text-decoration: none;
       font-weight: bold;
@@ -165,10 +165,10 @@ nav {
 #userOptions {
   z-index: 200;
   position: absolute;
-  top: 0.3em;
-  right: 0.3em;
+  top: 0.8em;
+  right: 0.5em;
   font-size: x-small; }
-  #userOptions span {
+  #userOptions label {
     color: #ccc; }
 
 /*# sourceMappingURL=main.css.map */
