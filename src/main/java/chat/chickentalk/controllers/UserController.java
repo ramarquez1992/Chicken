@@ -103,7 +103,6 @@ public class UserController {
 			@RequestParam(value = "password", required = false) String password,
 			@RequestParam(value = "passwordCheck", required = false) String passwordCheck,
 			@RequestParam(value = "isBaby", defaultValue = "false") boolean isBaby,
-//			@RequestParam(value = "avatar", required = false) String avatar,
 			@RequestParam(value = "status", defaultValue = "normal") String status, HttpServletRequest request) {
 
 		User user = (User) request.getSession().getAttribute("user");
@@ -124,7 +123,8 @@ public class UserController {
 
 		user = result ? svc.getUserByEmail(emailTemp) : null;
 		request.getSession().setAttribute("user", user);
-
+		
+		request.getSession().setAttribute("successMsg", "Profile successfully updated!");
 		return "profile";
 	}
 	
@@ -136,7 +136,6 @@ public class UserController {
 	@ResponseBody @RequestMapping(value = "/updateProfileAjax/{userId}/{status}", method = RequestMethod.GET)
 	public boolean updateUserAjax(@PathVariable int userId, @PathVariable String status){
 		boolean result = svc.updateStatus(userId, status);
-
 		return result;
 	}
 
@@ -207,16 +206,18 @@ public class UserController {
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             HttpServletRequest request,
-            HttpServletResponse response
-    ){
+            HttpServletResponse response)
+    {
         boolean result = svc.createUser(firstName, lastName, email, password);
         User user = svc.getUserByEmail(email);
         request.getSession().setAttribute("user", user);
 
         try {
             if (result) {
-                response.sendRedirect("home");
+            	request.getSession().setAttribute("successMsg", "Account Registration complete! You may log-in at any time.");
+                response.sendRedirect("landing");
             } else {
+            	request.getSession().setAttribute("errorMsg", "Account Registration failed: Invalid information entered.");
                 response.sendRedirect("landing");
             }
         }

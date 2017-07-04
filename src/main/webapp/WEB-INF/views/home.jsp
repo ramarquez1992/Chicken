@@ -42,8 +42,6 @@
                 <img src="static/img/loading.gif"/>
             </div>
 
-
-
             <div id="spotlightContainer" class="row">
 
                 <h2 id="timerContainer">
