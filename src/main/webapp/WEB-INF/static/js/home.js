@@ -241,13 +241,13 @@ $(document).ready(function () {
     //init chat
     getSelf(function(res){
         theUser = res;
-        // initChat();
+        initChat();
 
         if(res.status.name == "permanent ban") {
             window.location.replace("logoutUser");
         }
     });
-    // setInterval(spamFilter, 2000);
+    setInterval(spamFilter, 2000);
 
 
     var navHeight = $('nav').outerHeight();
