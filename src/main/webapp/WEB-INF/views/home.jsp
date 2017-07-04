@@ -22,11 +22,13 @@
 </div>
 
 
-<div id="home-container" class="container-fluid row">
+<div ng-controller="SpotlightController" id="home-container" class="container-fluid row">
+<%--<div id="home-container" class="container-fluid row">--%>
 
     <div id="spotlight-col" class="col-xs-9">
 
-        <div ng-controller="SpotlightController" class="container-fluid">
+        <div class="container-fluid">
+        <%--<div ng-controller="SpotlightController" class="container-fluid">--%>
 
             <div id="waitingContainer">
                 <h2><em>Waiting</em> for round to start...</h2>
@@ -62,14 +64,15 @@
             </div>
 
 
-            <div id="queueContainer" class="col-xs-4">
-                <h3>Queue</h3>
-                <table class="table table-hover">
-                    <tr ng-repeat="user in currentRound.queue">
-                        <td>{{user.email}}</td>
-                    </tr>
-                </table>
-            </div>
+            <%--<div id="queueContainer" class="col-xs-4">--%>
+                <%--<h3>Queue</h3>--%>
+                <%--<table class="table table-hover">--%>
+                    <%--<tr ng-repeat="user in currentRound.queue">--%>
+                        <%--<td>{{user.email}}</td>--%>
+                    <%--</tr>--%>
+                <%--</table>--%>
+            <%--</div>--%>
+
 
 
         </div>
@@ -77,6 +80,13 @@
 
 
     <div class="col-xs-3" id="globalChatContainer">
+
+        <a id="queueListBtn" href="#queueList" data-toggle="collapse"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>
+        <ul id="queueList" class="collapse">
+            <li ng-repeat="user in currentRound.queue">
+                {{user.firstName}} {{user.lastName}}
+            </li>
+        </ul>
 
         <a id="userListBtn" href="#userList" data-toggle="collapse"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
         <ul id="userList" class="collapse"></ul>
