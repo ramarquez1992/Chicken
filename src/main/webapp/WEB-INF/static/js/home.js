@@ -563,13 +563,15 @@ $(document).ready(function () {
 
     // Handle user playing/not playing
     $('#qAble').change(function() {
-        var willingToQueue = !($(this).parent().hasClass('off'));
+        // var willingToQueue = !($(this).parent().hasClass('off'));
+        var willingToQueue = $(this).is(":checked");
+
         console.log('Willing to queue: ' + willingToQueue);
 
         if (willingToQueue) {
             addSelfToQueue(function(res) { console.log('Added self to queue'); });
         } else {
-            addSelfToQueue(function(res) { console.log('Removed self from queue'); });
+            removeSelfFromQueue(function(res) { console.log('Removed self from queue'); });
         }
     });
 

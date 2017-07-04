@@ -162,7 +162,19 @@ public class SpotlightService {
         started = false;
         finished = false;
 
-        if (chick1 == null || chick2 == null) return null;
+        if (chick1 == null || chick2 == null) {
+            if (chick1 == null && chick2 != null) {
+                getSpotlightQueue().addFirst(chick2);
+                chick2 = null;
+            }
+            if (chick2 == null && chick1 != null) {
+                getSpotlightQueue().addFirst(chick1);
+                chick1 = null;
+            }
+
+            return null;
+        }
+
 
         // set chick1 to winner
         // TODO: check for ties
@@ -243,7 +255,7 @@ public class SpotlightService {
     public void addActiveUser(String sessionId, String email) {
         User u = dao.getUserByEmail(email);
         activeUsers.put(sessionId, u);
-        addUserToQueue(u);
+//        addUserToQueue(u);
     }
 
     public void removeActiveUser(String sessionId) {

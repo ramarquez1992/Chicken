@@ -39,6 +39,10 @@ public class SpotlightController {
         User u = (User) request.getSession().getAttribute("user");
         boolean result = svc.addUserToQueue(u);
 
+        if (svc.getSpotlightQueue().size() > 1 && !started) {
+            svc.createNextRound();
+        }
+
         if (result) {
             sendRound(svc.getCurrentRound());
         }
@@ -52,12 +56,29 @@ public class SpotlightController {
 
         User u = (User) request.getSession().getAttribute("user");
         boolean result = svc.removeUserFromQueue(u);
+        boolean removedFromCurrRound = false;
 
-        if (result) {
-            sendRound(svc.getCurrentRound());
+        User c1 = svc.getChick1();
+        User c2 = svc.getChick2();
+        if (c1 != null && c1.getId() == u.getId()) {
+            svc.setChick1(null);
+            removedFromCurrRound = true;
+        }
+        if (c2 != null && c2.getId() == u.getId()) {
+            svc.setChick2(null);
+            removedFromCurrRound = true;
         }
 
-        return result;
+        if (removedFromCurrRound) {
+            stop();
+            if (svc.getSpotlightQueue().size() > 1) {
+                svc.createNextRound();
+            }
+        }
+
+        sendRound(svc.getCurrentRound());
+
+        return result || removedFromCurrRound;
     }
 
     @ResponseBody
@@ -116,17 +137,12 @@ public class SpotlightController {
     @RequestMapping(value = "/spotlight/setChick1Drop", method = RequestMethod.GET)
     public boolean setChick1Drop() {
         // TODO: make sure curr user is chick1
-        System.out.println("11111");
         User u = svc.getChick1();
 
-        System.out.println("2222222");
         svc.setChick1(svc.getSpotlightQueue().removeFirst());
-        System.out.println("33333333");
         svc.addUserToQueue(u);
-        System.out.println("44444444");
 
         sendRound(svc.getCurrentRound());
-        System.out.println("55555555");
 
         return true;
     }
@@ -195,13 +211,14 @@ public class SpotlightController {
         User au = svc.getActiveUser(sessionId);
         boolean currentlyPlaying = false;
 
-        if (
-                (svc.getChick1() != null && au.getId() == svc.getChick1().getId()) ||
-                (svc.getChick2() != null && au.getId() == svc.getChick2().getId())
-            ) {
+
+        if (svc.getChick1() != null && au.getId() == svc.getChick1().getId()) {
             currentlyPlaying = true;
-            if (au.getId() == svc.getChick1().getId()) svc.setChick1(null);
-            if (au.getId() == svc.getChick2().getId()) svc.setChick2(null);
+            svc.setChick1(null);
+        }
+        if (svc.getChick2() != null && au.getId() == svc.getChick2().getId()) {
+            currentlyPlaying = true;
+            svc.setChick2(null);
         }
 
 
