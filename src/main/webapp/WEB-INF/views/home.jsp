@@ -23,12 +23,10 @@
 
 
 <div ng-controller="SpotlightController" id="home-container" class="container-fluid row">
-<%--<div id="home-container" class="container-fluid row">--%>
 
     <div id="spotlight-col" class="col-xs-9">
 
         <div class="container-fluid">
-        <%--<div ng-controller="SpotlightController" class="container-fluid">--%>
 
             <div id="waitingContainer">
                 <h2><em>Waiting</em> for round to start...</h2>
@@ -39,41 +37,42 @@
 
             <div id="spotlightContainer" class="row">
 
-                <h2 id="timerContainer">
-                    <span id="seconds"></span> seconds remain!
-                </h2>
+                <div id="youAreAChickContainer" class="alert-success">
+                    <h1>You're a <img src="static/img/chicken-emoji.png" alt="Chicken"/>!</h1>
+                </div>
+
+                <div id="vsContainer">
+                    <h3>
+                        <button id="voteChick1" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick1Votes}}</button>
+                        {{currentRound.chick1.firstName}} &nbsp;&nbsp; <em>VS</em> &nbsp;&nbsp; {{currentRound.chick2.firstName}}
+                        <button id="voteChick2" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick2Votes}}</button>
+                    </h3>
+                </div>
+
 
 
                 <div id="chick1" class="col-xs-6 chick">
                     <div id="chick1StreamContainer" class="chickVideoContainer white-container"></div>
-                    <h3 class="chickName">
-                        <button id="voteChick1" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick1Votes}}</button>
-                        {{currentRound.chick1.firstName}}
-                    </h3>
+                    <%--<h3 class="chickName">--%>
+                        <%--<button id="voteChick1" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick1Votes}}</button>--%>
+                        <%--{{currentRound.chick1.firstName}}--%>
+                    <%--</h3>--%>
                 </div>
 
                 <div id="chick2" class="col-xs-6 chick">
                     <div id="chick2StreamContainer" class="chickVideoContainer white-container"></div>
-                    <h3 class="chickName">
-                        <button id="voteChick2" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick2Votes}}</button>
-                        {{currentRound.chick2.firstName}}
-                    </h3>
+                    <%--<h3 class="chickName">--%>
+                        <%--<button id="voteChick2" class="btn btn-primary vote-btn"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> &nbsp;&nbsp; {{currentRound.chick2Votes}}</button>--%>
+                        <%--{{currentRound.chick2.firstName}}--%>
+                    <%--</h3>--%>
                 </div>
 
 
+                <h2 id="timerContainer">
+                    <span id="seconds"></span> seconds remain!
+                </h2>
+
             </div>
-
-
-            <%--<div id="queueContainer" class="col-xs-4">--%>
-                <%--<h3>Queue</h3>--%>
-                <%--<table class="table table-hover">--%>
-                    <%--<tr ng-repeat="user in currentRound.queue">--%>
-                        <%--<td>{{user.email}}</td>--%>
-                    <%--</tr>--%>
-                <%--</table>--%>
-            <%--</div>--%>
-
-
 
         </div>
     </div>
@@ -81,6 +80,7 @@
 
     <div class="col-xs-3" id="globalChatContainer">
 
+        <%-- Queue list --%>
         <a id="queueListBtn" href="#queueList" data-toggle="collapse"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>
         <ul id="queueList" class="collapse">
             <li ng-repeat="user in currentRound.queue">
@@ -88,10 +88,11 @@
             </li>
         </ul>
 
-        <a id="userListBtn" href="#userList" data-toggle="collapse"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+        <%-- User list --%>
+        <a id="userListBtn" href="#userList" data-toggle="collapse"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
         <ul id="userList" class="collapse"></ul>
 
-        <%-- Global chat--%>
+        <%-- Global chat --%>
         <div id="container">
             <div id="chatboxContainer">
                 <div id="chatbox"></div>

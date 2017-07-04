@@ -11,7 +11,7 @@ var alreadyVoted = false;
 var confirmed = false;
 var currRoundId = 0;
 var qAble = false;
-var setReadyDelay = 2000;
+var setReadyDelay = 4000;
 
 
 
@@ -68,6 +68,16 @@ app.controller('SpotlightController', function ($scope) {
                 var newRound = JSON.parse(res.body);
 
                 resetTimer(newRound.secondsRemaining);
+
+                // Show/hide "You are a chick"
+                if ( (newRound.chick1 != null && newRound.chick1.id == currUser.id) ||
+                     (newRound.chick2 != null && newRound.chick2.id == currUser.id)
+                ){
+                    $('#youAreAChickContainer').show();
+                } else {
+                    $('#youAreAChickContainer').hide();
+                }
+
 
                 // Don't show your own stream
                 if (newRound.chick1 != null) {

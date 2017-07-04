@@ -81,6 +81,8 @@
 </div>
 
 
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="static/js/profile.js"></script>
 
 <%@ include file="footer.jspf" %>
