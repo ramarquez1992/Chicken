@@ -58,7 +58,7 @@ public class LandingController {
         u.setFirstName("Bob");
         u.setLastName("Hammer");
         u.setBaby(true);
-        u.setStatus(us);
+        u.setStatus(us4);
         u.setVotesCast(17);
 
         User u2 = new User();
