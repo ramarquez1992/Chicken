@@ -195,7 +195,10 @@ public class SpotlightController {
         User au = svc.getActiveUser(sessionId);
         boolean currentlyPlaying = false;
 
-        if (au.getId() == svc.getChick1().getId() || au.getId() == svc.getChick2().getId()) {
+        if (
+                (svc.getChick1() != null && au.getId() == svc.getChick1().getId()) ||
+                (svc.getChick2() != null && au.getId() == svc.getChick2().getId())
+            ) {
             currentlyPlaying = true;
             if (au.getId() == svc.getChick1().getId()) svc.setChick1(null);
             if (au.getId() == svc.getChick2().getId()) svc.setChick2(null);

@@ -412,11 +412,6 @@ app.controller('SpotlightController', function ($scope) {
     getSelf(function (cu) {
         currUser = cu;
 
-        $('#qAble').change(function() {
-            console.log($(this).val() + ' qqqqqq');
-        });
-
-
         var socket = new WebSocket('ws://' + window.location.hostname + ':8443/sock');
         var stompClient = Stomp.over(socket);
 
@@ -564,6 +559,21 @@ app.controller('SpotlightController', function ($scope) {
 
 
 $(document).ready(function () {
+
+    // Handle user playing/not playing
+    $('#qAble').change(function() {
+        var willingToQueue = !($(this).parent().hasClass('off'));
+        console.log('Willing to queue: ' + willingToQueue);
+
+        if (willingToQueue) {
+            addSelfToQueue(function(res) { console.log('Added self to queue'); });
+        } else {
+            addSelfToQueue(function(res) { console.log('Removed self from queue'); });
+        }
+    });
+
+
+
     refreshSpotlightDisplay();
 
     // init chat
@@ -632,6 +642,10 @@ function stream(number, callback) {
         currUserStreamCtrl.stream(); 	// Begin streaming video
         callback(currUserStreamCtrl);
     });
+
+    currUserStreamCtrl.unable(function() {
+        console.log('UNABLE TO STReeeeeAAAM');
+    });
 }
 
 function getStream(ctrl, number, callback) {
@@ -656,6 +670,11 @@ function getStream(ctrl, number, callback) {
             callback(session.video);
         });
     });
+
+    ctrl.unable(function() {
+        console.log('UNABLE TO CONEEEECCCT');
+    });
+
 }
 
 function endStream(ctrl) {

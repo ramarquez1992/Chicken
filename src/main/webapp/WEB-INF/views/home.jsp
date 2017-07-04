@@ -10,12 +10,15 @@
 </div>
 
 
+<div id="userOptions">
+    <span>${user.getEmail()} queueing: </span>
+    <input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
+</div>
+
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
 
-
-        <%--<input id="qAble" data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">--%>
 
         <div ng-controller="SpotlightController" class="container-fluid">
 
@@ -25,7 +28,6 @@
             </div>
 
 
-            <p> I am: ${user.getEmail()} </p>
 
             <div id="spotlightContainer" class="row">
 
@@ -50,14 +52,14 @@
                     </h3>
                 </div>
 
-                <%--<div id="queueContainer" class="col-xs-4">--%>
-                    <%--<h3>Queue</h3>--%>
-                    <%--<table class="table table-hover">--%>
-                        <%--<tr ng-repeat="user in currentRound.queue">--%>
-                            <%--<td>{{user.email}}</td>--%>
-                        <%--</tr>--%>
-                    <%--</table>--%>
-                <%--</div>--%>
+                <div id="queueContainer" class="col-xs-4">
+                    <h3>Queue</h3>
+                    <table class="table table-hover">
+                        <tr ng-repeat="user in currentRound.queue">
+                            <td>{{user.email}}</td>
+                        </tr>
+                    </table>
+                </div>
 
             </div>
         </div>
