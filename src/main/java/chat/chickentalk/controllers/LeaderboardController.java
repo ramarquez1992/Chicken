@@ -22,6 +22,8 @@ public class LeaderboardController {
     public String getLeaderboard() {
         return "leaderboard";
     }
+	
+
 
 	@ResponseBody @RequestMapping(value = "/leaderboard/winningVotes/{userId}", method = RequestMethod.GET)
 	public int getWinningVotes(@PathVariable int userId) {
