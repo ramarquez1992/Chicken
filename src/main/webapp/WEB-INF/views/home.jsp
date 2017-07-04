@@ -18,7 +18,7 @@
     <input data-height="0" id="qAble" checked data-toggle="toggle" data-on="Yes" data-off="No" type="checkbox">
 </div>
 
->>>>>>> master
+
 <div id="home-container" class="container-fluid row">
 
     <div id="spotlight-col" class="col-xs-9">
