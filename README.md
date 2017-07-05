@@ -1,4 +1,4 @@
-# #Chicken
+# ChickenTalk
 
 #### *Batch:* 1705May15Java
 #### *Developers:* Cody Boucher, Theresa Dinh, Richard Marquez, Darrin McIntyre
@@ -30,8 +30,7 @@ This is a social experiment. A blank slate. What does the world want to see. Wan
 - JSPs, JavaScript, jQuery, AngularJS, AJAX
 - WebRTC, PubNub, WebSockets, Temasys Skylink
 - Java 8, JSTL, Spring (MVC, Security, SpEL), Hibernate, Jackson
-- OracleDB on RDS, S3
-- Tomcat on EC2
+- OracleDB on RDS, S3, Tomcat
 
 ---
 
