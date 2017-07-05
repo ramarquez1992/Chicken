@@ -358,6 +358,7 @@ function attachSpotlight() {
     if (!isChick1Stream && currRound != null && currRound.chick1 != null && currRound.chick1Ready && (currRound.chick1.email != chick1StreamEmail || !c1HasVid)) {
         chick1StreamEmail = currRound.chick1.email;
         endStream(chick1StreamCtrl);
+
         getStream(chick1StreamCtrl, currRound.chick1.email, function (video) {
             $('#chick1StreamContainer video').remove();
             chick1StreamContainer.appendChild(video);
@@ -367,6 +368,7 @@ function attachSpotlight() {
     if (!isChick2Stream && currRound != null && currRound.chick2 != null && currRound.chick2Ready && (currRound.chick2.email != chick2StreamEmail || !c2HasVid)) {
         chick2StreamEmail = currRound.chick2.email;
         endStream(chick2StreamCtrl);
+
         getStream(chick2StreamCtrl, currRound.chick2.email, function (video) {
             $('#chick2StreamContainer video').remove();
             chick2StreamContainer.appendChild(video);

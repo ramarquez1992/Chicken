@@ -15,18 +15,22 @@
 ---
 
 ## A social experiment...
-\#Chicken is an online community space where users compete for time on a stage. 
+ChickenTalk is an online community space where users compete for time in the Spotlight.
 
-The stage holds a 1-on-1 conversation in front of an audience that may chat among themselves. After a set period of time the audience votes on who they think should remain on the stage. One user gets voted off the stage and another is pulled at random from the audience.
+The Spotlight holds a 1-on-1 real-time video conversation that all other users (the Audience) can see. The Audience may participate in text chat amongst themselves.
+
+The Audience votes on who they think should remain in the Spotlight. After a set period of time the user in the Spotlight with fewer votes get kicked off, and another user is pulled in from the queue to compete in the Spotlight. This concludes the round, and another begins.
+
+This is a social experiment. A blank slate. What does the world want to see. Want to hear.
 
 ---
 
 ## Multi-tiered web application leveraging:
-- HTML5, CSS3 w/ SASS
+- HTML 5, CSS 3 w/ SASS
 - JSPs, JavaScript, jQuery, AngularJS, AJAX
-- WebRTC, Temasys Skylink, WebSockets
-- Java 1.8, Spring (MVC, Security, SpEL), Hibernate, Jackson
-- S3, OracleDB on RDS
+- WebRTC, PubNub, WebSockets, Temasys Skylink
+- Java 8, JSTL, Spring (MVC, Security, SpEL), Hibernate, Jackson
+- OracleDB on RDS, S3
 - Tomcat on EC2
 
 ---
