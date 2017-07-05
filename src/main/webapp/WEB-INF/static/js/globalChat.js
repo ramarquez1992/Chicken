@@ -231,7 +231,7 @@ function updateUserStatus() {
     updateUserAjax(id, newStatus, function(res) {
         skylink.sendP2PMessage("|" + id + "|SDFGZ####%>><.*>I*({+){JMNSGL/4//44/4SSDD%&&_%DFSRGE%E%_E%_E-E");
     });
-    alert("Status successfully changed.");
+    // alert("Status successfully changed.");
 }
 
 function spamFilter() {

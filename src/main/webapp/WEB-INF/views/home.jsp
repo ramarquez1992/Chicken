@@ -150,7 +150,7 @@
                                 <option id="stat3" value="permanent ban">permanent ban</option>
                                 <option id="stat4" value="admin" selected>admin</option>
                             </select>
-                            <button id="statusButton">Submit Changes</button>
+                            <button id="statusButton" class="btn btn-primary">Submit Changes</button>
                             <span id="statusChangeId" style="visibility: hidden;"></span>
                         </div>
                     </div>

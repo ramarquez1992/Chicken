@@ -32,7 +32,22 @@ The stage holds a 1-on-1 conversation in front of an audience that may chat amon
 ---
 
 ## Getting up and running
-todo...
+- Clone from GitHub
+- Define environment variables
+  - `CHICKEN_EMAIL_ADDRESS`
+  - `CHICKEN_EMAIL_PASSWORD`
+  - `CHICKEN_DB_URL`
+  - `CHICKEN_DB_USERNAME`
+  - `CHICKEN_DB_PASSWORD`
+  - `CHICKEN_AWS_ACCESS_KEY_ID`
+  - `CHICKEN_AWS_SECRET_ACCESS_KEY`
+  - `CHICKEN_BUCKET_NAME`
+- Configure Tomcat for SSL
+  - `keytool -genkey -alias tomcat -keyalg RSA -keystore $CATALINA_HOME\conf\keystore`
+  - Uncomment SSL configuration in `conf/server.xml`; point to `keystore`
+- Add `src/main/webapp/WEB-INF` to build path
+- Install `webRtcKeys.js` into `WEB-INF/static/js`
+- Access locally at [https://localhost:8443](https://localhost:8443)
 
 ---
 
@@ -56,7 +71,4 @@ todo...
 1. `git push`: Send branch to GitHub
 1. Create pull request on GitHub
 1. Return to Step#1
-
-
-
 
