@@ -215,7 +215,7 @@ public class UserController {
         try {
             if (result) {
             	request.getSession().setAttribute("successMsg", "Account Registration complete! You may log-in at any time.");
-                response.sendRedirect("landing");
+                response.sendRedirect("home");
             } else {
             	request.getSession().setAttribute("errorMsg", "Account Registration failed: Invalid information entered.");
                 response.sendRedirect("landing");

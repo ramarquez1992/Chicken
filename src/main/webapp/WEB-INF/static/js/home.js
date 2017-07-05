@@ -263,10 +263,6 @@ $(document).ready(function () {
     $('#chatbox').css('height', chatboxHeight);
 
 
-
-
-
-
     $('#voteChick1').click(function () {
         if (!alreadyVoted) {
             alreadyVoted = true;
@@ -298,6 +294,11 @@ function stream(number, callback) {
         broadcast: true	// True since you are the broadcaster
     });
 
+    phone.unable(function(details) { console.log('FAILED TO STREEEEEAM'); });
+    phone.disconnect(function(){ console.log('network GONE.') });
+    phone.reconnect(function(){  console.log('network BACK!') });
+
+
     currUserStreamCtrl = CONTROLLER(phone);
 
     currUserStreamCtrl.ready(function () {
@@ -308,18 +309,24 @@ function stream(number, callback) {
     currUserStreamCtrl.unable(function() {
         console.log('UNABLE TO STReeeeeAAAM');
     });
+
 }
 
 function getStream(ctrl, number, callback) {
     endStream(ctrl);
 
     var phone = window.phone = PHONE({
-        number: "Viewer" + Math.floor(Math.random() * 1000), // Random name
+        number: "Viewer" + Math.floor(Math.random() * 10000), // Random name
         publish_key: WEBRTC_PUB_KEY,
         subscribe_key: WEBRTC_SUB_KEY,
         ssl: true,
         oneway: true	// One way streaming enabled
     });
+
+    phone.unable(function(details) { console.log('UNABLE TO CONEEEECCCT'); });
+    phone.disconnect(function(){ console.log('network GONE.') });
+    phone.reconnect(function(){  console.log('network BACK!') });
+
 
     ctrl = CONTROLLER(phone, true);
 
@@ -333,9 +340,6 @@ function getStream(ctrl, number, callback) {
         });
     });
 
-    ctrl.unable(function() {
-        console.log('UNABLE TO CONEEEECCCT');
-    });
 
 }
 
